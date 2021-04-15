@@ -1,0 +1,28 @@
+.main{
+    background-color: rgb(186, 228, 215);
+}
+.navegacion{
+    background-color: rgb(31, 158, 151);
+    height: 220px;
+}
+img{
+    padding-top: 20px;
+    width: 250px;
+    height: 200px;
+}
+.menu{
+    padding: 50px;
+}
+li{
+    padding: 15px;
+}
+a{
+    border-radius: 48%;
+    background-color: rgb(134, 226, 203);
+    padding: 10px;
+}
+a:hover{
+    border-radius: 40%;
+    background-color: rgb(84, 152, 156);
+    color: blanchedalmond;
+}
