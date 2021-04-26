@@ -3,26 +3,51 @@
 }
 .navegacion{
     background-color: rgb(31, 158, 151);
-    height: 220px;
+    height: 30%;
 }
 img{
-    padding-top: 20px;
-    width: 250px;
-    height: 200px;
+    padding-top: 2%;
+    width: 20%;
+    height: 20%;
 }
 .menu{
-    padding: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.navMenu{
+    display: flex;
+    flex-direction: row;
 }
 li{
     padding: 15px;
 }
-a{
-    border-radius: 48%;
-    background-color: rgb(134, 226, 203);
-    padding: 10px;
+.regUser{
+    color: rgb(253, 248, 241);
 }
-a:hover{
-    border-radius: 40%;
-    background-color: rgb(84, 152, 156);
-    color: blanchedalmond;
+.regPed{
+    color: rgb(253, 248, 241);
+}
+.regInv{
+    color: rgb(253, 248, 241);
+}
+.regProd{
+    color: rgb(253, 248, 241);
+}
+.regUser:hover{
+    color: black;
+    border-bottom: 3px solid black;
+}
+.regPed:hover{
+    color: black;
+    border-bottom: 3px solid black;
+}
+.regInv:hover{
+    color: black;
+    border-bottom: 3px solid black;
+}
+.regProd:hover{
+    color: black;
+    border-bottom: 3px solid black;
 }
