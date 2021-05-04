@@ -1,0 +1,84 @@
+.principal{
+    position: absolute;
+    padding: 5% 50%;    
+    background: rgb(31, 158, 151);    
+    color: rgb(31, 158, 151);
+
+}
+
+
+.imagen{
+    position: absolute;
+    top: 20%;
+    left: 1%;
+
+}
+
+.botones{ 
+    bottom: 6%;
+    position: absolute;
+    margin-left: -300px;
+    max-width: 100%;
+
+}
+
+.todos{
+    color: white; 
+    font-size: 20px;
+    margin-right: 10px;
+    text-decoration: none;
+    padding: 10px 20px;
+
+
+}
+.todos:hover{
+    color:rgb(31, 158, 151);
+    background: white; 
+}
+
+.titulo{
+    color: white;
+    font-size: 50px;
+
+}
+
+@media(max-width: 3000px){
+    .principal{
+        padding: 4% 50%;
+    }
+
+}
+@media(max-width: 1300px){
+    .principal{
+        padding: 4.2% 50%;
+        margin: 0% 0;
+    }
+
+    .imagen{
+        margin: 0;
+    }
+}
+
+@media(max-width: 1250px){
+    .principal{
+        padding: 4.2% 50%;
+        margin: 0% 0;
+    }
+
+    .imagen{
+        margin: 0;
+
+    }
+   
+    .botones{
+        margin-left: -300px;
+        flex-direction: column;
+
+
+    }
+    .imagen{
+        width: 15%;
+    }
+}
+
+
