@@ -1,0 +1,181 @@
+nav.navbar{
+    background-color: rgb(31, 158, 151);
+}
+.titulo__arriba{
+    margin: 30px;
+}
+.contenedor{
+    display: flex;
+    width: 100%;
+    height: 140vh;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+.formulario{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background-color: rgb(222, 253, 237);
+    border-radius: 30px;
+    -webkit-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
+    box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
+}
+.formulario__grupo{
+    margin: 0 20px;
+}
+.subtitulo{
+    margin: 20px 20px 0 60px;
+}
+.subtitulo,
+.formulario__grupo-btn-registrar,
+.formulario__mensaje,
+.formulario__grupo-terminos,
+.btn-primary{
+    grid-column: span 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.formulario__label{
+    display: block;
+    font-weight: 100;
+    padding: 10px;
+    cursor: pointer;
+}
+.formulario__grupo-input{
+    position: relative;
+}
+.formulario__input{
+    width: 100%;
+    background: #fff;
+    border: 3px solid transparent;
+    border-radius: 3px;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 40px 0 10px;
+    transition: .3s ease all;
+}
+.formulario__input:focus{
+    border: 3px solid #0075ff;
+    outline: none;
+    box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4);
+
+}
+.formulario__input-error{
+    font-size: 8px;
+    margin-bottom: 0;
+    display: none;
+}
+.formulario__input-error-activo{
+    display: block;
+}
+.formulario__validacion-estado{
+    position: absolute;
+     right: 10px;
+    bottom: 15px;
+    z-index: 100;
+    font-size: 16px;
+    opacity: 0;
+}
+.formulario__terminos{
+    margin-right: 10px;
+}
+.formulario__mensaje{
+    margin-top: 40px;
+    line-height : 45px;
+    background: #f66060;
+    padding: 0 15px;
+    border-radius: 3px;    
+    display: none;
+}
+.formulario__mensaje-activo{
+    display: block;
+}
+.formulario__mensaje p {
+    margin: 0;
+}
+.formulario__grupo-btn-registrar{
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+.formulario__grupo-terminos{
+    margin-left: 20px;
+}
+.formulario__btn{
+    height: 45px;
+    line-height: 45px;
+    width: 30%;
+    background: black;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .1s ease all;
+    margin: 0 5px;
+}
+.formulario__btn:hover{
+box-shadow: 3px 0px 30px rgba(163, 163, 163, 1);
+}
+.formulario__mensaje-exito{
+    font-size: 14px;
+    color: #119200;
+    display: none;
+}
+.formulario__mensaje-exito-activo{
+display: block;
+}
+.formulario__btn2{
+    height: 45px;
+    line-height: 45px;
+    width: 30%;
+    background: rgb(31,158,151);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .1s ease all;
+    margin: 0 5px 10px;
+}
+.formulario__btn2:hover{
+    box-shadow: 3px 0px 30px rgba(163, 163, 163, 1);
+    }
+
+    /*-----Estilos para validación----*/
+.formulario__grupo-correcto .formulario__validacion-estado{
+color: #1ed2e1;
+opacity: 1;
+}
+
+.formulario__grupo-incorrecto .formulario__validacion-estado{
+color: #bb2929;
+opacity: 1;
+}
+.formulario__grupo-incorrecto .formulario__label{
+    color: #bb2929;
+    opacity: 1;
+}
+.formulario__grupo-incorrecto .formulario__input{
+    border: 3px solid #bb2929;
+}
+
+/*---------------Meiaquery---------*/
+@media screen and (max-width: 800px){
+    .formulario{
+        grid-template-columns: 1fr;
+    }
+    .subtitulo,
+.formulario__grupo-btn-registrar,
+.formulario__mensaje,
+.formulario__grupo-terminos,
+.btn-primary{
+    grid-column: 1;
+}
+.formulario__btn, .formulario__btn2{
+    width: 90%;
+}
+}
