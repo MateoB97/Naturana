@@ -49,7 +49,7 @@ module.exports = app =>{
       if (flagLogin=== false) {
          res.render('../views/main/ventanas/login/login.ejs');
       }else if(cont===0){
-         connection.query("SELECT firstName, lastName FROM users WHERE rol='Recepcionista' AND user= ?",globalEmail,(err, result)=>{
+         connection.query("SELECT firstName, lastName FROM users WHERE rol='Recepcionista' OR rol='Administrador' AND user= ?",globalEmail,(err, result)=>{
             try {
                res.render('../views/main/ventanas/pedido/pedido.ejs',{
                   name:result[0].firstName,
@@ -159,7 +159,7 @@ module.exports = app =>{
       
    });
 
-   
+
 
 
 
