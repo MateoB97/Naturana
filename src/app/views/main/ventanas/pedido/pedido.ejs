@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/resource/css/pedido/pedido.css">
-    <title>Main</title>
+    <title>Pedido</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a741909309.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/resource/css/main/utils/naturana.png">
+
 </head>
 
 <body>
-
-
     <div class="info">
         <div class="px-5">
             <p class="infoSesion-p1"><i class="fas fa-map-marker-alt px-1"></i> Medellin - (Antioquia)</p>
@@ -26,8 +26,7 @@
             <p class="infoSesion-p3"></i><i class="fas fa-phone px-1"></i> +57 311 3697489</p>
         </div>
         <div class="infoSesion px-5 fs-5 fw-bold">
-            <p class="infoSesion-p4">Bienvenido a Naturana: <%=name%>
-                    <%=lastName%> <i class="fas fa-check-circle"></i></p>
+            <p class="infoSesion-p4">Bienvenido a Naturana: <%=name%> <%=lastName%> <i class="fas fa-check-circle"></i></p>
         </div>
         <form class="sign-out px-5" action="/session-out" method="POST">
             <button class="btn btn-secondary" type="submit"> Cerrar sesion</button>
@@ -113,7 +112,7 @@
                 <div class="col-md-6 mt4 text-center">
                     <table class="table table-striped">
                         <tr>
-                            <th>ID</th>
+                            <th>IDENTIFICACION</th>
                             <th>NOMBRE</th>
                             <th>APELLIDO</th>
                             <th>EMAIL</th>
@@ -121,10 +120,7 @@
                             <th>CEL</th>
                             <th>TELÉFONO</th>
                         </tr>
-                        <tr>
-                            <td>
-                            </td>
-                        </tr>
+
                     </table>
                 </div>
             </div>
@@ -165,34 +161,7 @@
 
     </div>
 
-
-
-
-
-
-    <footer class="footer">
-        <div class="left">
-            <p class="fs-5">Condiciones de uso de la web</p>
-            <p class="fs-5">Política de privacidad</p>
-            <p class="fs-5">Política de cookies</p>
-        </div>
-        <div class="center">
-            <p class="fw-bolder fs-1 mainFoot">Naturana</p>
-            <div class="redesfoot">
-                <a href="https://www.facebook.com"><i class="fab fa-facebook-square facebook"></i></a>
-                <a href="https://twitter.com"><i class="fab fa-twitter-square twitter"></i></a>
-                <a href="https://www.linkedin.com"><i class="fab fa-linkedin linkedin"></i></a>
-                <a href="https://www.instagram.com"><i class="fab fa-instagram instagram"></i></a>
-                <a href="https://www.youtube.com"><i class="fab fa-youtube youtube"></i></a>
-            </div>
-        </div>
-        <div class="right">
-            <p class="fs-5 pt-3">Naturana</p>
-            <p class="fs-5">Blog</p>
-            <p class="fs-5">Contact</p>
-            <p class="fs-5">FAQs</p>
-        </div>
-    </footer>
+    <%- include("../../template/footer/footer.ejs") %> 
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
