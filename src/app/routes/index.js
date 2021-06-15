@@ -3,7 +3,7 @@ const app = require('../../config/server');
 const bcryptjs = require('bcryptjs');
 const connection = require('../../config/db');
 
-module.exports = app =>{
+module.exports = (app) =>{
 
    //Atributes
    let flagLogin= false;
@@ -44,16 +44,18 @@ module.exports = app =>{
       
    });
 
-   app.get('/pedido' , (req , res)=>{
+   app.get('/pedido' , async (req , res)=>{
       let cont=0;
       if (flagLogin=== false) {
          res.render('../views/main/ventanas/login/login.ejs');
       }else if(cont===0){
-         connection.query("SELECT firstName, lastName FROM users WHERE rol='Recepcionista' OR rol='Administrador' AND user= ?",globalEmail,(err, result)=>{
+         await connection.query("SELECT firstName, lastName FROM users WHERE (rol='Recepcionista' OR rol='Administrador' OR rol='Cajero') and user= ?",globalEmail,(err, result)=>{
+            
             try {
                res.render('../views/main/ventanas/pedido/pedido.ejs',{
                   name:result[0].firstName,
-                  lastName: result[0].lastName
+                  lastName: result[0].lastName,
+
                });
             } catch (error) {
                console.error(`Error del try ${error}`);
@@ -69,11 +71,56 @@ module.exports = app =>{
          globalEmail='';
          res.redirect('/');
       }
+      
+      // //Query for client
+      // connection.query("SELECT * FROM cliente",(err,result1)=>{
+      //    console.log(result);
+      //    try {
+      //       res.render('../views/main/ventanas/pedido/pedido.ejs',{
+      //          cliente:result
+      //       });
+      //    } catch (error) {
+      //       console.error(`Error del try ${error}`);
+      //       console.error(`Error de la consulta ${err}`);
+      //    }
+      // });
+
+      // Query for product
+   //    connection.query("SELECT * FROM producto",(err,result2)=>{
+   //       try {
+   //          res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
+   //             producto:result
+   //          });
+   //       } catch (error) {
+   //          console.error(`Error del try ${error}`);
+   //          console.error(`Error de la consulta ${err}`);
+   //       }
+   //    });
 
    });
+
+
+   //Example Clear after found a solutions
+   // app.get('/pedidoCliente' , (req , res)=>{
+   
+   //    //Query for client
+      
+   //    connection.query("SELECT * FROM cliente",(err,result)=>{
+   //       console.log(result);
+   //       try {
+   //          res.render('../views/main/ventanas/pedido/pedido.ejs',{
+   //             cliente:result
+   //          });
+   //       } catch (error) {
+   //          console.error(`Error del try ${error}`);
+   //          console.error(`Error de la consulta ${err}`);
+   //       }
+   //    });
+   
+   // })
    
    app.get('/producto' , (req , res)=>{
-
+      let cont=0;
       if (flagLogin=== false) {
          res.render('../views/main/ventanas/login/login.ejs');
       }else if(cont===0){
@@ -265,6 +312,7 @@ formulario.addEventListener('submit' ,(e)=>{
          if (email && password) {
             connection.query('SELECT user, pass, rol FROM users WHERE user= ?', email, async(err,results)=>{
                try {
+                  console.log(results);
                   if (results.length===0 || !(await bcryptjs.compare(password, results[0].pass) )) {
                      try {
                         res.render('../views/main/ventanas/login/login.ejs',{
@@ -280,6 +328,7 @@ formulario.addEventListener('submit' ,(e)=>{
                         console.error(error);
                      }
                   }else{
+
                      flagLogin=true;
                      if (flagLogin===true && results[0].rol==='Administrador') {
                         try {
@@ -304,7 +353,7 @@ formulario.addEventListener('submit' ,(e)=>{
                               alertIcon: "success",
                               showConfirmButton: false,
                               timer:1500,
-                              ruta:'main'
+                              ruta:'pedido'
                           });
                         } catch (error) {
                            console.error(error);
@@ -343,6 +392,7 @@ formulario.addEventListener('submit' ,(e)=>{
                } catch (error) {
                   console.error(`El error del try es:  : ${error}`);
                   console.error(`El error de la consulta es : ${err}`);
+                  res.redirect('/');
                }
             });
          }
@@ -351,6 +401,5 @@ formulario.addEventListener('submit' ,(e)=>{
      app.post('/session-out' , (req , res)=>{
       flagLogin=false;
       res.render('../views/main/ventanas/login/login.ejs');
-   });
-   
+      });
 }
