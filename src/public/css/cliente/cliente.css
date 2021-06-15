@@ -1,9 +1,4 @@
-nav.navbar{
-    background-color: rgb(31, 158, 151);
-}
-.titulo__arriba{
-    margin: 30px;
-}
+/* Global */
 .contenedor{
     display: flex;
     width: 100%;
@@ -22,19 +17,7 @@ nav.navbar{
     -moz-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
 }
-.subtitulo{
-    margin: 20px 20px 0 60px;
-}
-.subtitulo,
-.formulario__grupo-btn-registrar,
-.formulario__mensaje,
-.formulario__grupo-terminos,
-.btn-primary{
-    grid-column: span 2;
-    align-items: center;
-    justify-content: center;
-}
-
+/*Cuadricula y colores*/
 .formulario__label{
     display: block;
     font-weight: 100;
@@ -55,12 +38,61 @@ nav.navbar{
     padding: 0 40px 0 10px;
     transition: .3s ease all;
 }
+
 .formulario__input:focus{
     border: 3px solid #0075ff;
     outline: none;
     box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4);
 
 }
+.formulario__grupo-btn-registrar,
+.formulario__mensaje,
+.subtitulo{
+    grid-column: span 3;
+    align-items: center;
+    justify-content: center;
+}
+/*estilo*/
+.formulario__grupo-btn-registrar,
+.subtitulo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.formulario__btn{
+    height: 45px;
+    line-height: 45px;
+    width: 30%;
+    background: black;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .1s ease all;
+    margin: 0 5px;
+}
+.formulario__btn:hover{
+box-shadow: 3px 0px 30px rgba(163, 163, 163, 1);
+}
+.formulario__btn2{
+    height: 45px;
+    line-height: 45px;
+    width: 30%;
+    background: rgb(31,158,151);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .1s ease all;
+    margin: 0 5px 10px;
+}
+.formulario__btn2:hover{
+    box-shadow: 3px 0px 30px rgba(163, 163, 163, 1);
+}
+
+/*Validaciones pasivas*/
 .formulario__input-error{
     font-size: 8px;
     margin-bottom: 0;
@@ -78,9 +110,6 @@ nav.navbar{
     font-size: 16px;
     opacity: 0;
 }
-/*.formulario__terminos{
-    margin-right: 10px;
-}*/
 .formulario__mensaje{
     margin-top: 40px;
     line-height : 45px;
@@ -95,30 +124,8 @@ nav.navbar{
 .formulario__mensaje p {
     margin: 0;
 }
-.formulario__grupo-btn-registrar{
-display: flex;
-flex-direction: column;
-align-items: center;
-}
-/*.formulario__grupo-terminos{
-    margin-left: 20px;
-}*/
-.formulario__btn{
-    height: 45px;
-    line-height: 45px;
-    width: 30%;
-    background: black;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: .1s ease all;
-    margin: 0 5px;
-}
-.formulario__btn:hover{
-box-shadow: 3px 0px 30px rgba(163, 163, 163, 1);
-}
+/*validaciones activas*/
+
 .formulario__mensaje-exito{
     font-size: 14px;
     color: #119200;
@@ -127,42 +134,24 @@ box-shadow: 3px 0px 30px rgba(163, 163, 163, 1);
 .formulario__mensaje-exito-activo{
 display: block;
 }
-.formulario__btn2{
-    height: 45px;
-    line-height: 45px;
-    width: 30%;
-    background: rgb(31,158,151);
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: .1s ease all;
-    margin: 0 5px 10px;
-}
-.formulario__btn2:hover{
-    box-shadow: 3px 0px 30px rgba(163, 163, 163, 1);
-    }
-
-    /*-----Estilos para validación----*/
 .formulario__grupo-correcto .formulario__validacion-estado{
-color: #1ee148;
-opacity: 1;
-}
-
-.formulario__grupo-incorrecto .formulario__validacion-estado{
-color: #bb2929;
-opacity: 1;
-}
-.formulario__grupo-incorrecto .formulario__label{
+    color: #1ee148;
+    opacity: 1;
+    }
+    
+    .formulario__grupo-incorrecto .formulario__validacion-estado{
     color: #bb2929;
     opacity: 1;
-}
-.formulario__grupo-incorrecto .formulario__input{
-    border: 3px solid #bb2929;
-}
+    }
+    .formulario__grupo-incorrecto .formulario__label{
+        color: #bb2929;
+        opacity: 1;
+    }
+    .formulario__grupo-incorrecto .formulario__input{
+        border: 3px solid #bb2929;
+    }
 
-/*---------------Mediaquery---------*/
+    /*---------------Mediaquery---------*/
 @media screen and (max-width: 800px){
     .formulario{
         grid-template-columns: 1fr;
