@@ -1,0 +1,39 @@
+<div class="formBuscCliente">
+    <nav class="formBuscCliente-busc navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">Buscar Cliente</a>
+            <form class="d-flex" action="/pedido-cliente" method="POST">
+                <input class="form-control me-2" name="valueId" type="search" placeholder="Identificación del cliente" aria-label="Search">
+                <button class="btn btn-outline-success mx-2" type="submit">Buscar</button>
+                <button class="btn btn-outline-success " type="submit">Limpiar</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="formBuscCliente-table row-12">
+        <div class="col-md-6 mt4 text-center">
+            <table class="table table-striped">
+                <tr>
+                    <th>IDENTIFICACION</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>EMAIL</th>
+                    <th>DIRECCIÓN</th>
+                    <th>CEL</th>
+                    <th>TELÉFONO</th>
+                </tr>
+                <% for (let i = 0; i < cliente.length; i++) {%>
+                    <tr>
+                        <td><%= cliente[i].id_cliente%></td>
+                        <td><%= cliente[i].nombre%></td>
+                        <td><%= cliente[i].apellido%></td>
+                        <td><%= cliente[i].email%></td>
+                        <td><%= cliente[i].direccion%></td>
+                        <td><%= cliente[i].cel%></td>
+                        <td><%= cliente[i].telefono%></td>
+                    </tr>
+                <%} %> 
+            </table>
+        </div>
+    </div>
+</div>

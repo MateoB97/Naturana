@@ -1,6 +1,6 @@
 .main{
     background-color: rgb(186, 228, 215);
-    width: 200vh;
+    width: 100%;
 }
 .navegacion{
     background-color: rgb(31, 158, 151);
@@ -94,6 +94,55 @@ section{
 
 .infoSesion-p4{
     margin-bottom: 0rem;
+}
+
+.sectionMain{
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    margin: 2rem;
+}
+
+.row1{
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    
+}
+.sectionIcon{
+    font-size: 60px;
+    height: 60px;
+    padding:14px;
+}
+
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.col{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(175, 224, 142);
+    -webkit-box-shadow: 3px 5px 14px 8px rgba(0,0,0,0.44); 
+    box-shadow: 3px 5px 14px 8px rgba(0,0,0,0.44);
+    margin: 1rem;
+    color: rgb(102, 95, 65);
+    height: 60%;
+}
+
+.operative{
+    display: flex;
+    padding: 10px;
+    width: 80%;
+    flex-direction: column;
+    height: 400px;
+    align-items: center;
 }
 
 
