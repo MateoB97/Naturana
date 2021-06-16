@@ -38,8 +38,8 @@
         <div class="forCotn">
             <div class="col colL">
                 <div class="row">
-                    <label for="formGroupExampleInput" class="form-label fw-bolder">Cantidad</label>
-                    <input type="text" class="form-control" required placeholder="Nombre producto"
+                    <label for="formGroupExampleInput" class="form-label fw-bolder">Identificación del cliente</label>
+                    <input type="text" class="form-control" required placeholder="Identificación del cliente"
                         aria-label="First name">
                 </div>
 
@@ -55,26 +55,28 @@
 
                 <div class="row">
                     <label for="formGroupExampleInput" class="form-label fw-bolder mt-1
-                mt-1">Fecha ingreso *</label>
-                    <input type="text" class="form-control" required placeholder="Fecha ingreso"
+                mt-1">Fecha ingreso</label>
+                    <input type="text" class="form-control" required placeholder="YYYY/MM/DD"
                         aria-label="First name">
                 </div>
                 <div class="row pb-3">
-                    <label for="formGroupExampleInput" class="form-label fw-bolder mt-1">Fecha Entrega *</label>
-                    <input type="text" class="form-control" required placeholder="Fecha Entrega"
+                    <label for="formGroupExampleInput" class="form-label fw-bolder mt-1">Fecha Entrega</label>
+                    <input type="text" class="form-control" required placeholder="YYYY/MM/DD"
                         aria-label="First name">
                 </div>
                 <div class="col pb-3">
-                    <button type="button" class="btn btn-secondary btn-lg">Enviar</button>
+                    <button type="button" class="btn btn-secondary btn-lg">Agregar</button>
                     <a class="btn btn-secondary btn-lg" href="/main" role="button">Inicio</a>
                 </div>
             </div>
             <div class="col colR">
                 <div class="row">
-                    <label for="formGroupExampleInput" class="form-label fw-bolder">Nombres
-                        y Apellidos *</label>
-                    <input type="text" class="form-control" placeholder="Nombres y
-                    Apellidos" aria-label="First name">
+                    <label for="formGroupExampleInput" class="form-label fw-bolder">Id Producto</label>
+                    <input type="text" class="form-control" placeholder="Id producto" aria-label="First name">
+                </div>
+                <div class="row">
+                    <label for="formGroupExampleInput" class="form-label fw-bolder">Cantidad</label>
+                    <input type="text" class="form-control" placeholder="Cantidad" aria-label="First name">
                 </div>
                 <div class="row">
                     <label for="validationDefault04" class="form-label fw-bolder mt-1">Estado Recepción</label>
@@ -95,37 +97,7 @@
             </div>
         </div>
 
-
-        <div class="formBuscCliente">
-            <nav class="formBuscCliente-busc navbar navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand">Buscar Cliente</a>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Identificación del cliente"
-                            aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                </div>
-            </nav>
-
-            <div class="formBuscCliente-table row-12">
-                <div class="col-md-6 mt4 text-center">
-                    <table class="table table-striped">
-                        <tr>
-                            <th>IDENTIFICACION</th>
-                            <th>NOMBRE</th>
-                            <th>APELLIDO</th>
-                            <th>EMAIL</th>
-                            <th>DIRECCIÓN</th>
-                            <th>CEL</th>
-                            <th>TELÉFONO</th>
-                        </tr>
-
-                    </table>
-                </div>
-            </div>
-        </div>
-
+        <%- include("../../template/section/buscadorCliente.ejs") %> 
 
         <div class="formBuscProd">
             <nav class="formBuscProd-busc navbar navbar-light bg-light">
@@ -134,7 +106,8 @@
                     <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Número del producto"
                             aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        <button class="btn btn-outline-success mx-2" type="submit">Buscar</button>
+                        <button class="btn btn-outline-success" type="submit">Limpiar</button>
                     </form>
                 </div>
             </nav>
@@ -150,15 +123,20 @@
                             <th>CANTIDAD DISPONIBLE</th>
                         </tr>
                         <tr>
-                            <td>
-                            </td>
+                        <% for (let i = 0; i < producto.length; i++) {%>
+                            <tr>
+                                <td><%= producto[i].id%></td>
+                                <td><%= producto[i].nombre%></td>
+                                <td>$ <%= producto[i].valorUnitario%></td>
+                                <td><%= producto[i].cantidadInsumo%></td>
+                                <td><%= producto[i].cantidad%></td>
+                            </tr>
+                        <%} %> 
                         </tr>
                     </table>
                 </div>
             </div>
-
         </div>
-
     </div>
 
     <%- include("../../template/footer/footer.ejs") %> 
