@@ -143,9 +143,36 @@ module.exports = (app) => {
       }
    });
 
-   app.get('/main', (req, res) => {
+   app.get('/cliente', (req, res)=>{
+      let cont=0;
+      if (flagLogin=== false) {
+         res.render('../views/main/ventanas/login/login.ejs');
+      }else if(cont===0){
+         connection.query("SELECT firstName, lastName, rol FROM users WHERE rol='Administrador' AND user =?",globalEmail,(err, result)=>{
+            try {
+               res.render('../views/main/ventanas/cliente/cliente.ejs',{
+                  name:result[0].firstName,
+                  lastName: result[0].lastName
+               });
+            } catch (error) {
+               console.error(`Error del try ${error}`);
+               console.error(`Error de la consulta ${err}`);
+               flagLogin=false;
+               globalEmail='';
+               res.redirect('/');
+               
+            }
+         });
+         
+      }else if(cont!==0){
+         res.redirect('/');
+         globalEmail='';
+      }
+   });
 
-      let cont = 0;
+   app.get('/main' , (req , res)=>{
+      
+      let cont=0;
 
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
@@ -201,13 +228,12 @@ module.exports = (app) => {
    
    // })
 
-
-
-
    //posts
-   //Login for users 
-   app.post('/auth', async (req, res) => {
 
+   //Login for users 
+   
+   app.post('/auth', async (req, res) => {
+      
       const { email, password } = req.body;
       globalEmail = email;
       if (email && password) {
@@ -299,10 +325,103 @@ module.exports = (app) => {
       }
    });
 
-   app.post('/session-out', (req, res) => {
-      flagLogin = false;
+   app.post('/session-out' , (req , res)=>{
+      flagLogin=false;
       res.render('../views/main/ventanas/login/login.ejs');
+      });
+   
+   app.post('/usu_input', async(req, res) => {
+      const {Nombre,Apellido,Cedula,Cargo,Horario} = req.body;
+
+      const generaUsu = (Nombre,Apellido,Cedula) => {
+
+         let N = Nombre.slice(0,3);
+         let A = Apellido.slice(0,3);
+         let C = Cedula.slice(0,3);
+
+         let usuario = (N + A + C);
+         return usuario;
+     }
+     const generaPass = (id,nombre,Lname,rol) => {
+        let pass;
+         nombre.slice(0,3);
+         Lname.slice(0,3);
+         id.slice(0,3);
+         rol.slice(0,1)
+
+         pass = nombre,Lname,rol,id;
+
+         return pass;
+     }
+
+     //hay que validar que no se repita el id, porque tumba el sv
+    /* const conf_id = (Cedula) => {
+
+      connection.query()
+     }*/
+
+     let usuario = generaUsu(Nombre,Apellido,Cedula);
+     let password = generaPass(Cedula,Nombre,Apellido,Cargo);
+     
+     let encrip = await bcryptjs.hash(password, 8);
+
+      connection.query('INSERT INTO users SET ?', {
+         id: Cedula,
+         user: usuario,
+         firstName: Nombre,
+         lastName: Apellido,
+         rol: Cargo,
+         pass: encrip,
+         horario: Horario
+     }, (err)=>{
+      if (err) {
+          console.log(err);
+      }else{
+          res.render('../views/main/ventanas/usuario/usuario.ejs', {
+              alert:true,
+              alertTitle: 'Registro',
+              alertMessage: "Registro Exitoso",
+              alertIcon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+              ruta: "usuario"
+          })
+         }
+      })
+
    });
 
+   app.post('/cli_input', (req,res)=>{
 
+      const {Nombre,Apellido,Cedula,Email,direccion,ciudad,celular,telefono,F_nacimiento} = req.body;
+
+      connection.query('INSERT INTO cliente SET ?', {
+         id_cliente: Cedula,
+         email: Email,
+         nombre: Nombre,
+         apellido: Apellido,
+         direccion: direccion,
+         ciudad: ciudad,
+         celular: celular,
+         telefono: telefono,
+         F_nacimiento: F_nacimiento
+
+     },async(err)=>{
+      if (err) {
+          console.log(err);
+      }else{
+          res.render('../views/main/ventanas/cliente/cliente.ejs', {
+              alert:true,
+              alertTitle: 'Registro',
+              alertMessage: "Registro Exitoso",
+              alertIcon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+              ruta: "main"
+          })
+          }
+      })
+
+
+   });
 }
