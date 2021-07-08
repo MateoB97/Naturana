@@ -99,7 +99,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    background-color: rgb(222, 253, 237);
+    background-color: rgb(249, 242, 255);
     border-radius: 30px;
     -webkit-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
@@ -123,6 +123,7 @@
     font-weight: 100;
     padding: 10px;
     cursor: pointer;
+    color: black;
 }
 .formulario__grupo-input{
     position: relative;

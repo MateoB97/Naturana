@@ -22,7 +22,7 @@
             <p class="infoSesion-p3"></i><i class="fas fa-phone px-1"></i> +57 311 3697489</p>
         </div>
         <div class="infoSesion px-5 fs-5 fw-bold">
-            <p class="infoSesion-p4">Bienvenido a Naturana: <%=name%> <%=lastName%> <i class="fas fa-check-circle"></i></p>
+            <p class="infoSesion-p4">Bienvenido a Naturana <i class="fas fa-check-circle"></i></p>
         </div> 
         <form class="sign-out px-5" action="/session-out" method="POST">
             <button class="btn btn-secondary" type="submit">  Cerrar sesion</button>
@@ -38,7 +38,7 @@
     <h4 class="subtitulo">Ingrese los datos del nuevo colaborador</h4>
 
     <div class="formulario__grupo-input" id="grupo__Nombre">
-      <label for="Nombre" class="formulario__label">Nombre</label>
+      <label for="Nombre" class="formulario__label fw-normal">Nombre</label>
       <input type="text" class="formulario__input" name="Nombre" required id="Nombre" placeholder="Pepito" value="">
       <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
       <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
@@ -46,29 +46,29 @@
     
 
     <div class="formulario__grupo-input" id="grupo__Apellido">
-    <label for="Apellido" class="formulario__label">Apellidos</label>
+    <label for="Apellido" class="formulario__label fw-normal">Apellidos</label>
       <input type="text" class="formulario__input" name="Apellido" required id="Apellido" placeholder="Perez" value="">
       <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
       <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
     </div>
         
     <div class="formulario__grupo-input" id="grupo__Cedula">
-      <label class="formulario__label" for="Cedula">Cedula</label>
+      <label class="formulario__label fw-normal" for="Cedula">Cedula</label>
         <input type="text" class="formulario__input" name="Cedula" required id="Cedula" placeholder="1234567892" value="">
         <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
         <div class="formulario__input-error"><p>SOLO NUMEROS, 7 A 14 DIGITOS.</p></div>
     </div>
 
     <div class="formulario__grupo-input" id="grupo__Cargo">
-      <label class="formulario__label" for="Cargo">Cargo</label>
+      <label class="formulario__label fw-normal" for="Cargo">Cargo</label>
         <input type="text" class="formulario__input" name="Cargo" required id="Cargo" placeholder="Cajero" value="">
         <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
-        <div class="formulario__input-error"><p>SOLO NUMEROS, 7 A 14 DIGITOS.</p></div>
+        <div class="formulario__input-error fw-normal"><p>SOLO NUMEROS, 7 A 14 DIGITOS.</p></div>
     </div>
 
     <div class="formulario__grupo-input" id="grupo__Horario">
 
-      <label class="formulario__label" for="selectHorario">Horario</label>
+      <label class="formulario__label fw-normal fw-normal" for="selectHorario">Horario</label>
         <select id="Horario" name="Horario" class="form-select">
             <option selected>Seleccionar</option>
             <option>T/Completo</option>
@@ -76,12 +76,12 @@
         </select>
 
         <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
-        <div class="formulario__input-error"><p>DEBE SELECCIONAR UNA OPCIÓN</p></div>
+        <div class="formulario__input-error fw-normal"><p>DEBE SELECCIONAR UNA OPCIÓN</p></div>
     </div>
 
     <div class="formulario__grupo-input" id="grupo__P-seguridad">
 
-      <label class="formulario__label" for="selectPregunta">Pregunta de seguridad</label>
+      <label class="formulario__label fw-normal" for="selectPregunta">Pregunta de seguridad</label>
         <select id="P__seguridad" name="P__seguridad" class="form-select">
             <option selected>Seleccionar</option>
             <option>Nombre de una mascota de su infancia</option>
@@ -94,7 +94,7 @@
     </div>
 
     <div class="formulario__grupo-input" id="grupo__R-seguridad">
-      <label class="formulario__label" for="ingreseRespuesta">Respuesta de seguridad</label>
+      <label class="formulario__label fw-normal" for="ingreseRespuesta">Respuesta de seguridad</label>
         <input type="text" class="formulario__input" name="R__seguridad" required id="R__seguridad" placeholder="" value="">
         <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
         <div class="formulario__input-error"><p>7 A 14 DIGITOS.</p></div>
@@ -108,7 +108,7 @@
       </div-->
 
       <div class="formulario__grupo formulario__grupo-btn-registrar">
-          <button type="submit" class="formulario__btn">Registrar</button>
+          <button type="submit" class="formulario__btn fw-normal">Registrar</button>
           <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Se registro correctamente</p>
       </div> 
 
