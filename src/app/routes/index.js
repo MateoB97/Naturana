@@ -9,6 +9,8 @@ module.exports = (app) => {
    //Atributes
    let flagLogin = false;
    let globalEmail;
+   let firstName;
+   let lastName;
 
    //Routes and connection  with views and database
 
@@ -18,15 +20,14 @@ module.exports = (app) => {
    });
 
    app.get('/insumo', (req, res) => {
-      let cont = 0;
+
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
       } else if (cont === 0) {
-         connection.query("SELECT firstName, lastName FROM insumo WHERE rol='ejemplo' AND user = ?", globalEmail, (err, result) => {
             try {
                res.render('../views/main/ventanas/insumo/insumo.ejs', {
-                  name: result[0].firstName,
-                  lastName: result[0].lastName
+                  name: firstName,
+                  lastName: lastName
                });
             } catch (error) {
                console.error(`Error del try ${error}`);
@@ -35,30 +36,23 @@ module.exports = (app) => {
                globalEmail = '';
                res.redirect('/');
             }
-         });
-
-      } else if (cont !== 0) {
-         flagLogin = false;
-         globalEmail = '';
-         res.redirect('/');
       }
 
    });
 
    app.get('/pedido', async (req, res) => {
-      let cont = 0;
+
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
-      } else if (cont === 0) {
-         await connection.query("SELECT firstName, lastName FROM users WHERE (rol='Recepcionista' OR rol='Administrador' OR rol='Cajero') and user= ?", globalEmail, async(err, result) => {
+      } else {
             try {
                await connection.query("SELECT * FROM cliente", (err, result1) => {
                   try {
                         connection.query("SELECT * FROM producto",(err,result2)=>{
                            try {
                               res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
-                                 firstName:result[0].firstName,
-                                 lastName:result[0].lastName,
+                                 firstName:firstName,
+                                 lastName:lastName,
                                  cliente:result1,
                                  producto:result2
                               });
@@ -81,25 +75,18 @@ module.exports = (app) => {
                globalEmail = '';
                res.redirect('/');
             }
-         });
-
-      } else if (cont !== 0) {
-         flagLogin = false;
-         globalEmail = '';
-         res.redirect('/');
       }
    });
 
    app.get('/producto', (req, res) => {
-      let cont = 0;
+
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
-      } else if (cont === 0) {
-         connection.query("SELECT firstName, lastName FROM users WHERE rol='ejemplo' AND user= ?", globalEmail, (err, result) => {
+      } else {
             try {
                res.render('../views/main/ventanas/producto/producto.ejs', {
-                  firstName: result[0].firstName,
-                  lastName: result[0].lastName
+                  firstName: firstName,
+                  lastName: lastName
                });
             } catch (error) {
                console.error(`Error del try ${error}`);
@@ -108,25 +95,18 @@ module.exports = (app) => {
                globalEmail = '';
                res.redirect('/');
             }
-         });
-
-      } else if (cont !== 0) {
-         flagLogin = false;
-         globalEmail = '';
-         res.redirect('/');
       }
    });
 
    app.get('/usuario', (req, res) => {
-      let cont = 0;
+
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
-      } else if (cont === 0) {
-         connection.query("SELECT firstName, lastName, rol FROM users WHERE rol='Administrador' AND user =?", globalEmail, (err, result) => {
+      } else {
             try {
                res.render('../views/main/ventanas/usuario/usuario.ejs', {
-                  firstName: result[0].firstName,
-                  lastName: result[0].lastName
+                  firstName: firstName,
+                  lastName: lastName
                });
             } catch (error) {
                console.error(`Error del try ${error}`);
@@ -136,24 +116,18 @@ module.exports = (app) => {
                res.redirect('/');
 
             }
-         });
-
-      } else if (cont !== 0) {
-         res.redirect('/');
-         globalEmail = '';
-      }
+      } 
    });
 
    app.get('/cliente', (req, res)=>{
-      let cont=0;
+
       if (flagLogin=== false) {
          res.render('../views/main/ventanas/login/login.ejs');
-      }else if(cont===0){
-         connection.query("SELECT firstName, lastName, rol FROM users WHERE rol='Administrador' AND user =?",globalEmail,(err, result)=>{
+      }else {
             try {
                res.render('../views/main/ventanas/cliente/cliente.ejs',{
-                  firstName: result[0].firstName,
-                  lastName: result[0].lastName
+                  firstName: firstName,
+                  lastName: lastName
                });
             } catch (error) {
                console.error(`Error del try ${error}`);
@@ -161,28 +135,19 @@ module.exports = (app) => {
                flagLogin=false;
                globalEmail='';
                res.redirect('/');
-               
-            }
-         });
-         
-      }else if(cont!==0){
-         res.redirect('/');
-         globalEmail='';
+            }         
       }
    });
 
    app.get('/main' , (req , res)=>{
-      
-      let cont=0;
 
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
-      } else if (cont === 0) {
-         connection.query("SELECT firstName, lastName FROM users WHERE rol = 'Administrador' AND user= ?", globalEmail, (err, result) => {
+      } else {
             try {
                res.render('../views/main/main.ejs', {
-                  firstName: result[0].firstName,
-                  lastName: result[0].lastName
+                  firstName: firstName,
+                  lastName: lastName
                });
             } catch (error) {
                console.error(` Error del catch ${error}`);
@@ -191,14 +156,6 @@ module.exports = (app) => {
                globalEmail = '';
                res.redirect('/');
             }
-            //Here
-            cont++;
-         });
-         //Ask to Jairo
-      } else if (cont !== 0) {
-         globalEmail = '';
-         //res.redirect('/');
-
       }
 
    });
@@ -206,13 +163,15 @@ module.exports = (app) => {
    //posts
 
    //Login for users 
-   
+
    app.post('/auth', async (req, res) => {
       
       const { email, password } = req.body;
       globalEmail = email; 
       if (email && password) {
-         connection.query('SELECT user, pass, rol FROM users WHERE user= ?', email, async (err, results) => {
+         connection.query('SELECT user, firstName, lastName, pass, rol FROM users WHERE user= ?', email, async (err, results) => {
+            firstName=results[0].firstName;
+            lastName=results[0].lastName;
             try {
                console.log(results);
                if (results.length === 0 || !(await bcryptjs.compare(password, results[0].pass))) {
@@ -302,8 +261,10 @@ module.exports = (app) => {
 
    app.post('/session-out' , (req , res)=>{
       flagLogin=false;
+      firstName='';
+      lastName='';
       res.render('../views/main/ventanas/login/login.ejs');
-      });
+   });
    
    app.post('/usu_input', async(req, res) => {
       
@@ -344,7 +305,7 @@ module.exports = (app) => {
                let encrip = await bcryptjs.hash(password, 8);
 
                connection.query('INSERT INTO users SET ?', {
-                  cedula: Cedula,
+                  id: Cedula,
                   user: usuario,
                   firstName: Nombre,
                   lastName: Apellido,
@@ -383,7 +344,9 @@ module.exports = (app) => {
                        alertIcon: "success",
                        showConfirmButton: false,
                        timer: 1500,
-                       ruta: "main"
+                       ruta: "usuario",
+                       firstName:firstName,
+                       lastName:lastName
                      })
                   }
                });
@@ -396,7 +359,9 @@ module.exports = (app) => {
                   alertIcon: "warning",
                   showConfirmButton: true,
                   timer: false,
-                  ruta: 'main'
+                  ruta: 'usuario',
+                  firstName:firstName,
+                  lastName:lastName
                });   
             }
       });
