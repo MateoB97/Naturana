@@ -337,7 +337,7 @@ module.exports = (app) => {
             
             if (err) {
                console.log('este es tu error' + err);
-            }else if (results[0].length===0) {
+            }else if (results.length===0) {
                let usuario = generaUsu(Nombre,Apellido,Cedula);
                let password = generaPass(Cedula,Nombre,Apellido,Cargo);
                
