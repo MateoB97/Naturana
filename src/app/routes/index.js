@@ -2,6 +2,7 @@
 const app = require('../../config/server');
 const bcryptjs = require('bcryptjs');
 const connection = require('../../config/db');
+const mysql = require('mysql');
 
 module.exports = (app) => {
 
@@ -56,7 +57,7 @@ module.exports = (app) => {
                         connection.query("SELECT * FROM producto",(err,result2)=>{
                            try {
                               res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
-                                 name:result[0].firstName,
+                                 firstName:result[0].firstName,
                                  lastName:result[0].lastName,
                                  cliente:result1,
                                  producto:result2
@@ -97,7 +98,7 @@ module.exports = (app) => {
          connection.query("SELECT firstName, lastName FROM users WHERE rol='ejemplo' AND user= ?", globalEmail, (err, result) => {
             try {
                res.render('../views/main/ventanas/producto/producto.ejs', {
-                  name: result[0].firstName,
+                  firstName: result[0].firstName,
                   lastName: result[0].lastName
                });
             } catch (error) {
@@ -124,7 +125,7 @@ module.exports = (app) => {
          connection.query("SELECT firstName, lastName, rol FROM users WHERE rol='Administrador' AND user =?", globalEmail, (err, result) => {
             try {
                res.render('../views/main/ventanas/usuario/usuario.ejs', {
-                  name: result[0].firstName,
+                  firstName: result[0].firstName,
                   lastName: result[0].lastName
                });
             } catch (error) {
@@ -151,7 +152,7 @@ module.exports = (app) => {
          connection.query("SELECT firstName, lastName, rol FROM users WHERE rol='Administrador' AND user =?",globalEmail,(err, result)=>{
             try {
                res.render('../views/main/ventanas/cliente/cliente.ejs',{
-                  name:result[0].firstName,
+                  firstName: result[0].firstName,
                   lastName: result[0].lastName
                });
             } catch (error) {
@@ -180,7 +181,7 @@ module.exports = (app) => {
          connection.query("SELECT firstName, lastName FROM users WHERE rol = 'Administrador' AND user= ?", globalEmail, (err, result) => {
             try {
                res.render('../views/main/main.ejs', {
-                  name: result[0].firstName,
+                  firstName: result[0].firstName,
                   lastName: result[0].lastName
                });
             } catch (error) {
@@ -202,32 +203,6 @@ module.exports = (app) => {
 
    });
 
-   // app.post('/pedido-cliente' , async(req , res)=>{
-      
-   //    const {valueId} = req.body;
-   //    console.log('Valor de Id '+valueId);
-   //    if (valueId) {
-   //       await connection.query("SELECT * FROM  cliente WHERE identificacion = ?",valueId,(err, result)=>{
-   //          console.log(result);
-   //          try {
-
-   //             connection.query();
-   //             // res.render("../views/main/ventanas/pedido/pedido.ejs",{
-   //             //    cliente:result
-   //             // });
-   //          } catch (error) {
-   //             console.error(`Error del try ${error}`);
-   //             console.error(`Error de la consulta ${err}`);
-   //          }
-            
-   //       });
-
-   //    }else{
-   //       res.redirect('/pedido');
-   //    }
-   
-   // })
-
    //posts
 
    //Login for users 
@@ -235,7 +210,7 @@ module.exports = (app) => {
    app.post('/auth', async (req, res) => {
       
       const { email, password } = req.body;
-      globalEmail = email;
+      globalEmail = email; 
       if (email && password) {
          connection.query('SELECT user, pass, rol FROM users WHERE user= ?', email, async (err, results) => {
             try {
@@ -331,7 +306,8 @@ module.exports = (app) => {
       });
    
    app.post('/usu_input', async(req, res) => {
-      const {Nombre,Apellido,Cedula,Cargo,Horario} = req.body;
+      
+      const {Nombre,Apellido,Cedula,Cargo,Horario,P_seg,R_seg} = req.body;
 
       const generaUsu = (Nombre,Apellido,Cedula) => {
 
@@ -342,7 +318,7 @@ module.exports = (app) => {
          let usuario = (N + A + C);
          return usuario;
      }
-     const generaPass = (id,nombre,Lname,rol) => {
+      const generaPass = (id,nombre,Lname,rol) => {
         let pass;
          nombre.slice(0,3);
          Lname.slice(0,3);
@@ -355,39 +331,78 @@ module.exports = (app) => {
      }
 
      //hay que validar que no se repita el id, porque tumba el sv
-    /* const conf_id = (Cedula) => {
 
-      connection.query()
-     }*/
+     try {
+      connection.query('SELECT * FROM users WHERE id =?',[Cedula], async (err, results) => {
+            
+            if (err) {
+               console.log('este es tu error' + err);
+            }else if (results[0].length===0) {
+               let usuario = generaUsu(Nombre,Apellido,Cedula);
+               let password = generaPass(Cedula,Nombre,Apellido,Cargo);
+               
+               let encrip = await bcryptjs.hash(password, 8);
 
-     let usuario = generaUsu(Nombre,Apellido,Cedula);
-     let password = generaPass(Cedula,Nombre,Apellido,Cargo);
-     
-     let encrip = await bcryptjs.hash(password, 8);
+               connection.query('INSERT INTO users SET ?', {
+                  cedula: Cedula,
+                  user: usuario,
+                  firstName: Nombre,
+                  lastName: Apellido,
+                  rol: Cargo,
+                  pass: encrip,
+                  horario: Horario,
+                  p_seg: P_seg,
+                  r_seg: R_seg
+         
+              }, (err)=>{
+               if (err) { 
+                   console.log(err);
+               }else{
+                  /*connection.query('SELECT pass FROM users WHERE id = ?', [Cedula], (err, results) => {
 
-      connection.query('INSERT INTO users SET ?', {
-         id: Cedula,
-         user: usuario,
-         firstName: Nombre,
-         lastName: Apellido,
-         rol: Cargo,
-         pass: encrip,
-         horario: Horario
-     }, (err)=>{
-      if (err) {
-          console.log(err);
-      }else{
-          res.render('../views/main/ventanas/usuario/usuario.ejs', {
-              alert:true,
-              alertTitle: 'Registro',
-              alertMessage: "Registro Exitoso",
-              alertIcon: "success",
-              showConfirmButton: false,
-              timer: 1500,
-              ruta: "usuario"
-          })
-         }
-      })
+                     if (err) {
+                        console.log(err);
+                     }else{
+                        let pass = results[0].pass
+                        let desencrip = await bcryptjs.compare(pass)
+                        res.render('../views/main/ventanas/usuario/usuario.ejs', {
+                           alert:true,
+                           alertTitle: 'Registro',
+                           alertMessage: "Registro Exitoso",
+                           alertIcon: "success",
+                           showConfirmButton: false,
+                           timer: 1500,
+                           ruta: "usuario"
+                       })
+                     }
+                  })*/
+                   res.render('../views/main/ventanas/usuario/usuario.ejs', {
+                       alert:true,
+                       alertTitle: 'Registro',
+                       alertMessage: "Registro Exitoso",
+                       alertIcon: "success",
+                       showConfirmButton: false,
+                       timer: 1500,
+                       ruta: "main"
+                     })
+                  }
+               });
+                         
+            }else{
+               res.render('../views/main/ventanas/usuario/usuario.ejs', {
+                  alert: true,
+                  alertTitle: "Error",
+                  alertMessage: "ID repetido",
+                  alertIcon: "warning",
+                  showConfirmButton: true,
+                  timer: false,
+                  ruta: 'main'
+               });   
+            }
+      });
+     } catch (error) {
+        console.log(error);
+     }
 
    });
 
