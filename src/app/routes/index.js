@@ -303,7 +303,7 @@ module.exports = (app) => {
                let password = generaPass(Cedula,Nombre,Apellido,Cargo);
                
                let encrip = await bcryptjs.hash(password, 8);
-
+               
                connection.query('INSERT INTO users SET ?', {
                   id: Cedula,
                   user: usuario,
@@ -315,39 +315,23 @@ module.exports = (app) => {
                   p_seg: P_seg,
                   r_seg: R_seg
          
-              }, (err)=>{
+              }, (err,results)=>{
                if (err) { 
                    console.log(err);
                }else{
-                  /*connection.query('SELECT pass FROM users WHERE id = ?', [Cedula], (err, results) => {
 
-                     if (err) {
-                        console.log(err);
-                     }else{
-                        let pass = results[0].pass
-                        let desencrip = await bcryptjs.compare(pass)
-                        res.render('../views/main/ventanas/usuario/usuario.ejs', {
-                           alert:true,
-                           alertTitle: 'Registro',
-                           alertMessage: "Registro Exitoso",
-                           alertIcon: "success",
-                           showConfirmButton: false,
-                           timer: 1500,
-                           ruta: "usuario"
-                       })
-                     }
-                  })*/
                    res.render('../views/main/ventanas/usuario/usuario.ejs', {
                        alert:true,
                        alertTitle: 'Registro',
                        alertMessage: "Registro Exitoso",
                        alertIcon: "success",
                        showConfirmButton: false,
-                       timer: 1500,
+                       timer: 15000,
                        ruta: "usuario",
                        firstName:firstName,
                        lastName:lastName
                      })
+
                   }
                });
                          
@@ -367,7 +351,7 @@ module.exports = (app) => {
       });
      } catch (error) {
         console.log(error);
-     }
+     };
 
    });
 
