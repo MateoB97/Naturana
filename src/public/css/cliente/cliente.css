@@ -1,14 +1,5 @@
 /* Global */
-.contenedor{
-    display: flex;
-    width: 100%;
-    height: 140vh;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    padding-top: 30px;
-    background-color: rgb(137, 209, 185);
-}
+
 /*nav*/
 .navegacion{
     background-color: rgb(31, 158, 151);
@@ -37,6 +28,8 @@
     -webkit-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
+    height: 80%;
+    width: 65%;
 }
 /*footer*/
 
@@ -115,7 +108,7 @@
 }
 .formulario__grupo-input{
     position: relative;
-    margin: 0 20px;
+    margin: 20px 20px;
 }
 .formulario__input{
     width: 100%;
@@ -140,6 +133,9 @@
     grid-column: span 3;
     align-items: center;
     justify-content: center;
+}
+.subtitulo{
+    margin: 20px 0 20px 0;
 }
 /*estilo*/
 .formulario__grupo-btn-registrar,

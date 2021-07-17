@@ -1,3 +1,49 @@
+
+/*nav*/
+.navegacion{
+    background-color: rgb(31, 158, 151);
+    height: 30%;
+}
+.navMenu{
+    display: flex;
+    flex-direction: row;
+}
+.info{
+    display: flex;
+    color: rgb(253, 248, 241);
+    background-color: #00847e;
+    height: 12%;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+/*cuerpo*/
+.contenedor{
+    display: flex;
+    flex-direction: column;
+    margin: 2%;
+    padding: 2%;
+    overflow-y: auto;
+    border-radius: 30px;
+    -webkit-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
+    box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
+}
+.col{
+    width: 30%;
+    height: 35%;
+}
+.row{
+    margin: 1.5%;
+    padding: 1%;
+    border-radius: 10px;
+    border: 1.5px solid #042656;
+}
+.form-select{
+    margin: 1.5%;
+    padding: 1%;
+    border-radius: 10px;;
+}
 nav.navbar{
     background-color: rgb(31, 158, 151);
 }
@@ -27,3 +73,4 @@ nav.navbar{
     padding: 1%;
     border-radius: 10px;;
 }
+/*footer*/
