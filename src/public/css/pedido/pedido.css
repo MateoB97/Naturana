@@ -32,6 +32,16 @@
 .infoSesion-p4{
     margin-bottom: 0rem;
 }
+.contenedor{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    padding-top: 30px;
+    background-color: rgb(137, 209, 185);
+}
 
 .forCotn{
     display: flex;
@@ -42,18 +52,8 @@
     -webkit-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
-    margin-bottom: 20vh;
     height: 80%;
     width: 65%;
-}
-.contenedor{
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    background-color: rgb(137, 209, 185);
 }
 .dataInfoP{
     display: flex;

@@ -11,7 +11,6 @@ module.exports = (app) => {
    let globalEmail;
    let firstName;
    let lastName;
-
    //Routes and connection  with views and database
 
    //gets
@@ -23,10 +22,10 @@ module.exports = (app) => {
 
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
-      } else if (cont === 0) {
+      } else {
             try {
                res.render('../views/main/ventanas/insumo/insumo.ejs', {
-                  name: firstName,
+                  firstName: firstName,
                   lastName: lastName
                });
             } catch (error) {
@@ -46,51 +45,85 @@ module.exports = (app) => {
          res.render('../views/main/ventanas/login/login.ejs');
       } else {
             try {
-               await connection.query("SELECT * FROM cliente", (err, result1) => {
+              await connection.query("SELECT * FROM producto",(err,result2)=>{
                   try {
-                        connection.query("SELECT * FROM producto",(err,result2)=>{
-                           try {
-                              res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
-                                 firstName:firstName,
-                                 lastName:lastName,
-                                 cliente:result1,
-                                 producto:result2
-                              });
-                           } catch (error) {
-                              console.error(`Error del tercer try ${error}`);
-                              console.error(`Error de la tercera consulta ${err}`);
-                           }
-                        });
+                     if (req.session.clienteExitoso) {
+                        req.session.clienteExitoso=false;
+                        res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
+                           firstName:firstName,
+                           lastName:lastName,
+                           producto:result2,
 
+                           alert:true,
+                           alertTitle: 'Registro',
+                           alertMessage: "Registro Exitoso",
+                           alertIcon: "success",
+                           showConfirmButton: false,
+                           timer: 1500,
+                           
+                        });
+                     }
+                     if (req.session.pedidoExitoso) {
+                        req.session.pedidoExitoso=false;
+                        res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
+                           firstName:firstName,
+                           lastName:lastName,
+                           producto:result2,
+
+                           alert:true,
+                           alertTitle: 'Pedido regsitrado',
+                           alertMessage: "Exito",
+                           alertIcon: "success",
+                           showConfirmButton: false,
+                           timer: 1500,
+                           
+                        });
+                     }
+                     else{
+                        res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
+                           firstName:firstName,
+                           lastName:lastName,
+                           producto:result2
+                        });
+                     }
+  
                   } catch (error) {
-                     console.error(`Error del segundo try ${error}`);
-                     console.error(`Error del segundo query ${err}`);
+                     console.error(`Error del tercer try ${error}`);
+                     console.error(`Error de la tercera consulta ${err}`);
                   }
                });
 
-            } catch (error) {
-               console.error(`Error del primer try ${error}`);
-               console.error(`Error del primer query ${err}`);
-               flagLogin = false;
-               globalEmail = '';
-               res.redirect('/');
-            }
+         } catch (error) {
+            console.error(`Error del segundo try ${error}`);
+            console.error(`Error del segundo query ${err}`);
+            flagLogin = false;
+            globalEmail = '';
+            res.redirect('/');
+         }
       }
    });
 
-   app.get('/producto', (req, res) => {
+   app.get('/reporte', async (req, res) => {
 
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
       } else {
             try {
-               res.render('../views/main/ventanas/producto/producto.ejs', {
-                  firstName: firstName,
-                  lastName: lastName
-               });
+               await connection.query('SELECT * FROM cliente',(err,result)=>{
+                  try {
+                     res.status(200).render('../views/main/ventanas/reportes/reportes.ejs', {
+                        firstName: firstName,
+                        lastName: lastName,
+                        cliente:result
+                     });
+                  } catch (error) {
+                     console.error(`Error del try ${error}`);
+                     console.error(`Error del query ${err}`);
+                  }
+               })
+
             } catch (error) {
                console.error(`Error del try ${error}`);
-               console.error(`Error del query ${err}`);
                flagLogin = false;
                globalEmail = '';
                res.redirect('/');
@@ -117,6 +150,7 @@ module.exports = (app) => {
 
             }
       } 
+      
    });
 
    app.get('/cliente', (req, res)=>{
@@ -160,6 +194,13 @@ module.exports = (app) => {
 
    });
 
+   app.get('/cuentaCobro', (req, res) => {
+
+      /*connection.query('SELECT * FROM cliente')*/
+      res.render('../views/main/ventanas/cuentaCobro/cuentaCobro.ejs');
+      
+      /*razon__s,nit,direccion ,telefono, e_mail, celular, ciudad_op, forma_p, codigo, nombre_p, ref_p,cant_p*/   
+   })
    //posts
 
    //Login for users 
@@ -268,7 +309,7 @@ module.exports = (app) => {
    
    app.post('/usu_input', async(req, res) => {
       
-      const {Nombre,Apellido,Cedula,Cargo,Horario,P_seg,R_seg} = req.body;
+      const {Nombre,Apellido,Cedula,Cargo,Horario,P__seg,R__seg} = req.body;
 
       const generaUsu = (Nombre,Apellido,Cedula) => {
 
@@ -290,19 +331,17 @@ module.exports = (app) => {
 
          return pass;
      }
-
-     //hay que validar que no se repita el id, porque tumba el sv
+     let usuario = generaUsu(Nombre,Apellido,Cedula);
+     let password = generaPass(Cedula,Nombre,Apellido,Cargo);
 
      try {
       connection.query('SELECT * FROM users WHERE id =?',[Cedula], async (err, results) => {
-            
+         
+         let encrip = await bcryptjs.hash(password, 8);
+
             if (err) {
                console.log('este es tu error' + err);
             }else if (results.length===0) {
-               let usuario = generaUsu(Nombre,Apellido,Cedula);
-               let password = generaPass(Cedula,Nombre,Apellido,Cargo);
-               
-               let encrip = await bcryptjs.hash(password, 8);
                
                connection.query('INSERT INTO users SET ?', {
                   id: Cedula,
@@ -312,30 +351,29 @@ module.exports = (app) => {
                   rol: Cargo,
                   pass: encrip,
                   horario: Horario,
-                  p_seg: P_seg,
-                  r_seg: R_seg
+                  p_seg: P__seg,
+                  r_seg: R__seg
          
               }, (err,results)=>{
                if (err) { 
                    console.log(err);
                }else{
-
+                  
                    res.render('../views/main/ventanas/usuario/usuario.ejs', {
                        alert:true,
                        alertTitle: 'Registro',
                        alertMessage: "Registro Exitoso",
                        alertIcon: "success",
                        showConfirmButton: false,
-                       timer: 15000,
+                       timer: 25000,
                        ruta: "usuario",
                        firstName:firstName,
                        lastName:lastName
                      })
-
                   }
                });
-                         
             }else{
+               
                res.render('../views/main/ventanas/usuario/usuario.ejs', {
                   alert: true,
                   alertTitle: "Error",
@@ -353,40 +391,128 @@ module.exports = (app) => {
         console.log(error);
      };
 
+
    });
 
    app.post('/cli_input', (req,res)=>{
 
       const {Nombre,Apellido,Cedula,Email,direccion,ciudad,celular,telefono,F_nacimiento} = req.body;
 
-      connection.query('INSERT INTO cliente SET ?', {
-         id_cliente: Cedula,
-         email: Email,
-         nombre: Nombre,
-         apellido: Apellido,
-         direccion: direccion,
-         ciudad: ciudad,
-         celular: celular,
-         telefono: telefono,
-         F_nacimiento: F_nacimiento
+      try {
+         connection.query('SELECT * FROM cliente WHERE id_cliente =?', [Cedula], (err, results)=>{
 
-     },async(err)=>{
-      if (err) {
-          console.log(err);
-      }else{
-          res.render('../views/main/ventanas/cliente/cliente.ejs', {
-              alert:true,
-              alertTitle: 'Registro',
-              alertMessage: "Registro Exitoso",
-              alertIcon: "success",
-              showConfirmButton: false,
-              timer: 1500,
-              ruta: "cliente"
-          })
-          }
+            if (err) {
+               console.log(err);
+            }else if (results.length === 0){
+               connection.query('INSERT INTO cliente SET ?', {
+                  id_cliente: Cedula,
+                  email: Email,
+                  nombre: Nombre,
+                  apellido: Apellido,
+                  direccion: direccion,
+                  ciudad: ciudad,
+                  celular: celular,
+                  telefono: telefono,
+                  F_nacimiento: F_nacimiento
+         
+              },async(err1,results1)=>{
+               if (err) {
+                   console.log(err1);
+               }else{
+                  req.session.clienteExitoso = true;
+                  res.redirect('/pedido');
+
+                 /*connection.query('SELECT * FROM producto', (err, result) => {
+                     
+                     res.render('../views/main/ventanas/pedido/pedido.ejs', {
+                        alert:true,
+                        alertTitle: 'Registro',
+                        alertMessage: "Registro Exitoso",
+                        alertIcon: "success",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        ruta: "pedido",
+                        firstName:firstName,
+                        lastName:lastName,
+                        pedido:result,
+
+                    })
+                  })*/
+
+                }
+               })
+            }
+            else{
+               
+               res.render('../views/main/ventanas/pedido/pedido.ejs', {
+                  alert: true,
+                  alertTitle: "Error",
+                  alertMessage: "ID repetido",
+                  alertIcon: "warning",
+                  showConfirmButton: true,
+                  timer: false,
+                  ruta: 'pedido',
+                  firstName:firstName,
+                  lastName:lastName
+               });   
+            }
+         })
+      } catch (error) {
+         console.log(err);
+      }
+      
+   });
+
+   app.post('/bus_pro', async(req,res)=>{
+      const inpBus_pro = req.body;
+      try {
+         await connection.query('SELECT * FROM producto WHERE nombre =?',[inpBus_pro], (err2, results2)=>{
+
+            res.render('../views/main/ventanas/pedido/pedido.ejs', {
+               producto:results2,
+               bandped:bandped,
+               firstName:firstName,
+               lastName:lastName
+            })
+         })
+      } catch (error) {
+         console.error(`error de consulta ${err2}`)
+         console.error(`este es tu error try ${error}`)
+      }
+     // bandped =false;
+   })
+
+   app.post('/gen_ped', async (req,res)=>{
+
+      const {idCli__ped ,pago__ped,fechIng__ped,fechEnt__ped,idPro__ped, cantPro__ped,estRecep__ped,estDesp__ped} = req.body;
+
+      connection.query('INSERT INTO pedido SET ?', {
+         id_1:idPro__ped,
+         id_cliente_1:idCli__ped,
+         form_pago:pago__ped,
+         fech_ingr:fechIng__ped,
+         fech_entr:fechEnt__ped,
+         cant_pro:cantPro__ped,
+         est_recep:estRecep__ped,
+         est_desp:estDesp__ped
+      }, (err,result) => {
+         if (err) {
+            console.log(err);
+         }else{
+            req.session.pedidoExitoso = true;
+            res.redirect('/pedido');
+         }
       })
+   });
 
+   app.post('/cuentaCob', async(req,res) => {
 
+      const {forma_p,vr_uni__p,precio_letras,efectivo,e_mail_env,aceptado,fecha_entrega, fecha_op} = req.body;
+
+    
+      
+      
+      /*vr_total__p,vr_total,rt_fuente,rt_fuente__vrT*/
    });
 
 }
