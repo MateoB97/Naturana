@@ -4,147 +4,144 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/resource/css/cuentaCobro/cuentaCobro.css">
     <title>Cuenta de cobro</title>
 
-    <link rel="stylesheet" href="/resource/css/cuentaCobro/cuentaCobro.css">
+    <%- include ('../../template/head/head.ejs') %>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 <body>
     <section>
 
-        <div class="contenedor">
-            <form action='/cuentaCob' method='POST' class="formulario">
+        <% for (let cc of cuenta_c) { <%>
+            <div class="contenedor">
+                <form action='/cuentaCob' method='POST' class="formulario">
+    
+                    <div class="cuadros">
+        
+                        <img class="logo" src="/resource/css/cuentaCobro/cuentaCobro.css" width="250" height="125">
+                        <ul class="encabezado">
+                            <li><b>Daniel Felipe Zapata Bustamante</b></li>
+                            <li><b>NIT 1.017.153.447-8</b></li>
+                            <li>CLASIFICACIÓN NO RESPONSABLE DE IVA</li>
+                            <li>calle 32b No 69 41 Medellín-Antioquia</li>
+                            <ul>
+                                <li>Tel: 417 41 13</li>
+                                <li>Cel: 311 369 74 89</li>
+                            </ul>
+                            <ul>
+                                <li><b>CUENTA DE COBRO</b></li>
+                                <li><b>No.</b></li>
+                                <li><b><%= cc.no__fac  %></b></li>
+                            </ul>
+                        </ul>
+                    </div>
+        
+                    <p class="parrafo"><b>DOCUMENTO EQUIVALENTE A UNA FACTURA (Art.13 Ley 1527 2012)</b></p>
+        
+                    <!--div class="cuadros"-->
+                        <table class="datos__Conta">
+                            <tr>
+                                <td colspan="2"><b>Nombre o razón social</b></td>
+                                <td><%= cc. %></td>
+                                <td><b>ID/NIT</b></td>
+                                <td><%= %></td>
+                            </tr>
+                            <tr>
+                                <td><b>Dirección</b></td>
+                                <td><%= %></td>
+                                <td><b>Ciudad</b></td>
+                                <td><%= %></td>
+                                <td><b>Teléfono</b></td>
+                                <td><%= %></td>
+                            </tr>
+                            <tr>
+                                <td><b>E-MAIL</b></td>
+                                <td><%= %></td>
+                                <td><b>Celular</b></td>
+                                <td><%= %></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><b>Ciudad y fecha de la operación de cobro</b></td>
+                                <td><%= %></td>
+                                <td><%= %></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><b>Forma de pago</b></td>
+                                <td><%= %></td>
+                            </tr>
+                        </table>
+        
+                    <!--/div-->
+        
+                    <p class="parrafo"><b>DESCRIPCIÓN DE LOS BIENES O SERVICIOS</b></p>
+        
+                    <!--div class="cuadros"-->
+                        <table class="productos">
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Nombre</th>
+                                <th>Ref</th>
+                                <th>Cantidad</th>
+                                <th>Vr unidad</th>
+                                <th>Vr total</th>
+                            </tr>
+                            <tr>
+                                <td><%= %></td>
+                                <td><%= %></td>
+                                <td><%= %></td>
+                                <td><%= %></td>
+                                <td><%= %></td>
+                                <td><%= %></td>
+                            </tr>
+        
+                            <tr>
+                                <td colspan="5"><b>VALOR TOTAL</b></td>
+                                <td><%= %></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Retención en la fuente - compras en general</td>
+                                <td colspan="2"><%= %></td>
+                                <td><%= %></td>
+                            </tr>
+                            <tr>
+                                <td colspan="7"><input type="text" name="precio_letras" placeholder="Precio en letras" size="40"></td>
+                            </tr>
+                        </table>
+                    <!--/div-->
+                    <p class="parrafo"><b></b></p>
+                    <!--div class="cuadros"-->
+                        <table class="pago" >
+                            <tr>
+                                <td>Efectivo</td>
+                                <td><%= %></td>
+                                <td colspan="4" style="font-size: 12px; ">Consignación cta ahorros Bancolombia 274 831 39786</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Firma del vendedor</td>
+                                <td colspan="3"><img src="" alt=""></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Enviado al e-mail</td>
+                                <td colspan="3"><input type="text" name="e_mail_env" size="10"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Firma de quien recibe</td>
+                                <td colspan="3"><input type="text" name="firm_recibe" size="10"></td>
+                                <td colspan="3">aceptado</td>
+                                <td colspan="3"><input type="text" placeholder="SI/NO" name="aceptado" size="10"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Fecha/entrega</td>
+                                <td colspan="3"><input type="text" name="fecha_entrega" size="10"></td>
+                            </tr>
+                        </table>
+    
+            
+                </form>
+            </div>
+        <% } %>
 
-                <div class="cuadros">
-    
-                    <img class="logo" src="/resource/css/cuentaCobro/cuentaCobro.css" width="250" height="125">
-                    <ul class="encabezado">
-                        <li><b>Daniel Felipe Zapata Bustamante</b></li>
-                        <li><b>NIT 1.017.153.447-8</b></li>
-                        <li>CLASIFICACIÓN NO RESPONSABLE DE IVA</li>
-                        <li>calle 32b No 69 41 Medellín-Antioquia</li>
-                        <ul>
-                            <li>Tel: 417 41 13</li>
-                            <li>Cel: 311 369 74 89</li>
-                        </ul>
-                        <ul>
-                            <li><b>CUENTA DE COBRO</b></li>
-                            <li><b>No.</b></li>
-                            <li><b><input type="text" name="no__fac" size="6"></b></li>
-                        </ul>
-                    </ul>
-                </div>
-    
-                <p class="parrafo"><b>DOCUMENTO EQUIVALENTE A UNA FACTURA (Art.13 Ley 1527 2012)</b></p>
-    
-                <!--div class="cuadros"-->
-                    <table class="datos__Conta">
-                        <tr>
-                            <td colspan="2"><b>Nombre o razón social</b></td>
-                            <td><input type="text" name="razon__s" size="8"></td>
-                            <td><b>ID/NIT</b></td>
-                            <td><input type="text" name="nit" size="8"></td>
-                        </tr>
-                        <tr>
-                            <td><b>Dirección</b></td>
-                            <td><input type="text" name="direccion" size="8"></td>
-                            <td><b>Ciudad</b></td>
-                            <td>Medellín</td>
-                            <td><b>Teléfono</b></td>
-                            <td><input type="text" name="telefono" size="8"></td>
-                        </tr>
-                        <tr>
-                            <td><b>E-MAIL</b></td>
-                            <td><input type="text" name="e_mail" size="8"></td>
-                            <td><b>Celular</b></td>
-                            <td><input type="text" name="celular" size="8"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4"><b>Ciudad y fecha de la operación de cobro</b></td>
-                            <td><input type="text" name="ciudad_op" size="8" placeholder="Ciudad"></td>
-                            <td><input type="text" name="fecha_op" size="8" placeholder="Fecha"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><b>Forma de pago</b></td>
-                            <td><input type="text" name="forma_p" size="8"></td>
-                        </tr>
-                    </table>
-    
-                <!--/div-->
-    
-                <p class="parrafo"><b>DESCRIPCIÓN DE LOS BIENES O SERVICIOS</b></p>
-    
-                <!--div class="cuadros"-->
-                    <table class="productos">
-                        <tr>
-                            <th>Codigo</th>
-                            <th>Nombre</th>
-                            <th>Ref</th>
-                            <th>Cantidad</th>
-                            <th>Vr unidad</th>
-                            <th>Vr total</th>
-                        </tr>
-                        <tr>
-                            <td><input type="text" name="codigo" size="7"></td>
-                            <td><input type="text" name="nombre_p" size="7"></td>
-                            <td><input type="text" name="ref_p" size="7"></td>
-                            <td><input type="text" name="cant_p" size="7"></td>
-                            <td><input type="text" name="vr_uni__p" size="7"></td>
-                            <td><input type="text" name="vr_total__p" size="7" readonly></td>
-                        </tr>
-    
-                        <tr>
-                            <td colspan="5"><b>VALOR TOTAL</b></td>
-                            <td><input type="text" name="vr_total" size="10" readonly></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">Retención en la fuente - compras en general</td>
-                            <td colspan="2"><input type="text" name="rt_fuente" size="10" readonly></td>
-                            <td><input type="text" name="rt_fuente__vrT" size="10" readonly></td>
-                        </tr>
-                        <tr>
-                            <td colspan="7"><input type="text" name="precio_letras" placeholder="Precio en letras" size="40"></td>
-                        </tr>
-                    </table>
-                <!--/div-->
-                <p class="parrafo"><b></b></p>
-                <!--div class="cuadros"-->
-                    <table class="pago" >
-                        <tr>
-                            <td>Efectivo</td>
-                            <td><input type="text" name="efectivo" size="10"></td>
-                            <td colspan="4" style="font-size: 12px; ">Consignación cta ahorros Bancolombia 274 831 39786</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">Firma del vendedor</td>
-                            <td colspan="3"><img src="" alt=""></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">Enviado al e-mail</td>
-                            <td colspan="3"><input type="text" name="e_mail_env" size="10"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">Firma de quien recibe</td>
-                            <td colspan="3"><input type="text" name="firm_recibe" size="10"></td>
-                            <td colspan="3">aceptado</td>
-                            <td colspan="3"><input type="text" placeholder="SI/NO" name="aceptado" size="10"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">Fecha/entrega</td>
-                            <td colspan="3"><input type="text" name="fecha_entrega" size="10"></td>
-                        </tr>
-                    </table>
-                <!--/div-->
-    
-                <!--div class="formulario__grupo formulario__grupo-btn-registrar">
-                    <button type="submit" class="formulario__btn fw-normal">Imprimir</button>
-                
-                </div--> 
-        
-            </form>
-        </div>
-        
     </section>
 </body>
 </html>

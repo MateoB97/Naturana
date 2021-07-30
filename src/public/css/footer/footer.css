@@ -1,0 +1,68 @@
+
+.footer{
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #00847e;
+}
+.left{
+
+    display: flex;
+    height: 100%;
+    width: 33.3%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: ivory;
+    
+}
+.center{
+    display: flex;
+    height: 100%;
+    width: 33.3%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: ivory;
+}
+.right{
+    display: flex;
+    height: 100%;
+    width: 33.3%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: ivory;
+}
+.mainFoot{
+    display: flex;
+    justify-content: center;
+    border-bottom: 5px solid tan;
+    width: 300px;
+}
+.facebook{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}
+.linkedin{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}
+.twitter{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}
+.youtube{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}
+.instagram{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}

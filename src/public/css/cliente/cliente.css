@@ -9,19 +9,11 @@
     display: flex;
     flex-direction: row;
 }
-.info{
-    display: flex;
-    color: rgb(253, 248, 241);
-    background-color: #00847e;
-    height: 12%;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
+
 /*form*/
 .formulario{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 20px;
     background-color: rgb(249, 242, 255);
     border-radius: 30px;
@@ -31,74 +23,7 @@
     height: 80%;
     width: 65%;
 }
-/*footer*/
 
-.footer{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #00847e;
-}
-.left{
-
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: ivory;
-    
-}
-.center{
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: ivory;
-}
-.right{
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: ivory;
-}
-.mainFoot{
-    display: flex;
-    justify-content: center;
-    border-bottom: 5px solid tan;
-    width: 300px;
-}
-.facebook{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.linkedin{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.twitter{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.youtube{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.instagram{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
 /*Cuadricula y colores*/
 .formulario__label{
     display: block;
@@ -130,7 +55,7 @@
 .formulario__grupo-btn-registrar,
 .formulario__mensaje,
 .subtitulo{
-    grid-column: span 3;
+    grid-column: span 5;
     align-items: center;
     justify-content: center;
 }

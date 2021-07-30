@@ -3,31 +3,14 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type='text/css' href="resource/css/usuario/usuario.css">
     <title>Registro de usuarios</title> 
 
-    <link rel="stylesheet" type='text/css' href="resource/css/usuario/usuario.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <%- include ('../../template/head/head.ejs') %>
     </head>
     <body>
 
-      <div class="info">
-        <div class="px-5">
-            <p class="infoSesion-p1"><i class="fas fa-map-marker-alt px-1"></i> Medellin - (Antioquia)</p>
-        </div>
-        <div class="px-5">
-            <p class="infoSesion-p2"> <i class="fas fa-inbox px-1"></i> productosnaturana@gmail.com </p>
-        </div>
-        <div class="px-5">
-            <p class="infoSesion-p3"></i><i class="fas fa-phone px-1"></i> +57 311 3697489</p>
-        </div>
-        <div class="infoSesion px-5 fs-5 fw-bold">
-            <p class="infoSesion-p4">Bienvenido a Naturana: <%=firstName%> <%=lastName%> <i class="fas fa-check-circle"></i></p>
-        </div> 
-        <form class="sign-out px-5" action="/session-out" method="POST">
-            <button class="btn btn-secondary" type="submit">  Cerrar sesion</button>
-        </form>
-    </div>
+    <%- include ('../../template/header/header.ejs') %>
     
 <section class="contenedor" id="formulario">
 
@@ -38,7 +21,7 @@
     <h4 class="subtitulo">Ingrese los datos del nuevo colaborador</h4>
 
     <div class="formulario__grupo-input" id="grupo__Nombre">
-      <label for="Nombre" class="formulario__label fw-normal">Nombre</label>
+      <label for="Nombre" class="formulario__label fw-normal">Nombre (s)</label>
       <input type="text" class="formulario__input" name="Nombre" required id="Nombre" placeholder="Pepito" value="">
       <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
       <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
@@ -46,12 +29,19 @@
     
 
     <div class="formulario__grupo-input" id="grupo__Apellido">
-    <label for="Apellido" class="formulario__label fw-normal">Apellidos</label>
+    <label for="Apellido" class="formulario__label fw-normal">Apellido 1</label>
       <input type="text" class="formulario__input" name="Apellido" required id="Apellido" placeholder="Perez" value="">
       <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
       <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
     </div>
         
+    <div class="formulario__grupo-input" id="grupo__Apellido">
+      <label for="Apellido" class="formulario__label fw-normal">Apellido 2</label>
+        <input type="text" class="formulario__input" name="Apellido2" required id="Apellido" placeholder="Perez" value="">
+        <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+        <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
+      </div>
+
     <div class="formulario__grupo-input" id="grupo__Cedula">
       <label class="formulario__label fw-normal" for="Cedula">Cedula</label>
         <input type="text" class="formulario__input" name="Cedula" required id="Cedula" placeholder="1234567892" value="">
@@ -60,12 +50,19 @@
     </div>
 
     <div class="formulario__grupo-input" id="grupo__Cargo">
-      <label class="formulario__label fw-normal" for="Cargo">Cargo</label>
-        <input type="text" class="formulario__input" name="Cargo" required id="Cargo" placeholder="Cajero" value="">
-        <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
-        <div class="formulario__input-error fw-normal"><p>SOLO NUMEROS, 7 A 14 DIGITOS.</p></div>
-    </div>
 
+      <label class="formulario__label fw-normal fw-normal" for="selectHorario">Cargo</label>
+        <select id="Horario" name="Cargo" class="form-select">
+            <option selected>Seleccionar</option>
+            <option>Administrador</option>
+            <option>Cajero</option>
+            <option>Despachador</option>
+            <option>Inventarista</option>
+        </select>
+
+        <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+        <div class="formulario__input-error fw-normal"><p>DEBE SELECCIONAR UNA OPCIÓN</p></div>
+    </div>
     <div class="formulario__grupo-input" id="grupo__Horario">
 
       <label class="formulario__label fw-normal fw-normal" for="selectHorario">Horario</label>
@@ -100,6 +97,13 @@
         <div class="formulario__input-error"><p>7 A 14 DIGITOS.</p></div>
     </div>
 
+    <div class="formulario__grupo-input" id="grupo__e_mail">
+      <label class="formulario__label" for="ingreseRespuesta">E_MAIL</label>
+        <input type="text" class="formulario__input" name="e__mail" required id="e_mail" placeholder="pepito97@gmail.com" value="">
+        <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+        <div class="formulario__input-error"><p>7 A 14 DIGITOS.</p></div>
+    </div>
+
       <!--div class="formulario__grupo-terminos" id="grupo__Terminos">
         <label class="formulario__label">
             <input class="formulario__terminos" type="checkbox" name="terminos" id="Terminos">
@@ -122,25 +126,6 @@
     </form>  
 
   </section>  
-
-  <% if (typeof bandContra === 'true') { %>
-
-    <script>      
-    let mensaje = `Tu contraseña es: <%=alertTitle2%>`;
-      let nuevocuadro = document.createElement('div');
-      let nuevoparrafo = nuevocuadro.appendChild(document.createElement('p'));
-      let nuevaima = nuevoparrafo.appendChild(document.createElement('i'));
-
-      nuevocuadro.class = "formulario__mensaje";
-      nuevaima.class = "fas fa-exclamation-triangle";
-      nuevoparrafo.id = 'Mensaje';
-      let escrito = document.getElementById('Mensaje').innerHTML = mensaje;
-      
-      console.log('1');
-      
-      </script>
-
-  <% } %>
   
      <!--SWEET ALERT 2-->
      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -153,18 +138,11 @@
                  icon: '<%= alertIcon %>',
                  showConfirmButton: '<%= showConfirmButton %>',
                  timer: <%= timer %>
-             }).then( () => {
-                 window.location= '/<%= ruta %>'
-             });
+             })
              console.log('2')
           </script>
 
      <% } %>
-
-     
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-    
-        <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
 
         <!--script type="text/javascript" src="/public/usuario/js/usuEjer.js"></script-->
 

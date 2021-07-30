@@ -1,36 +1,6 @@
-.info{
-    display: flex;
-    color: rgb(253, 248, 241);
-    background-color: #00847e;
-    height: 12%;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
 .contenedor-titulo{
     margin-top: 8vh;
     margin-bottom: 5vh;
-}
-
-.infoSesion{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.infoSesion-p1{
-    margin-bottom: 0rem;
-}
-.infoSesion-p2{
-    margin-bottom: 0rem;
-}
-.infoSesion-p3{
-    margin-bottom: 0rem;
-}
-
-.infoSesion-p4{
-    margin-bottom: 0rem;
 }
 .contenedor{
     display: flex;
@@ -132,72 +102,4 @@
     margin-bottom: 20vh;
     flex-direction: column;
     width: 65%;
-}
-
-
-.footer{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #00847e;
-}
-.left{
-
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: ivory;
-    
-}
-.center{
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: ivory;
-}
-.right{
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: ivory;
-}
-.mainFoot{
-    display: flex;
-    justify-content: center;
-    border-bottom: 5px solid tan;
-    width: 300px;
-}
-.facebook{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.linkedin{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.twitter{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.youtube{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.instagram{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
 }
