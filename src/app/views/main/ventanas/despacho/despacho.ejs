@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resource/css/despacho/despacho.css">
+    <title>Despacho</title>
+
+    <%- include ('../../template/head/head.ejs') %>
+</head>
+<body>
+    
+        <%- include ('../../template/header/header.ejs') %>
+
+            <table id='table' class="table table-striped table-bordered table-lg" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>ID_PEDIDO</th>
+                        <th>ID_CLIENTE</th>
+                        <th>FORM_PAGO</th>
+                        <th>FECH_INGRESO</th>
+                        <th>FECH_ENTREGA</th>
+                        <th>CANT_PRODUCTO</th>
+                        <th>EST_DESPACHO</th>
+                        <th>EST_RECEPCIÓN</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let ped of pedido) { %>
+                        <tr>
+                            <th scope="row"  align="center" valign="middle">  <%= ped.id %> </th>                       
+                            <td align="center" valign="middle"> <%= ped.id_cliente %> </td>                            
+                            <td align="center" valign="middle"> <%= ped.form_pago %> </td>
+                            <td align="center" valign="middle"> <%= ped.fech_ingr %> </td>
+                            <td align="center" valign="middle"> <%= ped.fech_entr %> </td>
+                            <td align="center" valign="middle"> <%= ped.cant_pro %> </td>
+                            <td align="center" valign="middle"> <%= ped.est_desp %> </td>
+                            <td align="center" valign="middle"> <%= ped.est_recep %> </td>
+
+                            <td align="center" valign="middle"> 
+                                 
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comentModal1<%= ped.id %>" data-bs-whatever="@fat" style="display: d-inline-flex;align-items: center;justify-content: center;">
+                                    <span class="material-icons">local_shipping</span>
+                                </button> 
+
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comentModal2<%= ped.id %>" data-bs-whatever="@fat" style="display: d-inline-flex;align-items: center;justify-content: center;">
+                                <span class="material-icons">shopping_bag</span>
+                                </button>
+
+                                <a type="button" href="/generaCobro/<%= ped.id %>" class="btn btn-warning"
+                                style="display: d-inline-flex;align-items: center;justify-content: center;">
+                                <span class="material-icons">description</span>
+                                </a>
+
+                             
+                                
+                                
+                            </td>
+
+                            <%- include('../../template/partial_modal/partial_modal_entrega.ejs', {ped:ped}); %>
+                            <%- include('../../template/partial_modal/partial_modal_despacho.ejs', {ped:ped}); %>
+                        </tr>
+
+                    <% } %>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ID_PEDIDO</th>
+                        <th>ID_CLIENTE</th>
+                        <th>FORM_PAGO</th>
+                        <th>FECH_INGRESO</th>
+                        <th>FECH_ENTREGA</th>
+                        <th>CANT_PRODUCTO</th>
+                        <th>EST_DESPACHO</th>
+                        <th>EST_RECEPCIÓN</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+
+
+        <div class="regresar" style="display: flex; align-items: center; justify-content: center; margin: auto;">
+            <a href="/main" class="btn btn-primary regresar" >Regresar</a>
+              <!--button class="formulario__btn2" type="button" href="../../main.html" role="button">Regresar</button-->
+        </div>
+
+        <%- include("../../template/footer/footer.ejs") %>
+
+        <% if (typeof alert != "undefined") { %> 
+            <script>
+                
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                    title: 'Esta seguro que desea generar una cuenta de cobro del pedido <%= idped %>',
+                    text: "Si generas la cuenta de cobro, el pedido se eliminara de la zona de despacho, pero podras verlo en los reportes",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si, generar cuenta de cobro',
+                    cancelButtonText: 'No, quiero seguir gestionandolo aca',
+                    reverseButtons: true
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        swalWithBootstrapButtons.fire(
+                        'Borrado de la zona de despacho',
+                        'Ahora se generara tu cuenta de cobro',
+                        'success'
+                        
+                        )
+                        
+                        
+                    } else if (
+                        
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                        'No se ha borrado de la zona de despacho',
+                        'Puedes seguir gestionando',
+                        'info'
+                        )
+                    }
+                });
+
+             </script>
+   
+        <% } %>
+ 
+    <script>
+        $(document).ready( function () {
+        $('#table').DataTable();
+        } );
+    </script>
+</body>
+</html>

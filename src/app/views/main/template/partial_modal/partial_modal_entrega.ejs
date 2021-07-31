@@ -1,0 +1,35 @@
+<div class="modal fade" id="comentModal1<%= ped.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Detalle De Recepción</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body" style="display: flex; width: auto; height: auto; flex-direction: column;">
+
+          <form action="/entregar/<%= ped.id %>" method="POST" style="justify-content: center; align-items: center; margin: auto;">
+
+            <div class="form-floating" style="margin:20px">
+              <textarea class="form-control" placeholder="Deja tu comentario aquí" name="comentario" id="floatingTextarea2" style="height: 100px"></textarea>
+              <label for="floatingTextarea2">Comentarios</label>
+            </div>
+
+            <input type="submit" name="estado" class="btn btn-primary" value="Satisfactorio" style="margin: 10px;">
+            <input type="submit" name="estado" class="btn btn-danger" value="Devolución" style="margin: 10px;">
+
+
+            <div class="modal-footer" style="justify-content: center; align-items: center; margin: auto;">
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

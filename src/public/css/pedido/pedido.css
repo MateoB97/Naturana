@@ -1,36 +1,16 @@
-.info{
-    display: flex;
-    color: rgb(253, 248, 241);
-    background-color: #00847e;
-    height: 12%;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
 .contenedor-titulo{
     margin-top: 8vh;
     margin-bottom: 5vh;
 }
-
-.infoSesion{
+.contenedor{
     display: flex;
-    justify-content: center;
+    width: 100%;
+    height: 100%;
     align-items: center;
-}
-
-.infoSesion-p1{
-    margin-bottom: 0rem;
-}
-.infoSesion-p2{
-    margin-bottom: 0rem;
-}
-.infoSesion-p3{
-    margin-bottom: 0rem;
-}
-
-.infoSesion-p4{
-    margin-bottom: 0rem;
+    flex-direction: column;
+    position: relative;
+    padding-top: 30px;
+    background-color: rgb(137, 209, 185);
 }
 
 .forCotn{
@@ -42,18 +22,8 @@
     -webkit-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
-    margin-bottom: 20vh;
     height: 80%;
     width: 65%;
-}
-.contenedor{
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    background-color: rgb(137, 209, 185);
 }
 .dataInfoP{
     display: flex;
@@ -132,72 +102,4 @@
     margin-bottom: 20vh;
     flex-direction: column;
     width: 65%;
-}
-
-
-.footer{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #00847e;
-}
-.left{
-
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: ivory;
-    
-}
-.center{
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: ivory;
-}
-.right{
-    display: flex;
-    height: 100%;
-    width: 33.3%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: ivory;
-}
-.mainFoot{
-    display: flex;
-    justify-content: center;
-    border-bottom: 5px solid tan;
-    width: 300px;
-}
-.facebook{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.linkedin{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.twitter{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.youtube{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
-}
-.instagram{
-    font-size: 30px;
-    color: ivory;
-    padding: 3px;
 }

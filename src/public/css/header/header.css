@@ -1,0 +1,39 @@
+.info{
+    display: flex;
+    color: rgb(253, 248, 241);
+    background-color: #00847e;
+    height: 12%;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.sign-out{
+    display: flex;
+    color: rgb(247, 233, 214);
+    text-align: center;
+}
+
+section{
+    height: 80vh;
+}
+
+.infoSesion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infoSesion-p1{
+    margin-bottom: 0rem;
+}
+.infoSesion-p2{
+    margin-bottom: 0rem;
+}
+.infoSesion-p3{
+    margin-bottom: 0rem;
+}
+
+.infoSesion-p4{
+    margin-bottom: 0rem;
+}

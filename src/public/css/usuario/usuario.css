@@ -19,15 +19,7 @@
     background-color: rgb(31, 158, 151);
     height: 30%;
 }
-.info{
-    display: flex;
-    color: rgb(253, 248, 241);
-    background-color: #00847e;
-    height: 12%;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
+
 /*footer*/
 .footer{
     display: flex;

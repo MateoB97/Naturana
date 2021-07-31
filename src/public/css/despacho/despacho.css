@@ -1,0 +1,12 @@
+.regresar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px;
+}
+.dataTables_wrapper{
+    margin: 30px;
+}
+.btn{
+    margin: 10px;
+}
