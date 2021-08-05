@@ -13,7 +13,7 @@
 /*form*/
 .formulario{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
     background-color: rgb(249, 242, 255);
     border-radius: 30px;
@@ -22,6 +22,7 @@
     box-shadow: 4px 7px 63px 2px rgba(0,0,0,0.75);
     height: 80%;
     width: 65%;
+    padding: 30px;
 }
 
 /*Cuadricula y colores*/
@@ -55,7 +56,7 @@
 .formulario__grupo-btn-registrar,
 .formulario__mensaje,
 .subtitulo{
-    grid-column: span 5;
+    grid-column: span 3;
     align-items: center;
     justify-content: center;
 }

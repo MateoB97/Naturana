@@ -14,46 +14,76 @@
     
     <%- include ('../../template/header/header.ejs') %>
 
-    <div class="formBuscCliente">
-        <nav class="formBuscCliente-busc navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand">Buscar Cliente</a>
-                <form class="d-flex" action="/pedido-cliente" method="POST">
-                    <input class="form-control me-2" name="valueId" type="search" placeholder="Identificación del cliente" aria-label="Search">
-                    <button class="btn btn-outline-success mx-2" type="submit">Buscar</button>
-                    <button class="btn btn-outline-success " type="submit">Limpiar</button>
-                </form>
-            </div>
-        </nav>
-    
-        <div class="formBuscCliente-table row-12">
-            <div class="col-md-6 mt4 text-center">
-                <table class="table table-striped"> 
-                    <tr>
-                        <th>IDENTIFICACION</th>
-                        <th>NOMBRE</th>
-                        <th>APELLIDO</th>
-                        <th>EMAIL</th>
-                        <th>DIRECCIÓN</th>
-                        <th>CEL</th>
-                        <th>TELÉFONO</th>
-                    </tr>
-                    <% for (let i = 0; i < cliente.length; i++) {%>
-                        <tr>
-                            <td><%= cliente[i].id_cliente%></td>
-                            <td><%= cliente[i].nombre%></td>
-                            <td><%= cliente[i].apellido%></td>
-                            <td><%= cliente[i].email%></td>
-                            <td><%= cliente[i].direccion%></td>
-                            <td><%= cliente[i].cel%></td>
-                            <td><%= cliente[i].telefono%></td>
-                        </tr>
-                    <%} %> 
-                </table>
-            </div>
-        </div>
-    </div>
-    <%- include("../../template/footer/footer.ejs") %> 
+    <section class="contenedor">
 
+                <table style="padding:10px; margin:10px;" id="table" class="table table-striped table-bordered table-lg" cellspacing="0" width="100%"> 
+                    <thead>
+                        <tr>
+                            <th>ID/CLIENTE</th>
+                            <th>NOMBRE</th>
+                            <th>APELLIDO</th>
+                            <th>APELLIDO 2</th>
+                            <th>EMAIL</th>
+                            <th>DIRECCIÓN</th>
+                            <th>CEL</th>
+                            <th>TELÉFONO</th>
+                            <th>CIUDAD</th>
+                            <th>F_NACIMIENTO</th>
+                            <th>ID/PEDIDO</th>
+                            <th>FORM/PAGO</th>
+                            <th>FECH/INGR</th>
+                            <th>FECH/ENTR</th>
+                            <th>CIUDAD/COBRO</th>
+                            <th># PRODUCTOS</th>
+                            <th>DESPACHO</th>
+                            <th>RECEPCIÓN</th>
+                            <th>COMENTARIO</th>
+                            <th>ID/PROD</th>
+                            <th>CANTIDAD</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let i = 0; i < cliente.length; i++) {%>
+                            <tr>
+                                <th scope="row"  align="center" valign="middle"><%= cliente[i].id_cliente%></th>
+                                <td align="center" valign="middle"><%= cliente[i].nombre%></td>
+                                <td align="center" valign="middle"><%= cliente[i].apellido%></td>
+                                <td align="center" valign="middle"><%= cliente[i].apellido2%></td>
+                                <td align="center" valign="middle"><%= cliente[i].email%></td>
+                                <td align="center" valign="middle"><%= cliente[i].direccion%></td>
+                                <td align="center" valign="middle"><%= cliente[i].telefono1%></td>
+                                <td align="center" valign="middle"><%= cliente[i].telefono2%></td>                   
+                                <td align="center" valign="middle"><%= cliente[i].ciudad%></td>
+                                <td align="center" valign="middle"><%= cliente[i].F_nacimiento%></td>
+
+                                <td align="center" valign="middle"><%= cliente[i].referencia%></td>
+                                <td align="center" valign="middle"><%= cliente[i].form_pago%></td>
+                                <td align="center" valign="middle"><%= cliente[i].fech_ingr%></td>
+                                <td align="center" valign="middle"><%= cliente[i].fech_entr%></td>
+                                <td align="center" valign="middle"><%= cliente[i].ciudadCob%></td>
+                                <td align="center" valign="middle"><%= cliente[i].cant_pro%></td>
+                                <td align="center" valign="middle"><%= cliente[i].est_desp%></td>
+                                <td align="center" valign="middle"><%= cliente[i].est_recep%></td>
+                                <td align="center" valign="middle"><%= cliente[i].comentario%></td>
+
+                                <td align="center" valign="middle"><%= cliente[i].id_prod %></td>
+                                <td align="center" valign="middle"><%= cliente[i].cantidad %></td>
+                            </tr>
+                        <%} %> 
+                    </tbody>
+                    
+                </table>
+                <div style="margin:30px; ">
+                    <a href="/main" class="btn btn-primary" >Regresar</a>
+                </div>
+            </section>
+
+    <%- include("../../template/footer/footer.ejs") %> 
+    <script>
+        $(document).ready( function () {
+        $('#table').DataTable();
+        } );
+    </script>
 </body>
 </html>

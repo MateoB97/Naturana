@@ -35,7 +35,28 @@ table{
     border-radius: 10px;
     border: 1.5px solid #042656;
 }
-
+.fila{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin: 1.5%;
+    padding: 1%;
+    border-radius: 10px;
+    border: 1.5px solid #042656;
+    width: 97%;
+    height: 100%;
+}
+.fila1{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin: 1.5%;
+    padding: 1%;
+    border-radius: 10px;
+    border: 1.5px solid #042656;
+    width: 97%;
+    height: 100%;
+}
 .form-select{
     margin: 1.5%;
     padding: 1%;

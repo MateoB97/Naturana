@@ -2,16 +2,20 @@ const mysql = require('mysql');
 
 const db_config ={
 
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+  connectionLimit: 1000,
+  connectTimeout : 60 * 60 * 1000,
+  acquireTimeout : 60 * 60 * 1000,
+  timeout : 60 * 60 * 1000,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
     
 };
 
 let connection;
-  
-function handleDisconnect() {
+
+function handleDisconnect(db_config) {
   
   connection = mysql.createPool(db_config); // Recreate the connection, since
                                                   // the old one cannot be reused.
@@ -36,17 +40,7 @@ function handleDisconnect() {
   });
 }
 
-handleDisconnect();
-
-
-// connection.connect((err)=>{
-//   try {
-//     console.log('connection success');
-//   } catch (error) {
-//     console.error(`Error del try ${error}`);
-//     console.error(`Error de la concection ${error}`);
-//   }
-// });
+handleDisconnect(db_config);
 
 
 module.exports = connection;

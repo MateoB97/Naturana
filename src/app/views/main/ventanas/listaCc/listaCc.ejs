@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/resource/css/listaCc/listaCc.css">
+    <title>ListaCC</title>
+
+    <%- include ('../../template/head/head.ejs') %>
+</head>
+<body>
+    <%- include ('../../template/header/header.ejs') %>
+
+    <table id='table' class="table table-striped table-bordered table-lg" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>ID_PEDIDO</th>
+                <th>ID_CLIENTE</th>
+                <th>FORM_PAGO</th>
+                <th>FECH_INGRESO</th>
+                <th>FECH_ENTREGA</th>
+                <th>CANT_PRODUCTO</th>
+                <th>EST_DESPACHO</th>
+                <th>EST_RECEPCIÓN</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(let ped of pedido) { %>
+                <tr>
+                    <th scope="row"  align="center" valign="middle">  <%= ped.referencia %> </th>                       
+                    <td align="center" valign="middle"> <%= ped.id_cliente %> </td>                            
+                    <td align="center" valign="middle"> <%= ped.form_pago %> </td>
+                    <td align="center" valign="middle"> <%= ped.fech_ingr %> </td>
+                    <td align="center" valign="middle"> <%= ped.fech_entr %> </td>
+                    <td align="center" valign="middle"> <%= ped.cant_pro %> </td>
+                    <td align="center" valign="middle"> <%= ped.est_desp %> </td>
+                    <td align="center" valign="middle"> <%= ped.est_recep %> </td>
+                    <td align="center" valign="middle">
+                        <a type="button" href="/generaCobro/<%= ped.referencia %>" class="btn btn-warning"
+                            style="display: d-inline-flex;align-items: center;justify-content: center;">
+                            <span class="material-icons">description</span>
+                            </a>
+                    </td>
+                </tr>
+            <% } %>
+            
+        </tbody>
+    </table>
+
+    <div class="regresar" style="display: flex; align-items: center; justify-content: center; margin: auto;">
+        <a href="/main" class="btn btn-primary regresar" >Regresar</a>
+          <!--button class="formulario__btn2" type="button" href="../../main.html" role="button">Regresar</button-->
+    </div>
+
+    <%- include("../../template/footer/footer.ejs") %> 
+    <script>
+        $(document).ready( function () {
+        $('#table').DataTable();
+        } );
+    </script>
+</body>
+</html>

@@ -12,8 +12,12 @@
 </head>
 <body>
     <section>
+            
+        <div class='boton_regresar' style='display:flex; justify-content: center; aling-items:center; position: absolute; left:20px; top:50px;border: 2px solid darkblue;
+        height: 90px; width: 200px; background-color: #C6BCBA'>
+            <a href="/main" class="btn btn-primary regresar" style='margin:auto'>Regresar</a>
+        </div>
 
-        <% for (let cc of cuenta_c) { <%>
             <div class="contenedor">
                 <form action='/cuentaCob' method='POST' class="formulario">
     
@@ -32,7 +36,7 @@
                             <ul>
                                 <li><b>CUENTA DE COBRO</b></li>
                                 <li><b>No.</b></li>
-                                <li><b><%= cc.no__fac  %></b></li>
+                                <li><b><!--%= cuenta_c.no__fac %--></b></li>
                             </ul>
                         </ul>
                     </div>
@@ -42,33 +46,33 @@
                     <!--div class="cuadros"-->
                         <table class="datos__Conta">
                             <tr>
-                                <td colspan="2"><b>Nombre o razón social</b></td>
-                                <td><%= cc. %></td>
+                                <td><b>Nombre o razón social</b></td>
+                                <td colspan="2"><!--%= cuenta_c.nombre %--></td>
                                 <td><b>ID/NIT</b></td>
-                                <td><%= %></td>
+                                <td colspan="2"><!--%= cuenta_c.id_cliente %--></td>
                             </tr>
                             <tr>
                                 <td><b>Dirección</b></td>
-                                <td><%= %></td>
+                                <td><!--%= cuenta_c.direccion %--></td>
                                 <td><b>Ciudad</b></td>
-                                <td><%= %></td>
+                                <td><!--%= cuenta_c.ciudad %--></td>
                                 <td><b>Teléfono</b></td>
-                                <td><%= %></td>
+                                <td><!--%= cuenta_c.telefono1 %--></td>
                             </tr>
                             <tr>
                                 <td><b>E-MAIL</b></td>
-                                <td><%= %></td>
+                                <td colspan="2"><!--%= cuenta_c.email %--></td>
                                 <td><b>Celular</b></td>
-                                <td><%= %></td>
+                                <td><!--%= cuenta_c.telefono2 %--></td>
                             </tr>
                             <tr>
-                                <td colspan="4"><b>Ciudad y fecha de la operación de cobro</b></td>
-                                <td><%= %></td>
-                                <td><%= %></td>
+                                <td><b>Ciudad y fecha de la operación de cobro</b></td>
+                                <td><!--%= cuenta_c.ciudad_c %--></td>
+                                <td colspan="4"><!--%= cuenta_c.fech_entr %--></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><b>Forma de pago</b></td>
-                                <td><%= %></td>
+                                <td><b>Forma de pago</b></td>
+                                <td><!--%= cuenta_c.form_pago %--></td>
                             </tr>
                         </table>
         
@@ -87,7 +91,7 @@
                                 <th>Vr total</th>
                             </tr>
                             <tr>
-                                <td><%= %></td>
+                                <td><%=  %></td>
                                 <td><%= %></td>
                                 <td><%= %></td>
                                 <td><%= %></td>
@@ -100,9 +104,9 @@
                                 <td><%= %></td>
                             </tr>
                             <tr>
-                                <td colspan="3">Retención en la fuente - compras en general</td>
+                                <td colspan="2">Retención en la fuente - compras en general</td>
                                 <td colspan="2"><%= %></td>
-                                <td><%= %></td>
+                                <td colspan="2"><%= %></td>
                             </tr>
                             <tr>
                                 <td colspan="7"><input type="text" name="precio_letras" placeholder="Precio en letras" size="40"></td>
@@ -118,7 +122,7 @@
                                 <td colspan="4" style="font-size: 12px; ">Consignación cta ahorros Bancolombia 274 831 39786</td>
                             </tr>
                             <tr>
-                                <td colspan="3">Firma del vendedor</td>
+                                <td>Firma del vendedor</td>
                                 <td colspan="3"><img src="" alt=""></td>
                             </tr>
                             <tr>
@@ -140,7 +144,7 @@
             
                 </form>
             </div>
-        <% } %>
+        
 
     </section>
 </body>

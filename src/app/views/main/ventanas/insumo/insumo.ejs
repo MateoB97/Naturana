@@ -27,37 +27,6 @@
     $('#table2').DataTable();
     } );
 </script>
-<div class="contenedor">    
-
-    <table id='table1' class="table table-striped table-bordered table-lg" cellspacing="0" width="100%">
-        <caption><h5>Inventario tienda</h5></caption>
-        <thead>
-            <tr>
-                <th>Referencia</th>
-                <th>Nombre</th>
-                <th>Cantidad</th>
-                <th>Valor unitario</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Referencia</th>
-                <th>Nombre</th>
-                <th>Cantidad</th>
-                <th>Valor unitario</th>
-            </tr>
-        </tfoot>
-    </table>
-
-</div>
 
 <div class="contenedor">
     
@@ -69,15 +38,20 @@
                 <th>Nombre</th>
                 <th>Cantidad</th>
                 <th>Valor unitario</th>
+                <th>Descripción</th>
             </tr>
         </thead>
         <tbody>
+        <% for(let bod of bodega) { %>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td scope="row"  align="center" valign="middle"><%= bod.id %></td>
+                <td align="center" valign="middle"><%= bod.nombre %></td>
+                <td align="center" valign="middle"><%= bod.cantidad_insu %></td>
+                <td align="center" valign="middle"><%= bod.valor_unit %></td>
+                <td align="center" valign="middle"><%= bod.descripcion %></td>
+                
             </tr>
+        <% } %>
         </tbody>
         <tfoot>
             <tr>
@@ -85,25 +59,65 @@
                 <th>Nombre</th>
                 <th>Cantidad</th>
                 <th>Valor unitario</th>
+                <th>Descripción</th>
             </tr>
         </tfoot>
     </table>
 
 </div>
+
+<div class="contenedor">    
+
+    <table id='table1' class="table table-striped table-bordered table-lg" cellspacing="0" width="100%">
+        <caption><h5>Inventario tienda</h5></caption>
+        <thead>
+            <tr>
+                <th>Referencia</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Valor unitario</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% for(let tiend of tienda) { %>
+            <tr>
+                <td scope="row"  align="center" valign="middle"><%= tiend.id %></td>
+                <td align="center" valign="middle"><%= tiend.nombre %></td>
+                <td align="center" valign="middle"><%= tiend.cantidad_Tien %></td>
+                <td align="center" valign="middle"><%= tiend.valor_unit %></td>
+                <td align="center" valign="middle"><%= tiend.descripcion %></td>
+            </tr>
+        <% } %>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Referencia</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Valor unitario</th>
+                <th>Descripción</th>
+            </tr>
+        </tfoot>
+    </table>
+
+</div>
+
 <div class="contenedor">
 
     <h5>Ingreso de existencias</h5>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+
+        <form action="/inventario" method="POST" class="fila">
+
+        <select style="grid-column: span 10; align-items: center; justify-content: center; margin:auto; " name="selec_inv" class="form-select form-select-sm" aria-label=".form-select-sm example">
             <option selected>Seleccione inventario</option>
             <option value="1">Tienda</option>
             <option value="2">Bodega</option>
-          </select>
+        </select>
 
-        <div class="row">
-
-            <div class="col-1">
+            <div style="grid-column: span 10; align-items: center; justify-content: center; margin:auto; ">
                 <div class="cajita">
-                    <img  src="/resource/css/inventario/utils/no-image-icon-23485.png" width="50" height="50">
+                    <img  src="/resource/css/inventario/utils/no-image-icon-23485.png" width="100" height="100">
                 </div>
 
                 <div class="cajita">
@@ -111,30 +125,96 @@
                 </div>
             </div>
 
-            <div class="col-3">
+            <div>
+                <label for="formGroupExampleInput" class="form-label fw-bolder">Referencia </label>
+                <input name="referencia" type="text" class="form-control" >
+            </div>
+
+            <div>
                 <label for="formGroupExampleInput" class="form-label fw-bolder">Nombre producto </label>
-                <input type="text" class="form-control" id="id" placeholder="Nombre producto" aria-label="First name">
+                <input name="producto" type="text" class="form-control" >
             </div>
 
-            <div class="col-3">
+            <div>
                 <label for="formGroupExampleInput" class="form-label fw-bolder">Cantidad </label>
-                <input type="text" class="form-control" id="id" placeholder="Nombre producto" aria-label="First name">
+                <input name="cantidad" type="text" class="form-control" >
             </div>
 
-            <div class="col-3">
+            <div>
+                <label for="formGroupExampleInput" class="form-label fw-bolder">Valor unitario</label>
+                <input name="valor" type="text" class="form-control" >
+            </div>
+
+            <div>
                 <label for="formGroupExampleInput" class="form-label fw-bolder">Descripción </label>
-                <input type="text" class="form-control" id="id" placeholder="Nombre producto" aria-label="First name">
+                <input name="descripcion" type="text" class="form-control" >
             </div>
 
+            <a type="button" style="display:flex; grid-column: span 10; justify-content: flex-start; align-items: center; " href="/insertInsumo"><span class="material-icons">local_hospital</span></a>
+
+            <div class="fila1" style="grid-column: span 10; align-items: center; justify-content: center; margin:auto; ">
+                
+                <% for(let i of insuComf) {%>
+                    <div>
+                        <label for="formGroupExampleInput" class="form-label fw-bolder">Insumo</label>
+                        <input type="text" name ="ref_insu_pro" class="form-control"></input>
+                        
+                        <label for="formGroupExampleInput" class="form-label fw-bolder">Cantidad</label>
+                        <input type="text" name="cant_insu_pro" class="form-control"></input>
+                    </div>
+                
+                <% } %>
+
+            </div>
+
+        <div style="grid-column: span 10; align-items: center; justify-content: center; margin:auto; ">
+            <button class="btn btn-primary me-md-2" type="submit">Ingresar</button>
         </div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn btn-primary me-md-2" type="button">Ingresar</button>
-            <a href="/main" class="btn btn-primary formulario__btn2" >Regresar</a>
-        </div>
+        </form>
+
+
 
 </div>
 
+           <div style="display:flex; margin:30px; justify-content:center; align-items:center;">
+             <a href="/main" class="btn btn-primary" >Regresar</a>
+            </div>
+
     <%- include("../../template/footer/footer.ejs") %> 
+
+    <% if (typeof alert != "undefined") { %> 
+        <script>
+            Swal.fire({
+                title: '<%= alertTitle %>',
+                text: '<%= alertMessage %>',
+                icon: '<%= alertIcon %>',
+                showConfirmButton: '<%= showConfirmButton %>',
+                timer: <%= timer %>
+            })
+            console.log('2')
+         </script>
+
+    <% } %>
+
+    <% if (typeof alert1 !== "undefined") { %>
+ 
+        <script>
+                
+            Swal.fire('El item ya esta registrado');
+            
+        </script>
+
+    <% } %>
+
+    <% if (typeof alert2 !== "undefined") { %>
+ 
+        <script>
+                
+            Swal.fire('Escoja un inventario');
+            
+        </script>
+
+    <% } %>
 </body>
 </html>

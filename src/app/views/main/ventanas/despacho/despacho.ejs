@@ -30,7 +30,7 @@
                 <tbody>
                     <% for(let ped of pedido) { %>
                         <tr>
-                            <th scope="row"  align="center" valign="middle">  <%= ped.id %> </th>                       
+                            <th scope="row"  align="center" valign="middle">  <%= ped.referencia %> </th>                       
                             <td align="center" valign="middle"> <%= ped.id_cliente %> </td>                            
                             <td align="center" valign="middle"> <%= ped.form_pago %> </td>
                             <td align="center" valign="middle"> <%= ped.fech_ingr %> </td>
@@ -41,15 +41,15 @@
 
                             <td align="center" valign="middle"> 
                                  
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comentModal1<%= ped.id %>" data-bs-whatever="@fat" style="display: d-inline-flex;align-items: center;justify-content: center;">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comentModal1<%= ped.referencia %>" data-bs-whatever="@fat" style="display: d-inline-flex;align-items: center;justify-content: center;">
                                     <span class="material-icons">local_shipping</span>
                                 </button> 
 
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comentModal2<%= ped.id %>" data-bs-whatever="@fat" style="display: d-inline-flex;align-items: center;justify-content: center;">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comentModal2<%= ped.referencia %>" data-bs-whatever="@fat" style="display: d-inline-flex;align-items: center;justify-content: center;">
                                 <span class="material-icons">shopping_bag</span>
                                 </button>
 
-                                <a type="button" href="/generaCobro/<%= ped.id %>" class="btn btn-warning"
+                                <a type="button" href="/generaCobro/<%= ped.referencia %>" class="btn btn-warning"
                                 style="display: d-inline-flex;align-items: center;justify-content: center;">
                                 <span class="material-icons">description</span>
                                 </a>
@@ -88,51 +88,42 @@
 
         <%- include("../../template/footer/footer.ejs") %>
 
-        <% if (typeof alert != "undefined") { %> 
+        <% if (typeof alert !== 'undefined') { %> 
             <script>
-                
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                    })
-
-                    swalWithBootstrapButtons.fire({
-                    title: 'Esta seguro que desea generar una cuenta de cobro del pedido <%= idped %>',
-                    text: "Si generas la cuenta de cobro, el pedido se eliminara de la zona de despacho, pero podras verlo en los reportes",
+                       alert='undefined';
+                Swal.fire({
+                    title: '¿Estas seguro que quieres generar la cuenta de cobro?',
+                    text: "Se generara la cuenta del pedido # <%= idped %>",
                     icon: 'warning',
                     showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
                     confirmButtonText: 'Si, generar cuenta de cobro',
-                    cancelButtonText: 'No, quiero seguir gestionandolo aca',
-                    reverseButtons: true
+                    cancelButtonText: 'Cancelar'
                     }).then((result) => {
-                    if (result.isConfirmed) {
-                        swalWithBootstrapButtons.fire(
-                        'Borrado de la zona de despacho',
-                        'Ahora se generara tu cuenta de cobro',
-                        'success'
-                        
-                        )
-                        
-                        
-                    } else if (
-                        
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                        'No se ha borrado de la zona de despacho',
-                        'Puedes seguir gestionando',
-                        'info'
-                        )
-                    }
-                });
+                        if (result.isConfirmed) {
+                            if (status==='sin status') {
+                                window.open('/<%= ruta %>')
+                            }else if (status==='rechazo') {
+                                window.location = '/despacho';
+                            }
+                             
+                        }
+                    })
 
+                
              </script>
    
         <% } %>
+        <% if (typeof alert1 !== "undefined") { %>
  
+            <script>
+                    alert1='undefined';
+                Swal.fire('Este pedido ya tiene una cuenta de cobro');
+                
+            </script>
+
+        <% } %>
     <script>
         $(document).ready( function () {
         $('#table').DataTable();

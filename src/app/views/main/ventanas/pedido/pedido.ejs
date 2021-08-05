@@ -23,67 +23,86 @@
 
         <h3 class="contenedor-titulo">Registrar pedido</h3>
 
-        <form class="forCotn">
+        <form action="/pedido" method="POST" class="formulario2">
 
-            <div class="col colL">
-                <div class="row">
-                    <label for="formGroupExampleInput" class="form-label fw-bolder">Identificación del cliente</label>
-                    <input type="text" name="idCli__ped" class="form-control" required placeholder="Identificación del cliente"
-                        aria-label="First name">
-                </div>
+            <div class="formulario__grupo-input" id="grupo__Nombre">
+                <label for="formGroupExampleInput" class="formulario__label fw-normal">Id / cliente</label>
+                <input type="text" name="idCli__ped" class="formulario__input" required placeholder="Identificación del cliente"
+                aria-label="First name">
+            <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+            <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
+            </div>
 
-                <div class="row">
-                    <label for="validationDefault04" class="form-label fw-bolder mt-1">Forma de pago</label>
+            <div class="formulario__grupo-input" id="grupo__Nombre">
+                <label for="formGroupExampleInput" class="formulario__label fw-normal">Ciudad de Cobro</label>
+                <input type="text" name="ciuCobro__ped" class="formulario__input" required placeholder="Ciudad de Cobro"
+                aria-label="First name">
+            <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+            <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
+            </div>
+
+            <div class="formulario__grupo-input" id="grupo__Horario">
+
+            <label for="validationDefault04" class="formulario__label fw-normal">Forma de pago</label>
                     <select class="form-select" name="pago__ped" id="validationDefault04" required>
                         <option selected disabled value="">Choose...</option>
                         <option>Efectivo</option>
                         <option>Tarjeta</option>
                         <option>Cuotas</option>
                     </select>
-                </div>
 
-                <div class="row">
-                    <label for="formGroupExampleInput" class="form-label fw-bolder mt-1
-                mt-1">Fecha ingreso</label>
-                    <input type="text" name="fechIng__ped" class="form-control" required placeholder="YYYY/MM/DD"
-                        aria-label="First name">
-                </div>
-                <div class="row pb-3">
-                    <label for="formGroupExampleInput" class="form-label fw-bolder mt-1">Fecha Entrega</label>
-                    <input type="text" name="fechEnt__ped" class="form-control" required placeholder="YYYY/MM/DD"
-                        aria-label="First name">
-                </div>
-                <div class="col pb-3">
-                    <submmit type="submit" action='gen_ped' method='POST' class="btn btn-secondary btn-lg">Agregar</submmit>
-                    <a class="btn btn-secondary btn-lg" href="/main" role="button">Inicio</a>
-                </div>
+            <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+            <div class="formulario__input-error"><p>DEBE SELECCIONAR UNA OPCIÓN</p></div>
             </div>
-            <div class="col colR">
-                <div class="row">
-                    <label for="formGroupExampleInput" class="form-label fw-bolder">Id Producto</label>
-                    <input type="text" name="idPro__ped" class="form-control" placeholder="Id producto" aria-label="First name">
-                </div>
-                <div class="row">
-                    <label for="formGroupExampleInput" class="form-label fw-bolder">Cantidad</label>
-                    <input type="text" name="cantPro__ped" class="form-control" placeholder="Cantidad" aria-label="First name">
-                </div>
-                <div class="row">
-                    <label for="validationDefault04" class="form-label fw-bolder mt-1">Estado Recepción</label>
-                    <select class="form-select" name="estRecep__ped" id="validationDefault04" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option>Derivada a despacho</option>
-                        <option>Cliente desiste</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <label for="validationDefault04" class="form-label fw-bolder mt-1">Estado despacho</label>
-                    <select class="form-select" name="estDesp__ped" id="validationDefault04" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option>Entregado</option>
-                        <option>Cliente desiste</option>
-                    </select>
-                </div>
+
+            <div class="formulario__grupo-input" id="grupo__Nombre">
+                <label for="formGroupExampleInput" class="formulario__label fw-normal mt-1
+                mt-1">Fecha de ingreso</label>
+                <input type="text" name="fechIng__ped" class="formulario__input" required placeholder="YYYY/MM/DD"
+                aria-label="First name">
+            <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+            <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
             </div>
+
+            <div class="formulario__grupo-input" id="grupo__Nombre">
+                <label for="formGroupExampleInput" class="formulario__label fw-normal mt-1">Fecha de Entrega</label>
+                    <input type="text" name="fechEnt__ped" class="formulario__input" required placeholder="YYYY/MM/DD"
+                        aria-label="First name">
+            <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+            <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
+            </div>
+
+             <div class="formulario__grupo-input" id="grupo__Nombre">
+                    <label for="formGroupExampleInput" class="formulario__label fw-normal">Referencia unica</label>
+                    <input type="text" name="referencia" class="formulario__input" placeholder="Referencia" aria-label="First name">
+            <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
+            <div class="formulario__input-error"><p>SOLO LETRAS EN MAYUSCULA, 1 A 40 DIGITOS.</p></div>
+            </div>
+
+            <a type="button" style="display:flex; grid-column: span 3; justify-content: flex-start; align-items: center; " href="/insertProducto"><span class="material-icons">local_hospital</span></a>
+
+            <div class="fila1" style="grid-column: span 3; align-items: center; justify-content: center; margin:auto; ">
+                
+                <% for(let i of prodComf) {%>
+                    <div>
+                        <label for="formGroupExampleInput" class="form-label fw-bolder">Producto</label>
+                        <input type="text" name ="ref_pro_ped" class="form-control"></input>
+                        
+                        <label for="formGroupExampleInput" class="form-label fw-bolder">Cantidad</label>
+                        <input type="text" name="cant_pro_ped" class="form-control"></input>
+                    </div>
+                
+                <% } %>
+
+            </div>
+
+  <div class="formulario__grupo formulario__grupo-btn-registrar" style='margin-bottom:20px;'>
+      <button type="submit" class="formulario__btn">Agregar</button>
+      <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Se registro correctamente</p>
+  </div> 
+            
+
+
             <% if (typeof alert != "undefined") { %> 
                 <script>
                     Swal.fire({
@@ -98,51 +117,45 @@
         </form>
 
         <h3 class="contenedor-titulo">Buscar producto</h3>
-        <div class="formBuscProd">
-            <nav class="formBuscProd-busc navbar navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand">Buscar Producto</a>
-                    <form action="bus_pro" method="POST" class="d-flex">
-                        <input class="form-control me-2" name="inpBus_pro" type="search" placeholder="Número del producto"
-                            aria-label="Search">
-                        <button class="btn btn-outline-success mx-2" type="submit">Buscar</button>
-                        <button class="btn btn-outline-success" type="submit">Limpiar</button>
-                    </form>
-                </div>
-            </nav>
 
-            <div class="formBuscProd-table row-12">
-                <div class="col-md-12 mt4 text-center">
-                    <table class="table table-striped">
-                        <tr>
-                            <th>REFERENCIA</th>
-                            <th>NOMBRE</th>
-                            <th>VALOR UNITARIO</th>
-                            <th>CANTIDAD INSUMO</th>
-                            <th>CANTIDAD DISPONIBLE</th>
-                        </tr>
-                        <tr>
+    <table style="padding:10px; margin:10px;" id="table" class="table table-striped table-bordered table-lg" cellspacing="0" width="100%">
 
-                            <% for (let i = 0; i < producto.length; i++) {%>
-                                <tr>
-                                    <td><%= producto[i].id%></td>
-                                    <td><%= producto[i].nombre%></td>
-                                    <td><%= producto[i].cantidad_Tien %></td>
-                                    <td><%= producto[i].valor_unit %></td>
-                                    <td><%= producto[i].cantidad_ins_consum %></td>
-                                </tr>
-                            <%} %> 
+        <thead>
+            <tr >
+                <th>REFERENCIA</th>
+                <th>NOMBRE</th>
+                <th>CANTIDAD DISPONIBLE</th>
+                <th>VALOR UNITARIO</th>
+                <th>CANTIDAD INSUMO</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < producto.length; i++) { %>
+            <tr >
 
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
+                <th scope="row" align="center" valign="middle"><%= producto[i].id%></th>
+                <td align="center" valign="middle"><%= producto[i].nombre%></td>
+                <td align="center" valign="middle"><%= producto[i].cantidad_Tien %></td>
+                <td align="center" valign="middle"><%= producto[i].valor_unit %></td>
+                <td align="center" valign="middle"><%= producto[i].cantidad_ins_consum %></td>
+
+            </tr>
+            <% } %> 
+        </tbody>
         
+    </table>
+
+           <div style="margin:30px; ">
+             <a href="/main" class="btn btn-primary" >Regresar</a>
+            </div>
 </section> 
     <%- include("../../template/footer/footer.ejs") %> 
-
- 
+    <script>
+        $(document).ready( function () {
+        $('#table').DataTable();
+        } );
+    </script>
 </body>
 
 </html>
