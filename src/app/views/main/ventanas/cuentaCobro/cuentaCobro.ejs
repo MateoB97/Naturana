@@ -13,7 +13,7 @@
 <body>
     <section>
             
-        <div class='boton_regresar' style='display:flex; justify-content: center; aling-items:center; position: absolute; left:20px; top:50px;border: 2px solid darkblue;
+        <div class='boton_regresar' style='display:flex; justify-content: center; align-items:center; position: absolute; left:20px; top:50px;border: 2px solid darkblue;
         height: 90px; width: 200px; background-color: #C6BCBA'>
             <a href="/main" class="btn btn-primary regresar" style='margin:auto'>Regresar</a>
         </div>
@@ -23,7 +23,7 @@
     
                     <div class="cuadros">
         
-                        <img class="logo" src="/resource/css/cuentaCobro/cuentaCobro.css" width="250" height="125">
+                        <img class="logo" src="/resource/css/cuentaCobro/utils/logoCc_09.png" width="240" height="120">
                         <ul class="encabezado">
                             <li><b>Daniel Felipe Zapata Bustamante</b></li>
                             <li><b>NIT 1.017.153.447-8</b></li>
@@ -36,7 +36,7 @@
                             <ul>
                                 <li><b>CUENTA DE COBRO</b></li>
                                 <li><b>No.</b></li>
-                                <li><b><!--%= cuenta_c.no__fac %--></b></li>
+                                <li><b><%= cuenta_c.result3.no__fac %></b></li>
                             </ul>
                         </ul>
                     </div>
@@ -47,32 +47,32 @@
                         <table class="datos__Conta">
                             <tr>
                                 <td><b>Nombre o razón social</b></td>
-                                <td colspan="2"><!--%= cuenta_c.nombre %--></td>
+                                <td colspan="2"><%= cuenta_c.result3.nombre %></td>
                                 <td><b>ID/NIT</b></td>
-                                <td colspan="2"><!--%= cuenta_c.id_cliente %--></td>
+                                <td colspan="2"><%= cuenta_c.result3.id_cliente %></td>
                             </tr>
                             <tr>
                                 <td><b>Dirección</b></td>
-                                <td><!--%= cuenta_c.direccion %--></td>
+                                <td><%= cuenta_c.result3.direccion %></td>
                                 <td><b>Ciudad</b></td>
-                                <td><!--%= cuenta_c.ciudad %--></td>
+                                <td><%= cuenta_c.result3.ciudad %></td>
                                 <td><b>Teléfono</b></td>
-                                <td><!--%= cuenta_c.telefono1 %--></td>
+                                <td><%= cuenta_c.result3.telefono1 %></td>
                             </tr>
                             <tr>
                                 <td><b>E-MAIL</b></td>
-                                <td colspan="2"><!--%= cuenta_c.email %--></td>
+                                <td colspan="2"><%= cuenta_c.result3.email %></td>
                                 <td><b>Celular</b></td>
-                                <td><!--%= cuenta_c.telefono2 %--></td>
+                                <td><%= cuenta_c.result3.telefono2 %></td>
                             </tr>
                             <tr>
                                 <td><b>Ciudad y fecha de la operación de cobro</b></td>
-                                <td><!--%= cuenta_c.ciudad_c %--></td>
-                                <td colspan="4"><!--%= cuenta_c.fech_entr %--></td>
+                                <td><%= cuenta_c.result3.ciudad_c %></td>
+                                <td colspan="4"><%= cuenta_c.result3.fech_entr %></td>
                             </tr>
                             <tr>
                                 <td><b>Forma de pago</b></td>
-                                <td><!--%= cuenta_c.form_pago %--></td>
+                                <td><%= cuenta_c.result3.form_pago %></td>
                             </tr>
                         </table>
         
@@ -91,11 +91,11 @@
                                 <th>Vr total</th>
                             </tr>
                             <tr>
-                                <td><%=  %></td>
-                                <td><%= %></td>
-                                <td><%= %></td>
-                                <td><%= %></td>
-                                <td><%= %></td>
+                                <td><%=cuenta_c.result4.id_gasto  %></td>
+                                <td><%=cuenta_c.result4.nombre %></td>
+                                <td><%=cuenta_c.result4.id_prod %></td>
+                                <td><%=cuenta_c.result4.cantidad %></td>
+                                <td><%=cuenta_c.result4.valor_unit %></td>
                                 <td><%= %></td>
                             </tr>
         
@@ -117,8 +117,7 @@
                     <!--div class="cuadros"-->
                         <table class="pago" >
                             <tr>
-                                <td>Efectivo</td>
-                                <td><%= %></td>
+                                <td><%= cuenta_c.result3.form_pago %></td>
                                 <td colspan="4" style="font-size: 12px; ">Consignación cta ahorros Bancolombia 274 831 39786</td>
                             </tr>
                             <tr>

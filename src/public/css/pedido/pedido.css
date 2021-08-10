@@ -24,6 +24,9 @@
 .row{
     padding:20px;
 }
+.col-sm-12{
+    overflow:auto;
+}
 .formulario__label{
     display: block;
     font-weight: 100;

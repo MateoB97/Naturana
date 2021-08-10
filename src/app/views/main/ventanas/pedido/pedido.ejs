@@ -100,10 +100,8 @@
       <button type="submit" class="formulario__btn">Agregar</button>
       <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Se registro correctamente</p>
   </div> 
-            
 
-
-            <% if (typeof alert != "undefined") { %> 
+            <% if (typeof alert1 === "boolean") { %> 
                 <script>
                     Swal.fire({
                         title: '<%= alertTitle %>',
@@ -113,8 +111,69 @@
                         timer: <%= timer %>
                     })
                  </script>
-            <% } %>
+            <% } else if (alert2 === 'false1'){ %>
+
+                <script>
+                  Swal.fire('El pedido ya esta registrado');
+                </script>
+          
+          <% } else if (typeof alert3 === "boolean") { %> 
+            <script>
+                Swal.fire({
+                    title: '<%= alertTitle %>',
+                    text: '<%= alertMessage %>',
+                    icon: '<%= alertIcon %>',
+                    showConfirmButton: '<%= showConfirmButton %>',
+                    timer: <%= timer %>
+                })
+             </script>
+        <% }else if (alert4 === 'false2') { %>
+   
+         <script>
+           Swal.fire('El cliente ya esta registrado');
+         </script>
+         <% } %>
+
         </form>
+
+        <h3 class="contenedor-titulo">Buscar cliente</h3>
+
+    <table style="padding:10px; margin:10px;" id="table1" class="table table-striped table-bordered table-lg" cellspacing="0" width="100%">
+
+        <thead>
+            <tr >
+                <th>ID</th>
+                <th>NOMBRE</th>
+                <th>EMAIL</th>
+                <th>APELLIDO 1</th>
+                <th>APELLIDO 2</th>
+                <th>DIRECCIÓN</th>
+                <th>CIUDAD</th>
+                <th>TELEFONO 1</th>
+                <th>TELEFONO 2</th>
+                <th>F_NACIMIENTO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < cliente.length; i++) { %>
+            <tr >
+
+                <th scope="row" align="center" valign="middle"><%= cliente[i].id%></th>
+                <td align="center" valign="middle"><%= cliente[i].nombre%></td>
+                <td align="center" valign="middle"><%= cliente[i].email %></td>
+                <td align="center" valign="middle"><%= cliente[i].apellido %></td>
+                <td align="center" valign="middle"><%= cliente[i].apellido2 %></td>
+                <td align="center" valign="middle"><%= cliente[i].direccion %></td>
+                <td align="center" valign="middle"><%= cliente[i].ciudad %></td>
+                <td align="center" valign="middle"><%= cliente[i].telefono1 %></td>
+                <td align="center" valign="middle"><%= cliente[i].telefono2 %></td>
+                <td align="center" valign="middle"><%= cliente[i].F_nacimiento %></td>
+            </tr>
+            <% } %> 
+        </tbody>
+        
+    </table>
+
 
         <h3 class="contenedor-titulo">Buscar producto</h3>
 
@@ -154,6 +213,11 @@
     <script>
         $(document).ready( function () {
         $('#table').DataTable();
+        } );
+    </script>
+    <script>
+        $(document).ready( function () {
+        $('#table1').DataTable();
         } );
     </script>
 </body>

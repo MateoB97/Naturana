@@ -150,7 +150,23 @@
                 <input name="descripcion" type="text" class="form-control" >
             </div>
 
-            <a type="button" style="display:flex; grid-column: span 10; justify-content: flex-start; align-items: center; " href="/insertInsumo"><span class="material-icons">local_hospital</span></a>
+            <!-- <script>
+            const EventEmitter = require('events');
+
+            class MyEmitter extends EventEmitter {}
+
+            const myEmitter = new MyEmitter();
+
+            myEmitter.on('click1',()=>{
+                console.log('clicked');
+              globalConec.numInsu = globalConec.numInsu + 1;
+              globalConec.insuComf.push(1);
+              //res.redirect('/insumo');
+                        
+           });
+            </script> -->
+
+            <a type="button" href="/insertInsumo" style="display:flex; grid-column: span 10; justify-content: flex-start; align-items: center; "><span class="material-icons">local_hospital</span></a>
 
             <div class="fila1" style="grid-column: span 10; align-items: center; justify-content: center; margin:auto; ">
                 
@@ -183,7 +199,7 @@
 
     <%- include("../../template/footer/footer.ejs") %> 
 
-    <% if (typeof alert != "undefined") { %> 
+    <% if (typeof alert !== "string") { %> 
         <script>
             Swal.fire({
                 title: '<%= alertTitle %>',
@@ -192,12 +208,9 @@
                 showConfirmButton: '<%= showConfirmButton %>',
                 timer: <%= timer %>
             })
-            console.log('2')
          </script>
 
-    <% } %>
-
-    <% if (typeof alert1 !== "undefined") { %>
+    <% }else if (typeof alert1 !== "string" ) { %>
  
         <script>
                 
@@ -205,10 +218,8 @@
             
         </script>
 
-    <% } %>
+    <% }else if (typeof alert2 !== "string"){ %>
 
-    <% if (typeof alert2 !== "undefined") { %>
- 
         <script>
                 
             Swal.fire('Escoja un inventario');

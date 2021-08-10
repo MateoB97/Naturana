@@ -1,4 +1,4 @@
-<div class="modal fade" id="comentModal1<%= ped.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="comentModal1<%= ped.referencia %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog">
 
@@ -11,7 +11,7 @@
 
         <div class="modal-body" style="display: flex; width: auto; height: auto; flex-direction: column;">
 
-          <form action="/entregar/<%= ped.id %>" method="POST" style="justify-content: center; align-items: center; margin: auto;">
+          <form action="/entregar/<%= ped.referencia %>" method="POST" style="justify-content: center; align-items: center; margin: auto;">
 
             <div class="form-floating" style="margin:20px">
               <textarea class="form-control" placeholder="Deja tu comentario aquí" name="comentario" id="floatingTextarea2" style="height: 100px"></textarea>

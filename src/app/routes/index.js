@@ -6,7 +6,11 @@ const mysql = require('mysql');
 const nodemailer = require("nodemailer");
 const {google} = require ("googleapis"); 
 const OAuth2 = google.auth.OAuth2;
+
+
+//UTILS
 const dateTransformer = require('../utils/date_transformation');
+const enteros = require('../utils/tansformacion_enteros')
 
 module.exports = (app) => {
 
@@ -16,17 +20,12 @@ module.exports = (app) => {
    let firstName;
    let lastName;
    let globalConec = {
-      statusCc:'sin status',
-      idped:'undefined',
-      alert:'undefined',
-      alert1:'undefined',
-      alert2: 'undefined',
       insuComf: comf = [1],
-      numInsu: num=0,
       prodComf: comf = [1],
-      numProd: num = 0
+      statusCc: 'sin status'
    };
    //Routes and connection  with views and database
+
 
    //gets
    app.get('/', (req, res) => {
@@ -155,27 +154,23 @@ module.exports = (app) => {
 
    app.get('/insumo', (req, res) => {
 
-      let numInsu = globalConec.numInsu;
       let insuComf = globalConec.insuComf;
       let alert = globalConec.alert;
       let alert1 = globalConec.alert1;
       let alert2 = globalConec.alert2;
-
-      console.log(numInsu);
-      console.log(insuComf);
 
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
       } else {
             try {
 
-               connection.query('SELECT * FROM insumos', (err1,result1) => {
+               connection.query('SELECT * FROM insumos', async (err1,result1) => {
                   //console.log(result1);
                   if (err1) {
                      console.log(err1);
                   }else{
 
-                     connection.query('SELECT * FROM producto',(err2,result2) =>{
+                    await connection.query('SELECT * FROM producto',(err2,result2) =>{
                         if (err2) {
                            console.log(err2)
                         }else{
@@ -190,18 +185,22 @@ module.exports = (app) => {
                               alert1:alert1,
                               alert2:alert2,
                               alertTitle: 'Registro Exitoso',
-                              alertMessage: "Su usuario y contraseña se enviaran a su correo",
+                              alertMessage: "Inventario actualizado",
                               alertIcon: "success",
                               showConfirmButton: false,
                               timer: 25000
 
                            });
-                           
+
                         }
                      })
 
                   }
                })
+
+               globalConec.alert = 'undefined';
+               globalConec.alert1 = 'undefined';
+               globalConec.alert2 = 'undefined';
 
             } catch (error) {
                console.error(`Error del try ${error}`);
@@ -217,80 +216,112 @@ module.exports = (app) => {
    app.get('/insertInsumo', (req,res) => {
    
       globalConec.numInsu = globalConec.numInsu + 1;
-   
       globalConec.insuComf.push(1);
       res.redirect('/insumo');
    })
 
    app.get('/pedido', async (req, res) => {
 
-      let numProd = globalConec.numProd;
       let prodComf = globalConec.prodComf;
- 
+      let cliente = globalConec.clienteExitoso;
+      let pedido = globalConec.pedidoExitoso;
+
+      console.log(cliente);
+      console.log(pedido);
 
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
       } else {
-            try {
-              await connection.query("SELECT * FROM producto",(err,result2)=>{
-                  try {
-                     if (globalConec.clienteExitoso) {
-                        globalConec.clienteExitoso=false;
-                        res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
-                           firstName:firstName,
-                           lastName:lastName,
-                           producto:result2,
-                           prodComf:prodComf,
-                           numProd:numProd,
-                           alert:true,
-                           alertTitle: 'Registro',
-                           alertMessage: "Registro Exitoso",
-                           alertIcon: "success",
-                           showConfirmButton: false,
-                           timer: 1500,
+         try {
+            await connection.query("SELECT * FROM cliente",async (err1,result1) =>{
+               try {
+                  result1.map( (result) => {
+                     dateTransformer.resultToTable(result);
+                   });
+                  await connection.query("SELECT * FROM producto",async (err,result2)=>{
+                      try {
+                         if (cliente===true) {
+    
+                            res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
+                               firstName:firstName,
+                               lastName:lastName,
+                               cliente:result1,
+                               producto:result2,
+                               prodComf:prodComf,
+                               alert3:cliente,
+                               alert2:pedido,
+                               alertTitle: 'Registro',
+                               alertMessage: "Registro Exitoso",
+                               alertIcon: "success",
+                               showConfirmButton: false,
+                               timer: 1500
+                               
+                            });
+                            globalConec.clienteExitoso='false';
                            
-                        });
-                     }
-                     else if (globalConec.pedidoExitoso) {
-                        globalConec.pedidoExitoso=false;
-                        res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
-                           firstName:firstName,
-                           lastName:lastName,
-                           producto:result2,
-                           prodComf:prodComf,
-                           numProd:numProd,
-                           alert:true,
-                           alertTitle: 'Pedido registrado',
-                           alertMessage: "Exito",
-                           alertIcon: "success",
-                           showConfirmButton: false,
-                           timer: 1500,
-                           
-                        });
-                     }
-                     else{
-                        res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
-                           firstName:firstName,
-                           lastName:lastName,
-                           producto:result2,
-                           prodComf:prodComf,
-                           numProd:numProd
-                        });
-                     }
-  
-                  } catch (error) {
-                     console.error(`Error del tercer try ${error}`);
-                     console.error(`Error de la tercera consulta ${err}`);
-                  }
-               });
+                         }else if (cliente==='false2' || pedido==='false1') {
+                           res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
+                              firstName:firstName,
+                              lastName:lastName,
+                              cliente:result1,
+                              producto:result2,
+                              prodComf:prodComf,
+                              alert4:cliente,
+                              alert2:pedido
+                           });
+                           globalConec.clienteExitoso='false';
+                         }
+                         else if (pedido===true) {
+     
+                            res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
+                               firstName:firstName,
+                               lastName:lastName,
+                               cliente:result1,
+                               producto:result2,
+                               prodComf:prodComf,
+                               alert1:pedido,
+                               alert4:cliente,
+                               alertTitle: 'Pedido registrado',
+                               alertMessage: "Exito",
+                               alertIcon: "success",
+                               showConfirmButton: false,
+                               timer: 1500,
+                               
+                            });
+                            globalConec.pedidoExitoso='false';
+                         }
+                           else{
+                            res.status(200).render('../views/main/ventanas/pedido/pedido.ejs',{
+                               firstName:firstName,
+                               lastName:lastName,
+                               producto:result2,
+                               cliente:result1,
+                               prodComf:prodComf,
+                               alert2:true,
+                               alert4:true
+                            });
+                         }
+      
+                      } catch (error) {
+                         console.error(`Error del tercer try ${error}`);
+                         console.error(`Error de la tercera consulta ${err}`);
+                      }
+                   });
+    
+             } catch (error) {
+                console.error(`Error del segundo try ${error}`);
+                console.error(`Error del segundo query ${err}`);
+             }
 
+            });
          } catch (error) {
-            console.error(`Error del segundo try ${error}`);
-            console.error(`Error del segundo query ${err}`);
+            console.error(`Error del primer try ${error}`);
+            console.error(`Error del primer query ${err}`);
             flagLogin = false;
             globalEmail = '';
             res.redirect('/');
          }
+            
       }
    });
 
@@ -301,122 +332,174 @@ module.exports = (app) => {
       res.redirect('/pedido');
    });
 
-   app.get('/despacho', (req, res) => {
+   app.get('/despacho', async (req, res) => {
 
       let idped = globalConec.idped;
+      let alert = globalConec.statusCc;
 
-      connection.query("SELECT * FROM pedido ",
-      (err, results) => {
+      console.log(alert);
+
+      await connection.query("SELECT * FROM pedido ",
+      async (err, results) => {
         if (err) {
            console.log(err);
         }else{
 
-        results.map( (result) => {
-         dateTransformer.resultToTable(result);
-         //result.is_active == 1 ? result.is_active = "Sí" : result.is_active = "No";
-       });
+            await results.map( (result) => {
+               dateTransformer.resultToTable(result);
+            });
 
-       console.log(globalConec.statusCc); 
+            await enteros.resultado(results);
 
-       if (globalConec.statusCc==='sin status') {
-          if (globalConec.alert) {
-              console.log(globalConec.alert);
-            globalConec.alert="undefined";
-            res.render('../views/main/ventanas/despacho/despacho.ejs', {
-            pedido: results,
-            firstName: firstName,
-            lastName: lastName,
-            alert:true,
-            idped:idped,
-            ruta: 'cuentaCobro',
-            status:globalConec.statusCC
-           });
-          }else{
-             res.render('../views/main/ventanas/despacho/despacho.ejs', {
-            pedido: results,
-            firstName: firstName,
-            lastName: lastName,
-            alert:'undefined',
-            idped:idped,
-            ruta: 'cuentaCobro'
-           });
-          }
-
-       }else if (globalConec.statusCc==='rechazo') {
-          globalConec.statusCc = "sin status";
-         res.render('../views/main/ventanas/despacho/despacho.ejs', {
-            pedido: results,
-            firstName: firstName,
-            lastName: lastName,
-            alert1:true,
-            idped:idped,
-            ruta: 'despacho',
-            status:globalConec.statusCC
-           });
-         }
- 
-       } 
+               res.render('../views/main/ventanas/despacho/despacho.ejs', {
+                  pedido: results,
+                  firstName: firstName,
+                  lastName: lastName,
+                  alert:alert,
+                  alert1:alert,
+                  idped:idped,
+                  ruta:'cuentaCobro',
+                  status:alert
+               });
+         } 
 
       }) 
-
+      globalConec.statusCc = 'sin status';
    });
 
-   app.get("/generaCobro/:id", (req, res) => {
-      const id = req.params.id;
-
-      console.log(id);
-      globalConec.alert=true;
+   app.get("/generaCobro/:referencia", async (req, res) => {
+      const id = req.params.referencia;
       globalConec.idped = id;
-      res.redirect('/despacho');
+
+      await connection.query('SELECT * FROM pedido WHERE referencia = ?',id
+      , async (err,results) => {
+
+         await results.map( (result) => {
+            dateTransformer.resultToTable(result);
+         });
+
+         console.log(results);
+
+         if (err) {
+            console.log(err);
+
+         }else if (results[0].statusCc === 'preparado'){
+            
+            globalConec.statusCc = 'rechazo';
+            let preparado= globalConec.statusCc;
+
+            await connection.query('UPDATE pedido SET ? WHERE referencia = ?',[{
+               statusCc:preparado
+            },id],(err,result) => {
+               if (err) {
+                  console.log(err);
+               }else{
+                  console.log(result);
+                  res.redirect('/despacho');
+            
+               }
+            })
+            
+         }else if (results[0].statusCc === 'rechazo'){
+            globalConec.statusCc = 'sin status';
+            let rechazo = globalConec.statusCc;
+
+            await connection.query('UPDATE pedido SET ? WHERE referencia = ?',[{
+               statusCc:rechazo
+            },id],(err,result) => {
+               if (err) {
+                  console.log(err);
+               }else{
+                  console.log(result);
+                  res.redirect('/despacho');
+               }
+            })
+
+         }else if (results[0].statusCc === 'sin status'){
+
+            globalConec.statusCc='preparado';
+            let sin_status = globalConec.statusCc;
+
+            await connection.query('UPDATE pedido SET ? WHERE referencia = ?',[{
+               statusCc:sin_status
+            },id],(err,result) => {
+               if (err) {
+                  console.log(err);
+               }else{
+                  console.log(result);
+                  res.redirect('/despacho');
+               }
+            })
+
+         }
+      })
+
 
    });
 
-   app.get('/cuentaCobro', (req, res) => {
+   app.get('/cuentaCobro/:id', async (req, res) => {
 
-      res.render('../views/main/ventanas/cuentaCobro/cuentaCobro.ejs');
-      /*
-   const id = globalConec.idped;
+   const id1 = req.params.id;
 
-   console.log(id);
-
-   connection.query('SELECT * FROM cuenta_c WHERE id__ped = ?',[id],
-   (err,result1) => {
+   await connection.query('SELECT * FROM cuenta_c WHERE id__ped = ?',[id1],
+   async (err,result1) => {
+     
       if (err) {
          console.log(err);
       }else if (result1.length===0) {
+         
          console.log(result1);
-         connection.query('INSERT INTO cuenta_c SET ?',{
-            id__ped:id
-         },(err,result2) => {
-            if (err) {
-               console.log(err);
+
+         await connection.query('INSERT INTO cuenta_c SET ?',{
+            id__ped:id1
+         },async (err2,result2) => {
+            if (err2) {
+               console.log(err2);
             }else{
-               connection.query('SELECT * FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente LEFT JOIN cuenta_c ON pedido.id = cuenta_c.id__ped WHERE pedido.id = ? UNION SELECT * FROM cliente RIGHT JOIN pedido ON cliente.id = pedido.id_cliente RIGHT JOIN cuenta_c ON pedido.id = cuenta_c.id__ped WHERE pedido.id = ?',
-               [id,id]
-               ,(err,result3) => {
-                  if (err) {
-                     console.log(err);
+               
+              await connection.query('SELECT * FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente LEFT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ? UNION SELECT * FROM cliente RIGHT JOIN pedido ON cliente.id = pedido.id_cliente RIGHT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ?',
+               [id1,id1]
+               ,async (err3,result3) => {
+                  if (err3) {
+                     console.log(err3);
                   }else{
+
                      result3.map( (result) => {
                         dateTransformer.resultToTable(result);
                       });
-                     console.log(result3[0]);
-                    res.render('../views/main/ventanas/cuentaCobro/cuentaCobro.ejs',{
-                        cuenta_c: result3[0]
-                     });
+
+                     // console.log(result3[0]);
+
+                     await connection.query('SELECT * FROM produc_gasto RIGHT JOIN pedido ON produc_gasto.id_ped = pedido.referencia RIGHT JOIN producto ON produc_gasto.id_prod = producto.id WHERE pedido.referencia = ?',
+                     [id1],(err4,result4)=>{
+                        if (err4) {
+                           console.log(err4);
+                        }else {
+
+                           //console.log(result4);
+
+                           let resultados = {
+                              result3:result3[0],
+                              result4:result4[0]
+                           }
+
+                           console.log(resultados);
+
+                           res.render('../views/main/ventanas/cuentaCobro/cuentaCobro.ejs',{
+                              cuenta_c: resultados
+                           });
+                        }
+                     })
+                     
                   }
                })
             }
          })
       }else{
-         globalConec.statusCc = 'rechazo';
-         res.redirect('/despacho');
+         //globalConec.statusCc = 'rechazo';
+         
       }
    })
-   
-   if (globalConec.idped !== 'undefined') {
-      globalConec.idped = 'undefined';
-    }
 
     //console.log(id);*/
    });
@@ -460,8 +543,6 @@ module.exports = (app) => {
 
    app.get('/listaCc',(req,res) => {
 
-      let idped = globalConec.idped;
-
       connection.query("SELECT * FROM pedido ",
       (err, results) => {
         if (err) {
@@ -471,57 +552,18 @@ module.exports = (app) => {
         results.map( (result) => {
          dateTransformer.resultToTable(result);
          //result.is_active == 1 ? result.is_active = "Sí" : result.is_active = "No";
-       });
+         });
 
-       console.log(globalConec.statusCc); 
-
-       if (globalConec.statusCc==='sin status') {
-
-          if (globalConec.alert) {
-
-            console.log(globalConec.alert);
-
-            globalConec.alert="undefined";
+         console.log(globalConec.statusCc); 
 
             res.render('../views/main/ventanas/listaCc/listaCc.ejs', {
             pedido: results,
             firstName: firstName,
             lastName: lastName,
-            alert:true,
-            idped:idped,
-            ruta: 'cuentaCobro',
-            status:globalConec.statusCC
-
-           });
-          }else{
-
-             res.render('../views/main/ventanas/listaCc/listaCc.ejs', {
-            pedido: results,
-            firstName: firstName,
-            lastName: lastName,
-            alert:'undefined',
-            idped:idped,
             ruta: 'cuentaCobro'
+
            });
-          }
-
-       }else if (globalConec.statusCc==='rechazo') {
-          globalConec.statusCc = "sin status";
-
-         res.render('../views/main/ventanas/listaCc/listaCc.ejs', {
-            pedido: results,
-            firstName: firstName,
-            lastName: lastName,
-            alert1:true,
-            idped:idped,
-            ruta: 'despacho',
-            status:globalConec.statusCC
-           });
-
          }
- 
-       } 
-
       })
    });
 
@@ -717,10 +759,9 @@ module.exports = (app) => {
 
    app.post('/cli_input', (req,res)=>{
 
-      let numProd = globalConec.numProd;
-      let prodComf = globalConec.prodComf;
+      globalConec.clienteExitoso = 'false';
+      globalConec.pedidoExitoso = 'false';
 
-      
       const {Nombre,Apellido,Apellido2,Cedula,Email,direccion,ciudad,telefono,telefono2,F_nacimiento} = req.body;
       console.log(req.body);
       try {
@@ -730,6 +771,8 @@ module.exports = (app) => {
                console.log(err);
             }else if (results.length === 0){
                
+               globalConec.clienteExitoso = true;
+
                let sql = `INSERT INTO cliente SET ?`;
 
                connection.query(sql,{
@@ -747,27 +790,15 @@ module.exports = (app) => {
                if (err1) {
                    console.log(err1);
                }else{
-                  globalConec.clienteExitoso = true;
+                  
                   res.redirect('/pedido');
-                  console.log(results1);
                 }
                })
             }
             else{
+               globalConec.clienteExitoso = 'false2';
                res.redirect('/pedido');
-              /* res.render('../views/main/ventanas/pedido/pedido.ejs', {
-                  alert: true,
-                  alertTitle: "Error",
-                  alertMessage: "ID repetido",
-                  alertIcon: "warning",
-                  showConfirmButton: true,
-                  timer: false,
-                  ruta: 'pedido',
-                  prodComf:prodComf,
-                  numProd:numProd,
-                  firstName:firstName,
-                  lastName:lastName
-               });   */
+
             }
          })
       } catch (error) {
@@ -776,11 +807,10 @@ module.exports = (app) => {
       
    });
    
-   app.post("/despachar/:id", (req, res) => {
-      const id = req.params.id;
-      const { comentario,estado } = req.body;
+   app.post("/despachar/:referencia", (req, res) => {
+      const id = req.params.referencia;
    
-      console.log(req.body);
+      console.log(id);
    
       connection.query('UPDATE pedido SET ? WHERE referencia =?',[{
          comentario:req.body.comentario,
@@ -797,11 +827,10 @@ module.exports = (app) => {
    
    });
 
-   app.post("/entregar/:id", (req, res) => {
-      const id = req.params.id;
-      const { comentario,estado } = req.body;
+   app.post("/entregar/:referencia", (req, res) => {
+      const id = req.params.referencia;
    
-      console.log(req.body);
+      console.log(id);
    
       connection.query('UPDATE pedido SET ? WHERE referencia =?',[{
          comentario:req.body.comentario,
@@ -818,26 +847,25 @@ module.exports = (app) => {
    
    });
 
-    app.post("/inventario", (req,res) => {
+    app.post("/inventario", async (req,res) => {
+
+      globalConec.alert = 'undefined';
+      globalConec.alert1 = 'undefined';
+      globalConec.alert2 = 'undefined';
 
       const {selec_inv,referencia,producto,cantidad,valor,descripcion,ref_insu_pro,cant_insu_pro} = req.body;
 
       let cantI = ref_insu_pro.length;
 
-      //console.log(selec_inv);
-      //console.log(cantI);
-      //console.log(cant_insu_pro);
-      //console.log(valor);
-
       if (selec_inv==='2') {
          
-         connection.query('SELECT * FROM insumos WHERE id =?',referencia, async (err, result) => {
+         await connection.query('SELECT * FROM insumos WHERE id =?',referencia, async (err, result1) => {
 
             if (err) {
                console.log(err);
             }
-            else if (result.length===0) {
-               connection.query('INSERT INTO insumos SET ?',{
+            else if (result1.length===0) {
+               await connection.query('INSERT INTO insumos SET ?',{
 
                   id:referencia,
                   nombre:producto,
@@ -845,16 +873,16 @@ module.exports = (app) => {
                   valor_unit:valor,
                   descripcion:descripcion
          
-            },(err,result) => {
+            }, async (err,result2) => {
                if (err) {
                   console.log(err);
                }else{
-                  console.log(result);
+                  console.log(result2);
                   globalConec.alert = true;
                   res.redirect('/insumo');
                }
             })
-            }else{
+            }else if (result1.lengt != 0 ){
                globalConec.alert1 = true;
                res.redirect('/insumo');
                //aviso id repetido
@@ -864,11 +892,11 @@ module.exports = (app) => {
 
       }else if (selec_inv==='1') {
          
-         connection.query('SELECT * FROM producto WHERE id =?', referencia, async (err,result) => {
+         await connection.query('SELECT * FROM producto WHERE id =?', referencia, async (err,result1) => {
             if (err) {
                console.log(err);
-            }else if (result.length===0){
-               connection.query('INSERT INTO producto SET ?',{
+            }else if (result1.length===0){
+               await connection.query('INSERT INTO producto SET ?',{
 
                   id:referencia,
                   nombre:producto,
@@ -877,76 +905,82 @@ module.exports = (app) => {
                   descripcion:descripcion,
                   cantidad_ins_consum:cantI
          
-            },(err1,result1) => {
+            }, async (err1,result2) => {
                if (err1) {
                   console.log(err1);
                }else{
          
                   for (let i = 0; i < ref_insu_pro.length; i++) {
                      
-                     connection.query('INSERT INTO insu_gasto SET ?',{
+                     await connection.query('INSERT INTO insu_gasto SET ?',{
                         cantidad:cant_insu_pro[i],
                         id_insum:ref_insu_pro[i],
                         id_prod:referencia
             
-                     },(err2,result2) => {
-                        if (err2) {
-                           console.log(err2);
+                     },(err3,result3) => {
+                        if (err3) {
+                           console.log(err3);
                         }else{
-                           console.log(result2);
+                           console.log(result3);
                         }
                      })
                   }
-                  
+                  globalConec.alert=true;
                   res.redirect('/insumo');
                }
             })
-            }else{
+            }else if (result1.length !== 0) {
                //aviso id repetido
                globalConec.alert1 = true;
                res.redirect('/insumo');
             }
          })
 
-
-      }else{
+      }else if (selec_inv !== '1' || selec_inv !== '2'){
          //aviso escoja un inventario
-      globalConec.alert2 = true;
+         globalConec.alert2 = true;
          res.redirect('/insumo');
 
       }
       
    });
 
-   app.post("/pedido", (req,res) => {
+   app.post("/pedido", async (req,res) => {
+
+      globalConec.clienteExitoso = 'false';
+      globalConec.pedidoExitoso = 'false';
 
       const {idCli__ped,ciuCobro__ped,pago__ped,referencia,fechIng__ped,fechEnt__ped,ref_pro_ped,cant_pro_ped} = req.body;
       
       let cantP = ref_pro_ped.length;
-      let numProd = globalConec.numProd;
-      let prodComf = globalConec.prodComf;
 
-      connection.query('SELECT * FROM pedido WHERE referencia = ?', [referencia],
-      (err1,result1) => {
+      await connection.query('SELECT * FROM pedido WHERE referencia = ?', [referencia],
+      async (err1,result1) => {
          if (err1) {
             console.log(err1);
+
          }else if (result1.length===0) {
-            connection.query('INSERT INTO pedido SET ?',{
+            globalConec.pedidoExitoso = true;
+
+            await connection.query('INSERT INTO pedido SET ?',{
                id_cliente:idCli__ped,
                form_pago:pago__ped,
                ciudadCob:ciuCobro__ped,
                fech_ingr:fechIng__ped,
                fech_entr:fechEnt__ped,
                referencia:referencia,
-               cant_pro:cantP
-            },(err2,result2) => {
+               est_desp:1,
+               est_recep:1,
+               cant_pro:cantP,
+               statusCc:'sin status'
+            },async (err2,result2) => {
                if (err2) {
                   console.log(err2);
                }else{
                   
                   for (let i = 0; i < ref_pro_ped.length; i++) {
                            
-                     connection.query('INSERT INTO produc_gasto SET ?',{
+                    await connection.query('INSERT INTO produc_gasto SET ?',{
                         cantidad:cant_pro_ped[i],
                         id_ped: referencia,
                         id_prod:ref_pro_ped[i]
@@ -965,7 +999,7 @@ module.exports = (app) => {
             })  
          }else{
             //aviso ref pedido repetido
-            globalConec.alert1 = true;
+            globalConec.pedidoExitoso = 'false1';
             res.redirect('/pedido');
          }
          
