@@ -84,7 +84,7 @@
 
       <div class="formulario__grupo-input" id="grupo__FNacimiento">
         <label class="formulario__label fw-normal" for="Cargo">F/ Nacimiento</label>
-          <input type="text" class="formulario__input" name="F_nacimiento" required id="F_nacimiento" placeholder="DD/MM/AÑO">
+          <input type="text" class="formulario__input" name="F_nacimiento" required id="F_nacimiento" placeholder="YY/MM/DD">
           <div class="formulario__validacion-estado"><i class= "fas fa-times-circle"></i></div>
           <div class="formulario__input-error"><p>DE 10 A 14 DIGITOS.</p></div>
       </div>
@@ -114,18 +114,6 @@
     <!--script type="text/javascript" src="../../../public/cliente/js/clienteEjer.js"></script-->
      <!--SWEET ALERT 2-->
      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-     <% if (typeof alert != "undefined") { %> 
-         <script>
-             Swal.fire({
-                 title: '<%= alertTitle %>',
-                 text: '<%= alertMessage %>',
-                 icon: '<%= alertIcon %>',
-                 showConfirmButton: '<%= showConfirmButton %>',
-                 timer: <%= timer %>
-             })
-          </script>
-     <% } %>
 
 </body>
 </html>

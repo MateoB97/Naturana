@@ -28,7 +28,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                
                     <% for(let ped of pedido) { %>
+                        
                         <tr>
                             <th scope="row"  align="center" valign="middle">  <%= ped.referencia %> </th>                       
                             <td align="center" valign="middle"> <%= ped.id_cliente %> </td>                            
@@ -49,14 +51,11 @@
                                 <span class="material-icons">shopping_bag</span>
                                 </button>
 
-                                <a type="button" href="/generaCobro/<%= ped.referencia %>" class="btn btn-warning"
+                                <a type="button" href="/cuentaCobro/<%= ped.referencia %>" class="btn btn-warning"
                                 style="display: d-inline-flex;align-items: center;justify-content: center;">
                                 <span class="material-icons">description</span>
                                 </a>
 
-                             
-                                
-                                
                             </td>
 
                             <%- include('../../template/partial_modal/partial_modal_entrega.ejs', {ped:ped}); %>
@@ -86,12 +85,17 @@
               <!--button class="formulario__btn2" type="button" href="../../main.html" role="button">Regresar</button-->
         </div>
 
-        <%- include("../../template/footer/footer.ejs") %>
+        <div class="footer1">
+            <%- include("../../template/footer/footer.ejs") %>
+    
+    
+         </div>
 
-        <% if (typeof alert !== 'undefined') { %> 
+        <% if (alert === 'preparado') { %> 
             <script>
-                       alert='undefined';
-                Swal.fire({
+                window.open('/<%= ruta %>');
+
+                /*Swal.fire({
                     title: '¿Estas seguro que quieres generar la cuenta de cobro?',
                     text: "Se generara la cuenta del pedido # <%= idped %>",
                     icon: 'warning',
@@ -102,23 +106,21 @@
                     cancelButtonText: 'Cancelar'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            if (status==='sin status') {
-                                window.open('/<%= ruta %>')
-                            }else if (status==='rechazo') {
-                                window.location = '/despacho';
-                            }
+                            
                              
+                        }else{
+                             status(sin_status) 
+
+                            window.location = '/despacho';
                         }
-                    })
+
+                    })*/
 
                 
              </script>
-   
-        <% } %>
-        <% if (typeof alert1 !== "undefined") { %>
+        <% }else if (alert1 === "rechazo") { %>
  
             <script>
-                    alert1='undefined';
                 Swal.fire('Este pedido ya tiene una cuenta de cobro');
                 
             </script>
