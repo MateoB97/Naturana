@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Contraseña</title>
+    <link rel="stylesheet" href="/resource/css/login/editarClave.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+</head>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+<script src="https://kit.fontawesome.com/a741909309.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <body class="main">
+        <div class="info">
+            <div class="px-5">
+                <p class="infoSesion-p1"><i class="fas fa-map-marker-alt px-1"></i> Medellin - (Antioquia)</p>
+            </div>
+            <div class="px-5">
+                <p class="infoSesion-p2"> <i class="fas fa-inbox px-1"></i> productosnaturana@gmail.com </p>
+            </div>
+            <div class="px-5">
+                <p class="infoSesion-p3"></i><i class="fas fa-phone px-1"></i> +57 311 3697489</p>
+            </div>
+            <div class="infoSesion px-5 fs-5 fw-bold">
+                <p class="infoSesion-p4">Bienvenido a Naturana: <%=firstName%>
+                        <%=lastName%> <i class="fas fa-check-circle"></i></p>
+            </div>
+            <form class="sign-out px-5" action="/session-out" method="POST">
+                <button class="btn btn-secondary" type="submit"> Cerrar sesion</button>
+            </form>
+        </div>
+        <section class="mainSec">
+            <h2 class="titleEdit">Administrar contraseñas</h2>
+            <div class="sectionTable fs-6 p-4" style="background-color: antiquewhite;">
+                <table id="example" class="table table-striped border p-4" style="width: 100%;">
+                    <thead>
+                        <tr align="center">
+                            <th scope="col">Identificación</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Nombres</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Rol</th>
+                            <th scope="col">Contraseña</th>
+                            <th scope="col">Horario</th>
+                            <th scope="col">Borrar</th>
+                            <th scope="col">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for( let i=0; i < users.length; i++ ) { %>
+                            <tr>
+                                <td>
+                                    <%= users[i].id%>
+                                </td>
+                                <td>
+                                    <%= users[i].user%>
+                                </td>
+                                <td>
+                                    <%= users[i].firstName%>
+                                </td>
+                                <td>
+                                    <%= users[i].lastName%>
+                                </td>
+                                <td>
+                                    <%= users[i].rol%>
+                                </td>
+                                <td>
+                                    Cambiar contraseña
+                                </td>
+                                <td>
+                                    <%= users[i].horario%>
+                                </td>
+                                <td class="d-flex justify-content-center flex-row"><a style="color: rgb(36, 34, 34);"
+                                        href="/eliminarUsuario/<%= users[i].id %> "><i class="fas fa-trash"></i></i></a>
+                                </td>
+                                <td align="center"><a data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal<%= users[i].id %>" data-bs-whatever="@mdo"> <i
+                                            class="fas fa-user-edit"></i></a></td>
+                            </tr>
+
+                            <div class="modal fade" id="exampleModal<%= users[i].id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Editar Campos</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/editarPass/<%= users[i].id %>" method="POST">
+                                                <div class="row">
+                                                    <div class="col-sm-4 mb-3">
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Identificacíon</label>
+                                                        <input type="text" name="id" disabled required
+                                                            class="form-control" id="recipient-name"
+                                                            value="<%= users[i].id %>">
+                                                    </div>
+                                                    <div class="col-sm-4 mb-3">
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Usuario</label>
+                                                        <input type="text" name="user" disabled required
+                                                            class="form-control" id="recipient-name"
+                                                            value="<%= users[i].user %>">
+                                                    </div>
+                                                    <div class="col-sm-4 mb-3">
+                                                        <label for="recipient-name" class="col-form-label">Primer
+                                                            Nombre</label>
+                                                        <input type="text" name="firstName" disabled required
+                                                            class="form-control" id="recipient-name"
+                                                            value="<%= users[i].firstName %>">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4 mb-3">
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Apellido</label>
+                                                        <input type="text" name="lastName" disabled required
+                                                            class="form-control" id="recipient-name"
+                                                            value="<%= users[i].lastName %>">
+                                                    </div>
+                                                    <div class="col-sm-4 mb-3">
+                                                        <label for="recipient-name" class="col-form-label">ROl</label>
+                                                        <input type="text" name="rol" disabled required
+                                                            class="form-control" id="recipient-name"
+                                                            value="<%= users[i].rol %>">
+                                                    </div>
+                                                    <div class="col-sm-4 mb-3">
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Horario</label>
+                                                        <input type="text" name="horario" disabled required
+                                                            class="form-control" id="recipient-name"
+                                                            value="<%= users[i].horario %>">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4 mb-3">
+                                                        <label for="recipient-name" class="col-form-label">Nueva Contraseña</label>
+                                                        <input type="password" name="pass" required class="form-control" id="recipient-name">
+                                                    </div>
+                                                    <div class="col-sm-4 mb-3">
+                                                        <label for="recipient-name" class="col-form-label">Repetir Contraseña</label>
+                                                        <input type="password" name="pass2" required class="form-control" id="recipient-name">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Cerrar</button>
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </tbody>
+                </table>
+                <div>
+                    <a class="btn btn-secondary" href="/main" role="button">Regresar</a>
+                </div>
+            </div>
+        </section>
+
+        <%- include("../../template/footer/footer.ejs") %>
+
+            <!--SWEET ALERT 2-->
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <% if (typeof alert !="undefined" ) { %>
+                <script>
+                    Swal.fire({
+                        title: '<%= alertTitle %>',
+                        text: '<%= alertMessage %>',
+                        icon: '<%= alertIcon %>',
+                        showConfirmButton: '<%= showConfirmButton %>',
+                    }).then(() => {
+                        window.location = '/<%= ruta %>'
+                    })
+                </script>
+            <% } %>
+                    <% if (typeof alert2 !=="undefined" ) { %>
+                        <script>
+                            let idDeleted = <%= idDeleted %>
+                            Swal.fire({
+                                title: '<%= title %>',
+                                text: '<%= text %>',
+                                icon: '<%= icon %>',
+                                showCancelButton: '<%= showCancelButton %>',
+                                confirmButtonColor: '<%= confirmButtonColor %>',
+                                cancelButtonColor: '<%= cancelButtonColor %>',
+                                confirmButtonText: '<%= confirmButtonText %>',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                    )
+                                    window.location.href = `/eliminarUsuarioDataBase/${idDeleted}`;
+                                }
+                            })
+                        </script>
+                        <% } %>
+
+
+                            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+                                integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"
+                                crossorigin="anonymous"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"
+                                integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
+                                crossorigin="anonymous"></script>
+                            <script type="text/javascript" language="javascript"
+                                src="https://code.jquery.com/jquery-3.5.1.js"></script>
+                            <script type="text/javascript" language="javascript"
+                                src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+                            <script type="text/javascript" language="javascript"
+                                src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+                            <script type="text/javascript" language="javascript"
+                                src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+                            <script>
+                                $(document).ready(function () {
+                                    $('#example').DataTable();
+                                });
+                            </script>
+    </body>
+
+</html>
