@@ -1,0 +1,118 @@
+/*nav*/
+.navMenu{
+    display: flex;
+    flex-direction: row;
+}
+.titulo__arriba{
+    margin: 30px;
+}
+.contenedor{
+    display: flex;
+    width: 100%;
+    height: 140vh;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: rgb(137, 209, 185);
+}
+.navegacion{
+    background-color: rgb(31, 158, 151);
+    height: 30%;
+}
+.sectionTable{
+    margin-bottom: 5rem;
+    -webkit-box-shadow: -2px 7px 15px 1px rgba(0,0,0,0.62); 
+    box-shadow: -2px 7px 15px 1px rgba(0,0,0,0.62);
+}
+.info{
+    display: flex;
+    color: rgb(253, 248, 241);
+    background-color: #00847e;
+    height: 12%;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+/*Section*/
+.mainSec{
+    height: 100%;
+    background-color: rgb(137, 209, 185);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.tableForm{
+    margin-top: 4rem;
+}
+.titleEdit{
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+
+}
+/*Footer*/
+.footer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #00847e;
+}
+.left{
+
+    display: flex;
+    height: 100%;
+    width: 33.3%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: ivory;
+    
+}
+.center{
+    display: flex;
+    height: 100%;
+    width: 33.3%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: ivory;
+}
+.right{
+    display: flex;
+    height: 100%;
+    width: 33.3%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: ivory;
+}
+.mainFoot{
+    display: flex;
+    justify-content: center;
+    border-bottom: 5px solid tan;
+    width: 300px;
+}
+.facebook{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}
+.linkedin{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}
+.twitter{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}
+.youtube{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}
+.instagram{
+    font-size: 30px;
+    color: ivory;
+    padding: 3px;
+}

@@ -1,0 +1,26 @@
+.sidebar{
+    width: 100%;
+    height: 2.5rem;
+    background-color: rgb(53, 141, 112);
+    color: ghostwhite;
+}
+.logo{
+    width: 100%;
+    height: 10rem;
+    background-color: rgb(241, 251, 252);
+}
+.textTitle{
+    background-color:#00847e;
+    width: 100%;
+    height: 50rem;
+}
+.sidebarSection{
+    width: 100%;
+    height: 30rem;
+}
+.mainBack{
+    border-bottom: 5px;
+}
+.mainBack:hover{
+    border-bottom: 3px solid black;
+}
