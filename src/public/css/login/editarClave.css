@@ -36,7 +36,7 @@
 /*Section*/
 .mainSec{
     height: 100%;
-    background-color: rgb(137, 209, 185);
+    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,3 +116,9 @@
     color: ivory;
     padding: 3px;
 }
+
+.footer1{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    }

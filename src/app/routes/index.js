@@ -220,9 +220,7 @@ module.exports = (app) => {
             globalConec.alert2 = 'undefined';
 
          } 
-      }
-
-   });
+      });
 
    app.get('/insertInsumo', (req, res) => {
 
@@ -552,8 +550,7 @@ module.exports = (app) => {
 
          } 
 
-      }
-   });
+      });
 
    app.get('/listaCc', (req, res) => {
 
