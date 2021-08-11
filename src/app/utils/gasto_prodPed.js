@@ -1,7 +1,7 @@
 const util = require('util');
 const connection = require('../../config/db');
 
-let gasto = {};
+let gasto1 = {};
 
 function addInsu (ref_insu_pro,cant_insu_pro,referencia){
     let cantInsu = [];
@@ -77,7 +77,7 @@ function resta (cantInsu,cantGast) {
     return resultado;
 }
 
-gasto.addInsu = addInsu;
-gasto.insertRest = insertRest;
+gasto1.addInsu = addInsu;
+gasto1.insertRest = insertRest;
 
-module.exports = gasto;
+module.exports = gasto1;

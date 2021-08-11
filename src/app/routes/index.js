@@ -886,7 +886,7 @@ module.exports = (app) => {
    
    });
 
-    app.post("/inventario", async (req,res) => {
+   app.post("/inventario", async (req,res) => {
 
       globalConec.alert = 'undefined';
       globalConec.alert1 = 'undefined';
@@ -953,11 +953,16 @@ module.exports = (app) => {
                   console.log(err1);
                }else{
                   
-                  addInsu().then(()=>{
-      
-                  res.redirect('/insumo');
+                  gasto.addInsu(ref_insu_pro,cant_insu_pro,referencia).then((cantInsu)=>gasto.insertRest(cantInsu,ref_insu_pro,cant_insu_pro))
+                  .catch((err2_0) => setImmediate(() => { throw err2_0; }));
 
-                  }).catch((err2_0) => setImmediate(() => { throw err2_0; }));
+                  res.redirect('/insumo');
+                  // gasto.resultado = [];
+                  // gasto.cantInsu = [];
+                  globalConec.alert=true;
+
+                  // console.log(gasto.resultado);
+                  // console.log(gasto.cantInsu);
                }
             })
 
