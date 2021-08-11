@@ -33,7 +33,14 @@ module.exports = (app) => {
       res.render('../views/main/ventanas/login/login.ejs');
    });
 
+
+   app.get('/404', (req, res) => {
+      res.render('../views/main/ventanas/404/404.ejs');
+   });
+
+
    app.get('/main', (req, res) => {
+
 
       if (flagLogin === false) {
          res.render('../views/main/ventanas/login/login.ejs');
@@ -199,17 +206,20 @@ module.exports = (app) => {
                }
             })
 
+
+            } catch (error) {
+               console.error(`Error del try ${error}`);
+               console.error(`Error de la consulta ${err}`);
+               flagLogin = false;
+               globalEmail = '';
+               res.redirect('/404');
+            }
+
             globalConec.alert = 'undefined';
             globalConec.alert1 = 'undefined';
             globalConec.alert2 = 'undefined';
 
-         } catch (error) {
-            console.error(`Error del try ${error}`);
-            console.error(`Error de la consulta ${err}`);
-            flagLogin = false;
-            globalEmail = '';
-            res.redirect('/');
-         }
+         } 
       }
 
    });
@@ -320,7 +330,7 @@ module.exports = (app) => {
             console.error(`Error del primer query ${err}`);
             flagLogin = false;
             globalEmail = '';
-            res.redirect('/');
+            res.redirect('/404');
          }
 
       }
@@ -533,12 +543,15 @@ module.exports = (app) => {
                   }
                })
 
-         } catch (error) {
-            console.error(`Error del try ${error}`);
-            flagLogin = false;
-            globalEmail = '';
-            res.redirect('/');
-         }
+            } catch (error) {
+               console.error(`Error del try ${error}`);
+               flagLogin = false;
+               globalEmail = '';
+               res.redirect('/404');
+            }
+
+         } 
+
       }
    });
 
@@ -694,7 +707,7 @@ module.exports = (app) => {
             } catch (error) {
                console.error(`El error del try es:  : ${error}`);
                console.error(`El error de la consulta es : ${err}`);
-               res.redirect('/');
+               res.redirect('/404');
             }
          });
       }

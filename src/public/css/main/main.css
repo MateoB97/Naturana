@@ -1,5 +1,5 @@
 .main{
-    background-color: rgb(45, 189, 143);
+    background-color: rgb(255, 255, 255);
     width: 100%;
 }
 .navegacion{
@@ -108,7 +108,7 @@ li{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: rgb(175, 224, 142);
+    background-color: rgb(137, 209, 185);
     -webkit-box-shadow: 3px 5px 14px 8px rgba(0,0,0,0.44); 
     box-shadow: 3px 5px 14px 8px rgba(0,0,0,0.44);
     margin: 1rem;
