@@ -51,7 +51,7 @@
                                 <span class="material-icons">shopping_bag</span>
                                 </button>
 
-                                <a type="button" href="/cuentaCobro/<%= ped.referencia %>" class="btn btn-warning"
+                                <a type="button" href="/generaCobro/<%= ped.referencia %>" class="btn btn-warning"
                                 style="display: d-inline-flex;align-items: center;justify-content: center;">
                                 <span class="material-icons">description</span>
                                 </a>
@@ -85,13 +85,17 @@
               <!--button class="formulario__btn2" type="button" href="../../main.html" role="button">Regresar</button-->
         </div>
 
-        <%- include("../../template/footer/footer.ejs") %>
+        <div class="footer1">
+            <%- include("../../template/footer/footer.ejs") %>
+    
+    
+         </div>
 
         <% if (alert === 'preparado') { %> 
             <script>
-                window.open('/<%= ruta %>');
+                
 
-                /*Swal.fire({
+                Swal.fire({
                     title: '¿Estas seguro que quieres generar la cuenta de cobro?',
                     text: "Se generara la cuenta del pedido # <%= idped %>",
                     icon: 'warning',
@@ -103,14 +107,13 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             
-                             
+                             window.open('/<%= ruta %>');
                         }else{
-                             status(sin_status) 
-
-                            window.location = '/despacho';
+                             
+                            window.location = '/cancelCobro';
                         }
 
-                    })*/
+                    })
 
                 
              </script>
