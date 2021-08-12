@@ -10,7 +10,8 @@ const OAuth2 = google.auth.OAuth2;
 
 //UTILS
 const dateTransformer = require('../utils/date_transformation');
-const enteros = require('../utils/tansformacion_enteros')
+const enteros = require('../utils/tansformacion_enteros');
+const gasto = require('../utils/gasto_insuProd');
 
 module.exports = (app) => {
 
@@ -89,47 +90,53 @@ module.exports = (app) => {
                   port: 465,
                   secure: true, // true for 465, false for other ports
                   auth: {
-                     type: 'OAuth2',
+                     /*type: 'OAuth2',
                      clientId: process.env.EM_IDUSER,
-                     clientSecret: process.env.EM_CLISECR,
+                     clientSecret: process.env.EM_CLISECR,*/
                      user: process.env.EM_USER,
-                     refreshToken: process.env.EM_REFRTOK,
-                     accessToken: accessToken
+
+                     pass:process.env.EM_PASS,
+                     /*refreshToken: process.env.EM_REFRTOK, 
+                     accessToken: accessToken */
+
                   },
                   tls: {
                      rejectUnauthorized: false
                   }
                });
 
-               let info = await transporter.sendMail({
-                  from: '<naturanaLogs@gmail.com>',
-                  cc: '<naturanaLogs@gmail.com>',
-                  to: globalConec.e__mail,
-                  subject: "Tu usuario y contraseña para naturana 🙂", // Subject line
-                  html: `<b>NATURANA REGISTROS</b><br><p>Su usuario es : ${globalConec.usuario}<p><br><p>Su contraseña es : ${globalConec.password}`, // html body
-               }, (error, response) => {
+               
+                let info = await transporter.sendMail({
+                   from: '<naturanalogs@gmail.com>', 
+                   cc: '<naturanalogs@gmail.com>',
+                   to: globalConec.e__mail, 
+                   subject: "Tu usuario y contraseña para naturana 🙂", // Subject line
+                   html: `<b>NATURANA REGISTROS</b><br><p>Su usuario es : ${globalConec.usuario}<p><br><p>Su contraseña es : ${globalConec.password}`, // html body
+                }, (error, response) => {
+
                   error ? console.log(error) : console.log(response);
                   transporter.close();
                });
 
                console.log("Message sent: %s", info);
 
-
-               //console.log("Message sent: %s", info.messageId);
-               // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-               // Preview only available when sending through an Ethereal account
-               //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-               // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-            }
-
-            main().catch(console.error);
-
-            /*Nombre	Montana Lubowitz
-            Nombre de usuario	montana.lubowitz51@ethereal.email (también funciona como una dirección de correo electrónico entrante real)
-            Contraseña	pnwkvregz9jpfDyusS
-            autorización : 4/0AX4XfWivCmTb82qPMtQdTN3bgQNu7fGa2ZdOR8WnUwsa55a5LEasDhBhEYTM0L5zrCyMPw
-            actualización: 1//040QTIGcdjHhXCgYIARAAGAQSNwF-L9IraPKnkvg1gDcZtQ9Nr5hqAVhEJEJE77FdzNrQUr35SiczC3gvilJUM5_yS4PbFeJPOY8 */
+               
+                }
+               
+                main().catch(console.error);
+                                 
+                res.render('../views/main/ventanas/usuario/usuario.ejs', {
+                   alert:true,
+                   alertTitle: 'Registro Exitoso',
+                   alertMessage: "Su usuario y contraseña se enviaran a su correo",
+                   alertIcon: "success",
+                   showConfirmButton: false,
+                   timer: 25000,
+                   firstName:firstName,
+                   lastName:lastName
+                 })
+         }else {  
+            try {
 
             res.render('../views/main/ventanas/usuario/usuario.ejs', {
                alert: true,
@@ -226,8 +233,10 @@ module.exports = (app) => {
 
       globalConec.numInsu = globalConec.numInsu + 1;
       globalConec.insuComf.push(1);
+      
       res.redirect('/insumo');
-   })
+
+   });
 
    app.get('/pedido', async (req, res) => {
 
@@ -346,7 +355,7 @@ module.exports = (app) => {
       let idped = globalConec.idped;
       let alert = globalConec.statusCc;
 
-      console.log(alert);
+      console.log(idped);
 
       await connection.query("SELECT * FROM pedido ",
          async (err, results) => {
@@ -364,11 +373,13 @@ module.exports = (app) => {
                   pedido: results,
                   firstName: firstName,
                   lastName: lastName,
-                  alert: alert,
-                  alert1: alert,
-                  idped: idped,
-                  ruta: 'cuentaCobro',
-                  status: alert
+
+                  alert:alert,
+                  alert1:alert,
+                  idped:idped,
+                  ruta: `cuentaCobro/${idped}`,
+                  status:alert
+
                });
             }
 
@@ -392,10 +403,28 @@ module.exports = (app) => {
             if (err) {
                console.log(err);
 
-            } else if (results[0].statusCc === 'preparado') {
 
-               globalConec.statusCc = 'rechazo';
-               let preparado = globalConec.statusCc;
+         }else if (results[0].statusCc === 'preparado'){
+            
+            globalConec.statusCc = 'rechazo';
+            let rechazo= globalConec.statusCc;
+
+            await connection.query('UPDATE pedido SET ? WHERE referencia = ?',[{
+               statusCc:rechazo
+            },id],(err,result) => {
+               if (err) {
+                  console.log(err);
+               }else{
+                  console.log(result);
+                  res.redirect('/despacho');
+            
+               }
+            })
+            
+         }else if (results[0].statusCc === 'rechazo'){
+            globalConec.statusCc = 'rechazo';
+            res.redirect('/despacho');
+
 
                await connection.query('UPDATE pedido SET ? WHERE referencia = ?', [{
                   statusCc: preparado
@@ -406,23 +435,21 @@ module.exports = (app) => {
                      console.log(result);
                      res.redirect('/despacho');
 
-                  }
-               })
 
-            } else if (results[0].statusCc === 'rechazo') {
-               globalConec.statusCc = 'sin status';
-               let rechazo = globalConec.statusCc;
+            globalConec.statusCc='preparado';
+            let preparado = globalConec.statusCc;
 
-               await connection.query('UPDATE pedido SET ? WHERE referencia = ?', [{
-                  statusCc: rechazo
-               }, id], (err, result) => {
-                  if (err) {
-                     console.log(err);
-                  } else {
-                     console.log(result);
-                     res.redirect('/despacho');
-                  }
-               })
+            await connection.query('UPDATE pedido SET ? WHERE referencia = ?',[{
+               statusCc:preparado
+            },id],(err,result) => {
+               if (err) {
+                  console.log(err);
+               }else{
+                  console.log(result);
+                  res.redirect('/despacho');
+               }
+            })
+
 
             } else if (results[0].statusCc === 'sin status') {
 
@@ -446,25 +473,69 @@ module.exports = (app) => {
 
    });
 
+   app.get('/cancelCobro', async (req, res) => {
+      
+      globalConec.statusCc = 'sin status';
+      let rechazo = 'sin status';
+      let id = globalConec.idped;
+
+      console.log(id);
+
+      await connection.query('UPDATE pedido SET ? WHERE referencia = ?',[{
+         statusCc:rechazo
+      },id],(err,result) => {
+         if (err) {
+            console.log(err);
+         }else{
+            console.log(result);
+            res.redirect('/despacho');
+         }
+      })
+
+   });
+
    app.get('/cuentaCobro/:id', async (req, res) => {
 
       const id1 = req.params.id;
 
-      await connection.query('SELECT * FROM cuenta_c WHERE id__ped = ?', [id1],
-         async (err, result1) => {
 
-            if (err) {
-               console.log(err);
-            } else if (result1.length === 0) {
+   await connection.query('SELECT * FROM cuenta_c WHERE id__ped = ?',[id1],
+   async (err,result1) => {
+     
+      console.log(result1);
+      
+      if (err) {
+         console.log(err);
+      }else if (result1.length===0) {
+
+         await connection.query('INSERT INTO cuenta_c SET ?',{
+            id__ped:id1
+         },async (err2,result2) => {
+            if (err2) {
+               console.log(err2);
+            }else{
+               
+              await connection.query('SELECT * FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente LEFT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ? UNION SELECT * FROM cliente RIGHT JOIN pedido ON cliente.id = pedido.id_cliente RIGHT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ?',
+               [id1,id1]
+               ,async (err3,result3) => {
+                  if (err3) {
+                     console.log(err3);
+                  }else{
+
+                     result3.map( (result) => {
+                        dateTransformer.resultToTable(result);
+                      });
+
 
                console.log(result1);
 
-               await connection.query('INSERT INTO cuenta_c SET ?', {
-                  id__ped: id1
-               }, async (err2, result2) => {
-                  if (err2) {
-                     console.log(err2);
-                  } else {
+
+                     await connection.query('SELECT * FROM produc_gasto INNER JOIN producto ON produc_gasto.id_prod = producto.id WHERE produc_gasto.id_ped = ?',
+                     [id1],(err4,result4)=>{
+                        if (err4) {
+                           console.log(err4);
+                        }else {
+
 
                      await connection.query('SELECT * FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente LEFT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ? UNION SELECT * FROM cliente RIGHT JOIN pedido ON cliente.id = pedido.id_cliente RIGHT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ?',
                         [id1, id1]
@@ -473,9 +544,12 @@ module.exports = (app) => {
                               console.log(err3);
                            } else {
 
-                              result3.map((result) => {
-                                 dateTransformer.resultToTable(result);
-                              });
+
+                           let resultados = {
+                              result3:result3[0],
+                              result4:result4
+                           }
+
 
                               // console.log(result3[0]);
 
@@ -510,7 +584,78 @@ module.exports = (app) => {
             }
          })
 
-      //console.log(id);*/
+      }else{
+         //globalConec.statusCc = 'rechazo';
+         res.redirect('/despacho');
+      }
+   })
+
+   });
+
+   app.get('/listaCc',(req,res) => {
+
+      connection.query("SELECT * FROM pedido ",
+      (err, results) => {
+        if (err) {
+           console.log(err);
+        }else{
+
+        results.map( (result) => {
+         dateTransformer.resultToTable(result);
+         //result.is_active == 1 ? result.is_active = "Sí" : result.is_active = "No";
+         });
+
+         console.log(globalConec.statusCc); 
+
+            res.render('../views/main/ventanas/listaCc/listaCc.ejs', {
+            pedido: results,
+            firstName: firstName,
+            lastName: lastName,
+            ruta: 'cuentaCobro'
+
+           });
+         }
+      })
+   });
+
+   app.get('/cuentaCobro_list/:id', async (req, res) => {
+
+      const id = req.params.id;
+
+      await connection.query('SELECT * FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente LEFT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ? UNION SELECT * FROM cliente RIGHT JOIN pedido ON cliente.id = pedido.id_cliente RIGHT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ?',
+               [id,id]
+               ,async (err3,result3) => {
+                  if (err3) {
+                     console.log(err3);
+                  }else{
+
+                     result3.map( (result) => {
+                        dateTransformer.resultToTable(result);
+                      });
+
+                     await connection.query('SELECT * FROM produc_gasto INNER JOIN producto ON produc_gasto.id_prod = producto.id WHERE produc_gasto.id_ped = ?',
+                     [id],(err4,result4)=>{
+                        if (err4) {
+                           console.log(err4);
+                        }else {
+
+                           let resultados = {
+                              result3:result3[0],
+                              result4:result4
+                           }
+
+                           console.log(resultados);
+
+                           res.render('../views/main/ventanas/cuentaCobro/cuentaCobro.ejs',{
+                              cuenta_c: resultados
+                           });
+                        }
+                     })
+                     
+                  }
+               })
+
+
    });
 
    app.get('/reporte', async (req, res) => {
@@ -547,6 +692,7 @@ module.exports = (app) => {
                globalEmail = '';
                res.redirect('/404');
             }
+
 
          } 
 
@@ -611,6 +757,7 @@ module.exports = (app) => {
          res.render('../views/main/ventanas/about/about.ejs')
       }
    });
+
    //POSTS
 
    //Login for users 
@@ -892,7 +1039,9 @@ module.exports = (app) => {
 
    });
 
-   app.post("/inventario", async (req, res) => {
+
+   app.post("/inventario", async (req,res) => {
+
 
       globalConec.alert = 'undefined';
       globalConec.alert1 = 'undefined';
@@ -902,9 +1051,14 @@ module.exports = (app) => {
 
       let cantI = ref_insu_pro.length;
 
-      if (selec_inv === '2') {
 
-         await connection.query('SELECT * FROM insumos WHERE id =?', referencia, async (err, result1) => {
+      // console.log(ref_insu_pro);
+      // console.log(cant_insu_pro);
+      
+      if (selec_inv==='2') {
+         
+         await connection.query('SELECT * FROM insumos WHERE id =?',referencia, async (err, result1) => {
+
 
             if (err) {
                console.log(err);
@@ -940,41 +1094,38 @@ module.exports = (app) => {
          await connection.query('SELECT * FROM producto WHERE id =?', referencia, async (err, result1) => {
             if (err) {
                console.log(err);
-            } else if (result1.length === 0) {
-               await connection.query('INSERT INTO producto SET ?', {
 
-                  id: referencia,
-                  nombre: producto,
-                  cantidad_Tien: cantidad,
-                  valor_unit: valor,
-                  descripcion: descripcion,
-                  cantidad_ins_consum: cantI
+            }else if (result1.length===0){
 
-               }, async (err1, result2) => {
-                  if (err1) {
-                     console.log(err1);
-                  } else {
+               await connection.query('INSERT INTO producto SET ?',{
 
-                     for (let i = 0; i < ref_insu_pro.length; i++) {
+                  id:referencia,
+                  nombre:producto,
+                  cantidad_Tien:cantidad,
+                  valor_unit:valor,
+                  descripcion:descripcion,
+                  cantidad_ins_consum:cantI
+         
+            }, async (err1,result2) => {
+               if (err1) {
+                  console.log(err1);
+               }else{
+                  
+                  gasto.addInsu(ref_insu_pro,cant_insu_pro,referencia).then((cantInsu)=>gasto.insertRest(cantInsu,ref_insu_pro,cant_insu_pro))
+                  .catch((err2_0) => setImmediate(() => { throw err2_0; }));
 
-                        await connection.query('INSERT INTO insu_gasto SET ?', {
-                           cantidad: cant_insu_pro[i],
-                           id_insum: ref_insu_pro[i],
-                           id_prod: referencia
+                  res.redirect('/insumo');
+                  // gasto.resultado = [];
+                  // gasto.cantInsu = [];
+                  globalConec.alert=true;
 
-                        }, (err3, result3) => {
-                           if (err3) {
-                              console.log(err3);
-                           } else {
-                              console.log(result3);
-                           }
-                        })
-                     }
-                     globalConec.alert = true;
-                     res.redirect('/insumo');
-                  }
-               })
-            } else if (result1.length !== 0) {
+                  // console.log(gasto.resultado);
+                  // console.log(gasto.cantInsu);
+               }
+            })
+
+            }else if (result1.length !== 0) {
+
                //aviso id repetido
                globalConec.alert1 = true;
                res.redirect('/insumo');
