@@ -90,15 +90,16 @@
                                 <th>Vr unidad</th>
                                 <th>Vr total</th>
                             </tr>
+                            <% for (let cuenta of cuenta_c.result4) { %>
                             <tr>
-                                <td><%=cuenta_c.result4.id_gasto  %></td>
-                                <td><%=cuenta_c.result4.nombre %></td>
-                                <td><%=cuenta_c.result4.id_prod %></td>
-                                <td><%=cuenta_c.result4.cantidad %></td>
-                                <td><%=cuenta_c.result4.valor_unit %></td>
+                                <td><%=cuenta.id_gasto  %></td>
+                                <td><%=cuenta.nombre %></td>
+                                <td><%=cuenta.id_prod %></td>
+                                <td><%=cuenta.cantidad %></td>
+                                <td><%=cuenta.valor_unit %></td>
                                 <td><%= %></td>
                             </tr>
-        
+                            <% } %>
                             <tr>
                                 <td colspan="5"><b>VALOR TOTAL</b></td>
                                 <td><%= %></td>
