@@ -69,22 +69,22 @@ module.exports = (app) => {
       } else {
 
          if (globalConec.usuExi) {
-            globalConec.usuExi = false;
+            globalConec.usuExi =false;
+            
+             async function main() {
+            
+               const oauth2Client = new OAuth2 (
+                  process.env.EM_IDUSER,process.env.EM_CLISECR,
+                  " https://developers.google.com/oauthplayground "// URL de redireccionamiento
+                  );
 
-            async function main() {
-
-               const oauth2Client = new OAuth2(
-                  process.env.EM_IDUSER, process.env.EM_CLISECR,
-                  " https://developers.google.com/oauthplayground "// URL de redireccionamiento 
-               );
-
-               oauth2Client.setCredentials({
-                  refresh_token: process.env.EM_REFRTOK
+               oauth2Client . setCredentials ({
+               refresh_token: process.env.EM_REFRTOK
                });
 
-               const accessToken = oauth2Client.getAccessToken()
+                const accessToken = oauth2Client.getAccessToken ()
 
-               let transporter = nodemailer.createTransport({
+                let transporter = nodemailer.createTransport({
                   service: "Gmail",
                   host: 'smtp.gmail.com',
                   port: 465,
@@ -94,32 +94,27 @@ module.exports = (app) => {
                      clientId: process.env.EM_IDUSER,
                      clientSecret: process.env.EM_CLISECR,*/
                      user: process.env.EM_USER,
-
                      pass:process.env.EM_PASS,
-                     /*refreshToken: process.env.EM_REFRTOK, 
+                     /*refreshToken: process.env.EM_REFRTOK,
                      accessToken: accessToken */
-
                   },
                   tls: {
                      rejectUnauthorized: false
-                  }
+                   }
                });
-
                
                 let info = await transporter.sendMail({
-                   from: '<naturanalogs@gmail.com>', 
+                   from: '<naturanalogs@gmail.com>',
                    cc: '<naturanalogs@gmail.com>',
-                   to: globalConec.e__mail, 
+                   to: globalConec.e__mail,
                    subject: "Tu usuario y contraseña para naturana 🙂", // Subject line
                    html: `<b>NATURANA REGISTROS</b><br><p>Su usuario es : ${globalConec.usuario}<p><br><p>Su contraseña es : ${globalConec.password}`, // html body
                 }, (error, response) => {
-
                   error ? console.log(error) : console.log(response);
                   transporter.close();
                });
 
                console.log("Message sent: %s", info);
-
                
                 }
                
@@ -135,36 +130,23 @@ module.exports = (app) => {
                    firstName:firstName,
                    lastName:lastName
                  })
-         }else {  
+         }else {
             try {
-
             res.render('../views/main/ventanas/usuario/usuario.ejs', {
-               alert: true,
-               alertTitle: 'Registro Exitoso',
-               alertMessage: "Su usuario y contraseña se enviaran a su correo",
-               alertIcon: "success",
-               showConfirmButton: false,
-               timer: 25000,
                firstName: firstName,
                lastName: lastName
-            })
-         } else {
-            try {
-               res.render('../views/main/ventanas/usuario/usuario.ejs', {
-                  firstName: firstName,
-                  lastName: lastName
-               });
-            } catch (error) {
-               console.error(`Error del try ${error}`);
-               console.error(`Error de la consulta ${err}`);
-               flagLogin = false;
-               globalEmail = '';
-               res.redirect('/');
+            });
+         } catch (error) {
+            console.error(`Error del try ${error}`);
+            console.error(`Error de la consulta ${err}`);
+            flagLogin = false;
+            globalEmail = '';
+            res.redirect('/');
 
-            }
          }
       }
-
+   }
+      
    });
 
    app.get('/insumo', (req, res) => {
@@ -391,18 +373,17 @@ module.exports = (app) => {
       const id = req.params.referencia;
       globalConec.idped = id;
 
-      await connection.query('SELECT * FROM pedido WHERE referencia = ?', id
-         , async (err, results) => {
+      await connection.query('SELECT * FROM pedido WHERE referencia = ?',id
+      , async (err,results) => {
 
-            await results.map((result) => {
-               dateTransformer.resultToTable(result);
-            });
+         await results.map( (result) => {
+            dateTransformer.resultToTable(result);
+         });
 
-            console.log(results);
+         console.log(results);
 
-            if (err) {
-               console.log(err);
-
+         if (err) {
+            console.log(err);
 
          }else if (results[0].statusCc === 'preparado'){
             
@@ -425,16 +406,7 @@ module.exports = (app) => {
             globalConec.statusCc = 'rechazo';
             res.redirect('/despacho');
 
-
-               await connection.query('UPDATE pedido SET ? WHERE referencia = ?', [{
-                  statusCc: preparado
-               }, id], (err, result) => {
-                  if (err) {
-                     console.log(err);
-                  } else {
-                     console.log(result);
-                     res.redirect('/despacho');
-
+         }else if (results[0].statusCc === 'sin status'){
 
             globalConec.statusCc='preparado';
             let preparado = globalConec.statusCc;
@@ -450,25 +422,8 @@ module.exports = (app) => {
                }
             })
 
-
-            } else if (results[0].statusCc === 'sin status') {
-
-               globalConec.statusCc = 'preparado';
-               let sin_status = globalConec.statusCc;
-
-               await connection.query('UPDATE pedido SET ? WHERE referencia = ?', [{
-                  statusCc: sin_status
-               }, id], (err, result) => {
-                  if (err) {
-                     console.log(err);
-                  } else {
-                     console.log(result);
-                     res.redirect('/despacho');
-                  }
-               })
-
-            }
-         })
+         }
+      })
 
 
    });
@@ -497,100 +452,68 @@ module.exports = (app) => {
    app.get('/cuentaCobro/:id', async (req, res) => {
 
       const id1 = req.params.id;
-
-
-   await connection.query('SELECT * FROM cuenta_c WHERE id__ped = ?',[id1],
-   async (err,result1) => {
-     
-      console.log(result1);
-      
-      if (err) {
-         console.log(err);
-      }else if (result1.length===0) {
-
-         await connection.query('INSERT INTO cuenta_c SET ?',{
-            id__ped:id1
-         },async (err2,result2) => {
-            if (err2) {
-               console.log(err2);
-            }else{
-               
-              await connection.query('SELECT * FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente LEFT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ? UNION SELECT * FROM cliente RIGHT JOIN pedido ON cliente.id = pedido.id_cliente RIGHT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ?',
-               [id1,id1]
-               ,async (err3,result3) => {
-                  if (err3) {
-                     console.log(err3);
-                  }else{
-
-                     result3.map( (result) => {
-                        dateTransformer.resultToTable(result);
-                      });
-
-
-               console.log(result1);
-
-
-                     await connection.query('SELECT * FROM produc_gasto INNER JOIN producto ON produc_gasto.id_prod = producto.id WHERE produc_gasto.id_ped = ?',
-                     [id1],(err4,result4)=>{
-                        if (err4) {
-                           console.log(err4);
-                        }else {
-
-
-                     await connection.query('SELECT * FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente LEFT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ? UNION SELECT * FROM cliente RIGHT JOIN pedido ON cliente.id = pedido.id_cliente RIGHT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ?',
-                        [id1, id1]
-                        , async (err3, result3) => {
-                           if (err3) {
-                              console.log(err3);
-                           } else {
-
-
-                           let resultados = {
-                              result3:result3[0],
-                              result4:result4
-                           }
-
-
-                              // console.log(result3[0]);
-
-                              await connection.query('SELECT * FROM produc_gasto RIGHT JOIN pedido ON produc_gasto.id_ped = pedido.referencia RIGHT JOIN producto ON produc_gasto.id_prod = producto.id WHERE pedido.referencia = ?',
-                                 [id1], (err4, result4) => {
-                                    if (err4) {
-                                       console.log(err4);
-                                    } else {
-
-                                       //console.log(result4);
-
-                                       let resultados = {
-                                          result3: result3[0],
-                                          result4: result4[0]
-                                       }
-
-                                       console.log(resultados);
-
-                                       res.render('../views/main/ventanas/cuentaCobro/cuentaCobro.ejs', {
-                                          cuenta_c: resultados
-                                       });
-                                    }
-                                 })
-
+   
+      await connection.query('SELECT * FROM cuenta_c WHERE id__ped = ?',[id1],
+      async (err,result1) => {
+        
+         console.log(result1);
+         
+         if (err) {
+            console.log(err);
+         }else if (result1.length===0) {
+   
+            await connection.query('INSERT INTO cuenta_c SET ?',{
+               id__ped:id1
+            },async (err2,result2) => {
+               if (err2) {
+                  console.log(err2);
+               }else{
+                  
+                 await connection.query('SELECT * FROM cliente LEFT JOIN pedido ON cliente.id = pedido.id_cliente LEFT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ? UNION SELECT * FROM cliente RIGHT JOIN pedido ON cliente.id = pedido.id_cliente RIGHT JOIN cuenta_c ON pedido.referencia = cuenta_c.id__ped WHERE pedido.referencia = ?',
+                  [id1,id1]
+                  ,async (err3,result3) => {
+                     if (err3) {
+                        console.log(err3);
+                     }else{
+   
+                        result3.map( (result) => {
+                           dateTransformer.resultToTable(result);
+                         });
+   
+                        // console.log(result3[0]);
+   
+                        await connection.query('SELECT * FROM produc_gasto INNER JOIN producto ON produc_gasto.id_prod = producto.id WHERE produc_gasto.id_ped = ?',
+                        [id1],(err4,result4)=>{
+                           if (err4) {
+                              console.log(err4);
+                           }else {
+   
+                              //console.log(result4);
+   
+                              let resultados = {
+                                 result3:result3[0],
+                                 result4:result4
+                              }
+   
+                              console.log(resultados);
+   
+                              res.render('../views/main/ventanas/cuentaCobro/cuentaCobro.ejs',{
+                                 cuenta_c: resultados
+                              });
                            }
                         })
-                  }
-               })
-            } else {
-               //globalConec.statusCc = 'rechazo';
-
-            }
-         })
-
-      }else{
-         //globalConec.statusCc = 'rechazo';
-         res.redirect('/despacho');
-      }
-   })
-
-   });
+                        
+                     }
+                  })
+               }
+            })
+         }else{
+            //globalConec.statusCc = 'rechazo';
+            res.redirect('/despacho');
+         }
+      })
+   
+      });
 
    app.get('/listaCc',(req,res) => {
 
