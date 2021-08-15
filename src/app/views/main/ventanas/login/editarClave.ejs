@@ -168,12 +168,11 @@
                     <a class="btn btn-secondary" href="/main" role="button">Regresar</a>
                 </div>
             </div>
+            
         </section>
 
-        <div class="footer1">
-
         <%- include("../../template/footer/footer.ejs") %>
-    </div>
+
             <!--SWEET ALERT 2-->
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -200,6 +199,7 @@
                                 confirmButtonColor: '<%= confirmButtonColor %>',
                                 cancelButtonColor: '<%= cancelButtonColor %>',
                                 confirmButtonText: '<%= confirmButtonText %>',
+                                cancelButtonText: '<%= cancelButtonText %>'
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     Swal.fire(

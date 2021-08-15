@@ -12,6 +12,7 @@ const OAuth2 = google.auth.OAuth2;
 const dateTransformer = require('../utils/date_transformation');
 const enteros = require('../utils/tansformacion_enteros');
 const gasto = require('../utils/gasto_insuProd');
+const gasto1 = require('../utils/gasto_prodPed');
 
 module.exports = (app) => {
 
@@ -349,13 +350,12 @@ module.exports = (app) => {
                   dateTransformer.resultToTable(result);
                });
 
-               await enteros.resultado(results);
+               //enteros.resultado(results);
 
                res.render('../views/main/ventanas/despacho/despacho.ejs', {
                   pedido: results,
                   firstName: firstName,
                   lastName: lastName,
-
                   alert:alert,
                   alert1:alert,
                   idped:idped,
@@ -1038,12 +1038,9 @@ module.exports = (app) => {
                   .catch((err2_0) => setImmediate(() => { throw err2_0; }));
 
                   res.redirect('/insumo');
-                  // gasto.resultado = [];
-                  // gasto.cantInsu = [];
+
                   globalConec.alert=true;
 
-                  // console.log(gasto.resultado);
-                  // console.log(gasto.cantInsu);
                }
             })
 
@@ -1097,21 +1094,8 @@ module.exports = (app) => {
                      console.log(err2);
                   } else {
 
-                     for (let i = 0; i < ref_pro_ped.length; i++) {
-
-                        await connection.query('INSERT INTO produc_gasto SET ?', {
-                           cantidad: cant_pro_ped[i],
-                           id_ped: referencia,
-                           id_prod: ref_pro_ped[i]
-
-                        }, (err3, result3) => {
-                           if (err3) {
-                              console.log(err3);
-                           } else {
-                              console.log(result3);
-                           }
-                        })
-                     }
+                  gasto1.addInsu(ref_pro_ped,cant_pro_ped,referencia).then((cantP)=>gasto1.insertRest(cantP,ref_pro_ped,cant_pro_ped))
+                  .catch((err2_0) => setImmediate(() => { throw err2_0; }));
 
                      res.redirect('/pedido');
                   }
@@ -1199,7 +1183,8 @@ module.exports = (app) => {
          showCancelButton: true,
          confirmButtonColor: '#3085d6',
          cancelButtonColor: '#d33',
-         confirmButtonText: 'Yes, delete it!',
+         confirmButtonText: 'Sí, eliminar',
+         cancelButtonText: 'Cancelar',
          users,
          firstName,
          lastName,
