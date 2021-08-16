@@ -6,7 +6,7 @@
 
 node_modules
 
-
+src/env/.env 
 
 logs
 *.log
