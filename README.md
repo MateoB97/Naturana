@@ -1,4 +1,4 @@
 # Ingreso a APP en HEROKU 
 # link: https://naturana-aplicacion.herokuapp.com/
-# Usuario: TEO
+# Usuario: SA
 # Contraseña: 123456
