@@ -3,6 +3,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const bcryptjs = require('bcryptjs');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const app = express();
 
@@ -34,7 +35,7 @@ app.use(session({
         secure: true,
         maxAge: 60000
     },
-    store: new RedisStore(),
+    store: new MongoStore(),
     secret: 'secret',
     saveUninitialized: true,
     resave: false
