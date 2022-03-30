@@ -3,7 +3,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const bcryptjs = require('bcryptjs');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+// const MongoStore = require('connect-mongo')(session);
 
 const app = express();
 
